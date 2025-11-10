@@ -5,6 +5,8 @@ import '../widgets/home_view_body.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
 import 'package:dalel_elsham/core/utils/colors_manager.dart';
 
+import '../widgets/modal_bottom_sheet_content.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -29,7 +31,12 @@ class _HomeViewState extends State<HomeView> {
           backgroundColor: ColorsManager.primaryColor,
           elevation: 8,
           shape: const CircleBorder(),
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => const ModalBottomSheetContent(),
+            );
+          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
