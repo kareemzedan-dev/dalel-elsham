@@ -10,27 +10,32 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 45.h,
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.5), width: 2.w),
+        border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.5.w),
       ),
+      alignment: Alignment.center,
       child: TextField(
         style: AppTextStyles.regular14.copyWith(color: Colors.black),
+        textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
+          isDense: true,
           contentPadding: EdgeInsets.symmetric(
             horizontal: 12.w,
-            vertical: 10.h,
+            vertical: 0,
           ),
           prefixIcon: Icon(
             CupertinoIcons.search,
             size: 20.sp,
             color: ColorsManager.primaryColor,
           ),
-          hintText: 'ابحث عن خدمه, طبيب, مطعم...',
-          hintStyle: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade500),
+          hintText: 'ابحث عن خدمه، طبيب، مطعم...',
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(color: Colors.grey.shade500),
           border: InputBorder.none,
         ),
       ),

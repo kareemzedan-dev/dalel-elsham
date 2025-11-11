@@ -8,13 +8,13 @@ class TopBarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea( // ✅ يضمن عدم تداخل الشريط مع شريط النظام
+    return SafeArea(
       child: Row(
         children: [
           Builder(
             builder: (context) => GestureDetector(
               onTap: () {
-                Scaffold.of(context).openDrawer(); // ✅ لازم يكون داخل Builder
+                Scaffold.of(context).openDrawer();
               },
               child: Container(
                 decoration: BoxDecoration(

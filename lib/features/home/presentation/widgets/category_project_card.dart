@@ -5,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/utils/assets_manager.dart';
 
 class CategoryProjectCard extends StatelessWidget {
-  const CategoryProjectCard({super.key,
+  const CategoryProjectCard({
+    super.key,
     required this.title,
     required this.description,
     required this.location,
   });
+
   final String title;
   final String description;
   final String location;
@@ -21,19 +23,18 @@ class CategoryProjectCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: ColorsManager.grey.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Colors.grey ),
+        border: Border.all(color: Colors.grey),
       ),
       child: Padding(
         padding: EdgeInsets.all(8.w),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ✅ الصورة بثبات وبدون تمدد
             ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
               child: Image.asset(
                 AssetsManager.project2,
-                height: 100.h,
+                height: 120.h,
                 width: 100.w,
                 fit: BoxFit.cover,
               ),
@@ -55,14 +56,13 @@ class CategoryProjectCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
 
-                  // ✅ الوصف
                   Text(
                     description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w400,
-                      height: 1.3,
+                      height: 1.3.h,
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -91,7 +91,6 @@ class CategoryProjectCard extends StatelessWidget {
                     children: [
                       ContactButtonCard(image: AssetsManager.phoneCall),
                       SizedBox(width: 8.w),
-
                       ContactButtonCard(image: AssetsManager.whatsapp),
                     ],
                   ),

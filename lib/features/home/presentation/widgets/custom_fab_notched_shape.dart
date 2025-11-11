@@ -9,7 +9,7 @@ class CustomFABNotchedShape extends NotchedShape {
     }
 
     final double fabRadius = guest.width / 2.0;
-    final double notchRadius = fabRadius + 8.0; // حجم القصّة
+    final double notchRadius = fabRadius + 3.0; // حجم القصّة
     final double notchCenter = guest.center.dx;
 
     final double notchStart = notchCenter - notchRadius;
