@@ -34,6 +34,8 @@ class ProjectDetailsViewBody extends StatelessWidget {
                   const ProjectDetailsDescription(),
                   SizedBox(height: 16.h),
                   const ProjectDetailsWorkTime(),
+                  SizedBox(height: 8.h),
+                  Divider(thickness: 1.w, color: Colors.grey),
                   SizedBox(height: 16.h),
                   const ProjectDetailsGallery(),
                 ],

@@ -38,7 +38,7 @@ class DalelElsham extends StatelessWidget {
           },
 
           onGenerateRoute: RoutesManager.onGenerateRoute,
-          initialRoute: RoutesManager.projectDetails,
+          initialRoute: RoutesManager.home,
         );
       },
     );
