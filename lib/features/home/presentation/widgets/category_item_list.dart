@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../config/routes/routes_manager.dart';
 import 'category_item.dart';
 import '../../../../core/utils/assets_manager.dart';
 
@@ -29,6 +30,9 @@ class CategoryItemList extends StatelessWidget {
         itemBuilder: (context, index) {
           final category = categoriesList[index];
           return CategoryItem(
+            onTap: () {
+              Navigator.pushNamed(context, RoutesManager.categoriesDetails);
+            },
             image: category["image"]!,
             title: category["title"]!,
           );

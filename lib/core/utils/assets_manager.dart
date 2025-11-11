@@ -12,4 +12,6 @@ class AssetsManager {
     static const String service2 = '$baseUrl/service2.jpg';
     static const String service3 = '$baseUrl/service3.jpg';
     static const String profile = '$baseUrl/profile.png';
+    static const String whatsapp = '$baseUrl/whatsapp.png';
+    static const String phoneCall = '$baseUrl/phone_call.png';
 }
