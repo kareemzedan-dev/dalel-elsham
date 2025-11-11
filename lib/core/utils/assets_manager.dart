@@ -14,4 +14,9 @@ class AssetsManager {
     static const String profile = '$baseUrl/profile.png';
     static const String whatsapp = '$baseUrl/whatsapp.png';
     static const String phoneCall = '$baseUrl/phone_call.png';
+    static const String facebook = '$baseUrl/facebook.png';
+
+    static const String instagram = '$baseUrl/instagram.png';
+    static const String world = '$baseUrl/world.png';
+
 }
