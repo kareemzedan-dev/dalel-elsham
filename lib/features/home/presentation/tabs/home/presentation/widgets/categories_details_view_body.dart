@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'category_filter_bar.dart';
-import 'category_project_card.dart';
 import 'category_project_card_list.dart';
 
 class  CategoriesDetailsViewBody extends StatelessWidget {

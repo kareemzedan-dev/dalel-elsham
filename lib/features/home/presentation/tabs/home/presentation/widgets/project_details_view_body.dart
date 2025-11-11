@@ -1,13 +1,14 @@
-import 'package:dalel_elsham/features/home/presentation/widgets/project_details_contacts.dart';
-import 'package:dalel_elsham/features/home/presentation/widgets/project_details_description.dart';
-import 'package:dalel_elsham/features/home/presentation/widgets/project_details_gallery.dart';
-import 'package:dalel_elsham/features/home/presentation/widgets/project_details_header.dart';
-import 'package:dalel_elsham/features/home/presentation/widgets/project_details_worktime.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_contacts.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_description.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_footer.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_gallery.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_header.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_worktime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/utils/colors_manager.dart';
+import '../../../../../../../core/utils/colors_manager.dart';
 import 'banner_section.dart';
-import 'project_details_footer.dart';
+
 
 class ProjectDetailsViewBody extends StatelessWidget {
   const ProjectDetailsViewBody({super.key});
@@ -16,7 +17,7 @@ class ProjectDetailsViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // ✅ محتوى الصفحة قابل للتمرير
+
         Expanded(
           child: SingleChildScrollView(
             child: Padding(

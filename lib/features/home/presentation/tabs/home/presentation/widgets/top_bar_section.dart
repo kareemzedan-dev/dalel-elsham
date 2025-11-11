@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/components/search_text_field.dart';
-import '../../../../core/utils/colors_manager.dart';
+import '../../../../../../../core/components/search_text_field.dart';
+import '../../../../../../../core/utils/colors_manager.dart';
 
 class TopBarSection extends StatelessWidget {
   const TopBarSection({super.key});

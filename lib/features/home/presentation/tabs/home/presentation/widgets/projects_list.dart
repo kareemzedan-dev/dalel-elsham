@@ -1,8 +1,8 @@
-import 'package:dalel_elsham/features/home/presentation/widgets/project_item.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/utils/assets_manager.dart';
+import '../../../../../../../core/utils/assets_manager.dart';
 
 class ProjectsList extends StatelessWidget {
   const ProjectsList({super.key});

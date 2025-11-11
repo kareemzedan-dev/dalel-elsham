@@ -1,8 +1,8 @@
 import 'package:dalel_elsham/features/home/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/home/presentation/views/categories_details_view.dart';
-import '../../features/home/presentation/views/project_details_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/categories_details_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/project_details_view.dart';
 
 
 class RoutesManager {

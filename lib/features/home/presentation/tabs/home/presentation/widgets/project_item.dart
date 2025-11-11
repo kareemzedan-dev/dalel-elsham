@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/utils/assets_manager.dart';
-import '../../../../core/utils/colors_manager.dart';
+
+import '../../../../../../../core/utils/colors_manager.dart';
+
 
 class ProjectItem extends StatelessWidget {
   const ProjectItem({super.key, required this.image, required this.title, required this.description, required this.location});

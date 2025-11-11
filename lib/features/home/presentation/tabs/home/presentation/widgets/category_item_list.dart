@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../config/routes/routes_manager.dart';
+import '../../../../../../../config/routes/routes_manager.dart';
+import '../../../../../../../core/utils/assets_manager.dart';
 import 'category_item.dart';
-import '../../../../core/utils/assets_manager.dart';
 
 class CategoryItemList extends StatelessWidget {
     CategoryItemList({super.key});

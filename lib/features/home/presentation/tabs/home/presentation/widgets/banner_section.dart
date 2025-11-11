@@ -2,8 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/utils/assets_manager.dart';
-import '../../../../core/utils/colors_manager.dart';
+
+import '../../../../../../../core/utils/assets_manager.dart';
+import '../../../../../../../core/utils/colors_manager.dart';
+
 
 class BannerSection extends StatefulWidget {
   const BannerSection({super.key});

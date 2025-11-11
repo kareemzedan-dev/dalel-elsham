@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../widgets/drawer_content.dart';
-import '../widgets/home_view_body.dart';
-import '../widgets/custom_bottom_nav_bar.dart';
+import '../tabs/home/presentation/widgets/drawer_content.dart';
+import '../tabs/home/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:dalel_elsham/core/utils/colors_manager.dart';
-import '../widgets/modal_bottom_sheet_content.dart';
+import '../tabs/home/presentation/widgets/home_view_body.dart';
+import '../tabs/home/presentation/widgets/modal_bottom_sheet_content.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,7 +19,10 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(backgroundColor: Colors.white, child: DrawerContent()),
+      drawer: const Drawer(
+        backgroundColor: Colors.white,
+        child: DrawerContent(),
+      ),
       extendBody: true,
       backgroundColor: Colors.white,
       body: const HomeViewBody(),
@@ -51,10 +54,10 @@ class _HomeViewState extends State<HomeView> {
                 Text(
                   'أضف إعلانك',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(fontWeight: FontWeight.w700, fontSize: 10.sp),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 10.sp,
+                  ),
                 ),
               ],
             ),
