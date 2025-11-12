@@ -1,6 +1,8 @@
 import 'package:dalel_elsham/features/home/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/auth/presentation/views/login_view.dart';
+import '../../features/auth/presentation/views/register_view.dart';
 import '../../features/home/presentation/tabs/dalel_elsham/presentation/views/dalel_elsham_tab_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/Job_opportunities_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/Job_seekers_view.dart';
@@ -18,6 +20,8 @@ class RoutesManager {
   static const String jobOpportunities = "jobOpportunities";
   static const String jobSeekers = "jobSeekers";
   static const String prayerTimes = "prayerTimes";
+  static const String login = "login";
+  static const String register = "register";
 
 
   static Route onGenerateRoute(RouteSettings settings) {
@@ -36,6 +40,10 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => const JobSeekersView());
         case prayerTimes:
         return MaterialPageRoute(builder: (_) => const PrayerTimesView());
+        case login:
+        return MaterialPageRoute(builder: (_) => const LoginView());
+        case register:
+        return MaterialPageRoute(builder: (_) => const RegisterView());
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());
