@@ -26,7 +26,6 @@ class CustomBottomNavBar extends StatelessWidget {
           shape:   CustomFABNotchedShape(),
           notchMargin: 8,
           elevation: 8,
-          color: Colors.white,
 
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,

@@ -53,7 +53,7 @@ class ModalBottomSheetContent extends StatelessWidget {
 
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.black.withValues(alpha: 0.5),
+
               ),
             ),
             SizedBox(height: 20.h),

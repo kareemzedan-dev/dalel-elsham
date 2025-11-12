@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/core/utils/colors_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,11 +11,12 @@ class ServiceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
 
       width: 140.w,
       decoration: BoxDecoration(
-        color: Color(0XFFebebeb),
+        color: isDark  ? ColorsManager.grey.withOpacity(0.5):ColorsManager.grey,
         borderRadius: BorderRadius.circular(4.r),
       ),
       child: Padding(

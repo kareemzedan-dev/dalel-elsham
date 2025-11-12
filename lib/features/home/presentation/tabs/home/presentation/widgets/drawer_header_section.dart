@@ -8,6 +8,7 @@ class DrawerHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double topPadding = MediaQuery.of(context).padding.top;
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       height: 180.h + topPadding,
@@ -25,7 +26,7 @@ class DrawerHeaderSection extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 38.r,
-            backgroundColor: Colors.white,
+            backgroundColor: isDark ? Colors.grey.shade800 : Colors.white,
             child: Icon(
               Icons.person,
               color: ColorsManager.primaryColor,
@@ -37,7 +38,7 @@ class DrawerHeaderSection extends StatelessWidget {
             'مرحبًا بك كريم 👋',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black, // ✅ النص حسب الثيم
             ),
           ),
         ],

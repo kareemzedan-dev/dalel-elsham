@@ -18,5 +18,7 @@ class AssetsManager {
 
     static const String instagram = '$baseUrl/instagram.png';
     static const String world = '$baseUrl/world.png';
+    static const String location = '$baseUrl/location.png';
+    static const String syria = '$baseUrl/syria.png';
 
 }

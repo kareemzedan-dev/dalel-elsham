@@ -25,7 +25,7 @@ class DrawerItem extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Colors.black,
+
               fontWeight: FontWeight.w600,
             ),
           ),

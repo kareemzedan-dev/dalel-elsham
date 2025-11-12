@@ -2,29 +2,33 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 
-
 class BannerSection extends StatefulWidget {
-  const BannerSection({super.key});
+  const BannerSection({
+    super.key,
+    required this.images,
+    this.showDotsOnTop = false,
+  });
+
+  final List<String> images;
+  final bool showDotsOnTop;
 
   @override
   State<BannerSection> createState() => _BannerSectionState();
 }
 
 class _BannerSectionState extends State<BannerSection> {
-  final List<String> _images = [
-    AssetsManager.banner,
-    AssetsManager.banner2,
-    AssetsManager.banner,
-  ];
-
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    return widget.showDotsOnTop
+        ? _buildStackedCarousel()
+        : _buildColumnCarousel();
+  }
+
+  Widget _buildColumnCarousel() {
     return Column(
       children: [
         _buildCarousel(),
@@ -34,17 +38,29 @@ class _BannerSectionState extends State<BannerSection> {
     );
   }
 
-  /// 🌀 Carousel Slider Widget
+  Widget _buildStackedCarousel() {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        _buildCarousel(),
+        Positioned(
+          bottom: 12.h,
+          child: _buildDotsIndicator(),
+        ),
+      ],
+    );
+  }
+
   Widget _buildCarousel() {
     return CarouselSlider.builder(
-      itemCount: _images.length,
+      itemCount: widget.images.length,
       itemBuilder: (context, index, realIndex) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
             child: Image.asset(
-              _images[index],
+              widget.images[index],
               fit: BoxFit.cover,
               width: double.infinity,
             ),
@@ -64,10 +80,9 @@ class _BannerSectionState extends State<BannerSection> {
     );
   }
 
-  /// 🔘 Dots Indicator Widget
   Widget _buildDotsIndicator() {
     return DotsIndicator(
-      dotsCount: _images.length,
+      dotsCount: widget.images.length,
       position: _currentIndex.toDouble(),
       decorator: DotsDecorator(
         activeColor: ColorsManager.primaryColor,

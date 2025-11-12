@@ -5,6 +5,7 @@ import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/w
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../core/utils/assets_manager.dart';
 import 'banner_section.dart';
 import 'categories_section.dart';
 
@@ -22,10 +23,15 @@ class HomeViewBody extends StatelessWidget {
             children: [
               TopBarSection(),
               SizedBox(height: 30.h),
-              BannerSection(),
+              BannerSection(
+                images: [
+                  AssetsManager.banner,
+                  AssetsManager.banner2,
+
+                ],
+              ),
               SizedBox(height: 30.h),
               CategoriesSection(),
-
               SectionWidget(title: "عناصر مميزه", child: ProjectsList()),
               SizedBox(height: 30.h),
               ServicesSection(),

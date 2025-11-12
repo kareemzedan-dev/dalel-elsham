@@ -13,11 +13,12 @@ class ProjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       height: 200.h,
       width: 140.w,
       decoration: BoxDecoration(
-        color: ColorsManager.grey,
+        color: isDark  ? ColorsManager.grey.withOpacity(0.5):ColorsManager.grey,
         borderRadius: BorderRadius.circular(4.r),
       ),
       child: Padding(

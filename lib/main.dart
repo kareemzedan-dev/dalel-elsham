@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'config/routes/routes_manager.dart';
@@ -19,17 +20,18 @@ class DalelElsham extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'Tajawal',
-          ),
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.light,
 
           locale: const Locale('ar'),
           supportedLocales: const [Locale('ar'), Locale('en')],
-          localizationsDelegates: [
+          localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
+
           builder: (context, widget) {
             return Directionality(
               textDirection: TextDirection.rtl,

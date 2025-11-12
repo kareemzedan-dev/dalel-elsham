@@ -29,7 +29,7 @@ class ServicesList extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: servicesList.length,
-        shrinkWrap: true, // ✅ مهم عشان يشتغل داخل ScrollView
+        shrinkWrap: true,
 
         itemBuilder: (context, index) {
           return   Padding(

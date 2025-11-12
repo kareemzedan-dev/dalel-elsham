@@ -32,7 +32,7 @@ class CategoryFilterItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: Colors.grey.shade300,
+        color: Colors.grey.shade400,
         borderRadius: BorderRadius.circular(4.r),
         border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.5),
       ),

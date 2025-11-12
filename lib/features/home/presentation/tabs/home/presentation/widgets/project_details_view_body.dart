@@ -6,6 +6,7 @@ import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/w
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_worktime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 import 'banner_section.dart';
 
@@ -26,7 +27,13 @@ class ProjectDetailsViewBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 16.h),
-                  const BannerSection(),
+                  const BannerSection(
+                    images: [
+                      AssetsManager.banner,
+                      AssetsManager.banner2,
+
+                    ],
+                  ),
                   SizedBox(height: 16.h),
                   const ProjectDetailsHeader(),
                   SizedBox(height: 8.h),
