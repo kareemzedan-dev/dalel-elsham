@@ -8,10 +8,14 @@ class CustomSearchBar extends StatelessWidget {
     super.key,
     required this.hintText,
     this.onChanged,
+    this.showBackIcon = false, // ✅ اختياري
+    this.onBackPressed, // ✅ حدث عند الضغط على السهم
   });
 
   final String hintText;
   final ValueChanged<String>? onChanged;
+  final bool showBackIcon;
+  final VoidCallback? onBackPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -29,40 +33,58 @@ class CustomSearchBar extends StatelessWidget {
           ),
         ],
       ),
-      child: Center(
-        child: TextField(
-          textAlign: TextAlign.right,
-          textAlignVertical: TextAlignVertical.center,
-          onChanged: onChanged,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
-            hintText: hintText,
-            hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: Colors.grey,
+      child: Row(
+        children: [
+          // 🔙 أيقونة الرجوع (اختيارية)
+          if (showBackIcon) ...[
+            IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.black,
+                size: 20.sp,
+              ),
+              onPressed: onBackPressed ?? () => Navigator.pop(context),
             ),
-            prefixIcon: Padding(
-              padding: EdgeInsets.only(left: 8.w, right: 6.w),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    AssetsManager.syria,
-                    height: 22.h,
-                    width: 22.w,
-                    fit: BoxFit.contain,
+            SizedBox(width: 4.w),
+          ],
+
+          // 🔍 حقل الكتابة
+          Expanded(
+            child: TextField(
+              textAlign: TextAlign.right,
+              textAlignVertical: TextAlignVertical.center,
+              onChanged: onChanged,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
+                hintText: hintText,
+                hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+                prefixIcon: Padding(
+                  padding: EdgeInsets.only(left: 8.w, right: 6.w),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        AssetsManager.syria,
+                        height: 22.h,
+                        width: 22.w,
+                        fit: BoxFit.contain,
+                      ),
+                      SizedBox(width: 4.w),
+                    ],
                   ),
-                  SizedBox(width: 4.w),
-                ],
+                ),
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Colors.black.withValues(alpha: 0.5),
+                ),
               ),
             ),
-            suffixIcon: Icon(
-              Icons.search,
-              color: Colors.black.withValues(alpha: 0.5),
-            ),
           ),
-        ),
+        ],
       ),
     );
   }

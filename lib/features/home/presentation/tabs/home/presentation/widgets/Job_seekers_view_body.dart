@@ -1,19 +1,20 @@
-import 'package:dalel_elsham/features/home/presentation/tabs/dalel_elsham/presentation/widgets/sponsored_banner.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../../core/utils/assets_manager.dart';
-import '../../../../../../../core/utils/colors_manager.dart';
-import '../widgets/custom_search_bar.dart';
-import 'Job_seeker_card_list.dart';
 
-class JobOpportunitiesViewBody extends StatelessWidget {
-  const JobOpportunitiesViewBody({super.key});
+import '../../../../../../../core/utils/colors_manager.dart';
+import 'Job_seeker_card_list.dart';
+import 'custom_search_bar.dart';
+
+class JobSeekersViewBody extends StatelessWidget {
+  const JobSeekersViewBody({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // 🟡 رأس الصفحة فيه اللون الأساسي والسيرش مع السهم
+
         Container(
           height: 100.h,
           width: double.infinity,
@@ -42,7 +43,7 @@ class JobOpportunitiesViewBody extends StatelessWidget {
 
                   Expanded(
                     child: CustomSearchBar(
-                      hintText: "فرص عمل بالشام",
+                      hintText: "أضف طلب عمل",
                       onChanged: (value) {},
                     ),
                   ),
@@ -52,7 +53,7 @@ class JobOpportunitiesViewBody extends StatelessWidget {
           ),
         ),
 
-        // 📜 محتوى الصفحة القابل للتمرير
+
         Expanded(
           child: SingleChildScrollView(
             child: Padding(
