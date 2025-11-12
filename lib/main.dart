@@ -40,7 +40,7 @@ class DalelElsham extends StatelessWidget {
           },
 
           onGenerateRoute: RoutesManager.onGenerateRoute,
-          initialRoute: RoutesManager.prayerTimes,
+          initialRoute: RoutesManager.home,
         );
       },
     );
