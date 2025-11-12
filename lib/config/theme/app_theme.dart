@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/utils/colors_manager.dart';
 
 class AppTheme {
-  // 🌞 الثيم الفاتح
+
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     fontFamily: 'Tajawal',

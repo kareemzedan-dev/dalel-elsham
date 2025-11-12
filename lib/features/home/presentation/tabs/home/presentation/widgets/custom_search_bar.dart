@@ -40,7 +40,7 @@ class CustomSearchBar extends StatelessWidget {
             hintText: hintText,
             hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w500,
-              color: Colors.black.withValues(alpha: 0.5),
+              color: Colors.grey,
             ),
             prefixIcon: Padding(
               padding: EdgeInsets.only(left: 8.w, right: 6.w),
