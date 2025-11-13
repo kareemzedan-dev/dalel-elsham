@@ -6,6 +6,7 @@ import '../../features/auth/presentation/views/register_view.dart';
 import '../../features/home/presentation/tabs/dalel_elsham/presentation/views/dalel_elsham_tab_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/Job_opportunities_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/Job_seekers_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/add_new_service_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/categories_details_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/prayer_times_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/project_details_view.dart';
@@ -25,6 +26,7 @@ class RoutesManager {
   static const String login = "login";
   static const String register = "register";
   static const String onboarding = "onboarding";
+  static const String addNewService = "addNewService";
 
 
   static Route onGenerateRoute(RouteSettings settings) {
@@ -51,6 +53,8 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => const RegisterView());
         case onboarding:
         return MaterialPageRoute(builder: (_) => const OnboardingView());
+        case addNewService:
+        return MaterialPageRoute(builder: (_) => const AddNewServiceView());
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());

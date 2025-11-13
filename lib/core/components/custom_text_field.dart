@@ -16,6 +16,8 @@ class CustomTextFormField extends StatefulWidget {
     this.autovalidateMode,
     this.prefixIcon,
     this.isEnable = true,
+    this.maxLines = 1,    // ← جديد
+    this.minLines,        // ← جديد
   });
 
   final String? hintText;
@@ -24,14 +26,19 @@ class CustomTextFormField extends StatefulWidget {
   final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
   final bool isEmailValidator;
-  TextEditingController? textEditingController ;
+  TextEditingController? textEditingController;
   AutovalidateMode? autovalidateMode;
-  Widget ? prefixIcon ;
-  bool isEnable  ;
+  Widget? prefixIcon;
+  bool isEnable;
+
+  /// NEW
+  final int maxLines;
+  final int? minLines;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
+
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   bool iconVisible = true;
 
@@ -40,7 +47,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     final fillColor =
     widget.isEnable ? ColorsManager.white : Colors.grey.shade300;
 
-    // تحديد لون الهنت بناءً على حالة التفعيل
     final hintColor =
     widget.isEnable ? Colors.black54 : Colors.grey.shade600;
 
@@ -53,13 +59,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       ),
       autovalidateMode: widget.autovalidateMode,
       controller: widget.textEditingController,
+
+      /// NEW — هنا التحكم بعدد الأسطر
       obscureText: widget.iconShow ? !iconVisible : false,
+      maxLines: widget.iconShow ? 1 : widget.maxLines,
+      minLines: widget.iconShow ? 1 : widget.minLines,
+
       onSaved: widget.onSaved,
       validator: widget.isEmailValidator
           ? (value) => widget.validator!(value)
           : (value) {
         if (value == null || value.isEmpty) {
-          return  "هذا الحقل مطلوب";
+          return "هذا الحقل مطلوب";
         }
         return null;
       },

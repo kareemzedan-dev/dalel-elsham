@@ -17,13 +17,13 @@ class AppTheme {
 
     appBarTheme: AppBarTheme(
       backgroundColor: ColorsManager.primaryColor,
-      foregroundColor: ColorsManager.black,
+      foregroundColor: ColorsManager.white,
       centerTitle: true,
       elevation: 0,
       titleTextStyle: TextStyle(
         fontSize: 18.sp,
         fontWeight: FontWeight.bold,
-        color: ColorsManager.black,
+        color: ColorsManager.white,
         fontFamily: 'Tajawal',
       ),
       iconTheme: IconThemeData(color: ColorsManager.black, size: 22.sp),
@@ -49,20 +49,20 @@ class AppTheme {
 
     textTheme: TextTheme(
       bodyLarge: TextStyle(
-        color: ColorsManager.black,
+        color: ColorsManager.white,
         fontSize: 16.sp,
         fontWeight: FontWeight.w400,
       ),
       bodyMedium: TextStyle(
-        color: ColorsManager.black.withValues(alpha: 0.8),
+        color: ColorsManager.white.withValues(alpha: 0.8),
         fontSize: 14.sp,
       ),
       bodySmall: TextStyle(
-        color: ColorsManager.black.withValues(alpha: 0.6),
+        color: ColorsManager.white.withValues(alpha: 0.6),
         fontSize: 12.sp,
       ),
       titleLarge: TextStyle(
-        color: ColorsManager.black,
+        color: ColorsManager.white,
         fontSize: 18.sp,
         fontWeight: FontWeight.w600,
       ),

@@ -25,6 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: centerTitle,
 
+
       actions: [
         if (showWatch)
           Padding(
@@ -35,7 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Icon(
                   Icons.remove_red_eye,
-                  color: Colors.black,
+                  color: Colors.white,
                   size: 20.sp,
                 ),
                 SizedBox(width: 4.w),
@@ -44,7 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Text(
                     "12",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 18.sp,
                     ),
@@ -57,7 +58,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       leading: showBackButton
           ? IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: onBack ?? () => Navigator.pop(context),
       )
           : null,
@@ -65,7 +66,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          color: Colors.black,
+          color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
