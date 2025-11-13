@@ -9,6 +9,8 @@ import '../../features/home/presentation/tabs/home/presentation/views/Job_seeker
 import '../../features/home/presentation/tabs/home/presentation/views/categories_details_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/prayer_times_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/project_details_view.dart';
+import '../../features/onboarding/presentation/views/onboarding_view.dart';
+import '../../features/splash/presentation/views/splash_view.dart';
 
 
 class RoutesManager {
@@ -22,10 +24,13 @@ class RoutesManager {
   static const String prayerTimes = "prayerTimes";
   static const String login = "login";
   static const String register = "register";
+  static const String onboarding = "onboarding";
 
 
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case splash:
+        return MaterialPageRoute(builder: (_) => const SplashView());
       case home:
         return MaterialPageRoute(builder: (_) => const HomeView());
         case categoriesDetails:
@@ -44,6 +49,8 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => const LoginView());
         case register:
         return MaterialPageRoute(builder: (_) => const RegisterView());
+        case onboarding:
+        return MaterialPageRoute(builder: (_) => const OnboardingView());
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());
