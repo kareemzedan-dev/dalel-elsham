@@ -75,6 +75,7 @@ class _FooterButton extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: iconColor,
+                  fontSize: 16.sp,
                 ),
               ),
             ),

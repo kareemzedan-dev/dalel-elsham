@@ -16,7 +16,7 @@ class SectionWidget extends StatelessWidget {
           '$title :',
           style: Theme.of(
             context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold,fontSize: 18.sp),
         ),
         SizedBox(height: 8.h),
 

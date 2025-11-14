@@ -59,6 +59,7 @@ class JobSeekerCard extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w700,
             height: 1.6,
+            fontSize: 16.sp,
           ),
         ),
         SizedBox(height: 4.h),
@@ -69,6 +70,7 @@ class JobSeekerCard extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             height: 1.6,
+            fontSize: 14.sp,
           ),
         ),
         SizedBox(height: 8.h),
@@ -80,7 +82,7 @@ class JobSeekerCard extends StatelessWidget {
   /// 📍 الموقع والتاريخ
   Widget _buildLocationAndDate(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(Icons.location_on_outlined,
             size: 16.sp, color: ColorsManager.primaryColor),
@@ -89,6 +91,7 @@ class JobSeekerCard extends StatelessWidget {
           location,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
+            fontSize: 14.sp,
           ),
         ),
         SizedBox(width: 30.w),
@@ -99,6 +102,7 @@ class JobSeekerCard extends StatelessWidget {
           date,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
+            fontSize: 14.sp,
           ),
         ),
       ],

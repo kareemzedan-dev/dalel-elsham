@@ -58,7 +58,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       leading: showBackButton
           ? IconButton(
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        icon:   Icon(Icons.arrow_back_ios, color: Colors.white, size: 20.sp),
         onPressed: onBack ?? () => Navigator.pop(context),
       )
           : null,
@@ -68,6 +68,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
           color: Colors.white,
           fontWeight: FontWeight.bold,
+          fontSize: 18.sp,
         ),
       ),
     );

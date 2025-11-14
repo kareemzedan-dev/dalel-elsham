@@ -37,8 +37,9 @@ class DrawerHeaderSection extends StatelessWidget {
           Text(
             'مرحبًا بك كريم 👋',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : Colors.black, // ✅ النص حسب الثيم
+              color:    Colors.white  ,
             ),
           ),
         ],

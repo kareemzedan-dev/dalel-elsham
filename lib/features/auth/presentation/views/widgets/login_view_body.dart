@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/components/custom_button.dart';
 import '../../../../../core/components/custom_text_field.dart';
 import '../../../../../core/components/or_divider.dart';
+import '../../../../../core/utils/assets_manager.dart';
 import '../../../../../core/utils/colors_manager.dart';
 
 
@@ -44,11 +45,30 @@ class _LoginViewBodyState extends State<LoginViewBody> {
             child: Text(
               "مرحبًا بعودتك 👋",
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontSize: 20.sp,
-                fontFamily: 'DM Sans',
-                fontWeight: FontWeight.w600,
+                fontSize: 22.sp,
+
+                fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+          SizedBox(height: 16.h),
+          Center(
+            child: Container(
+              height: 150.h,
+              width: 150.w,
+               decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey.shade300, width: 2.w),
+               ),
+              child: ClipOval(
+                child: Image.asset(
+                  AssetsManager.loginImage,
+                  height: 150.h,
+                  width: 150.w,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
           ),
           SizedBox(height: 32.h),
 
@@ -78,7 +98,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
           // SizedBox(height: 20.h),
           // const OrDivider(),
-          SizedBox(height: 20.h),
+          SizedBox(height: 50.h),
 
 
 
@@ -99,7 +119,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
             },
           ),
 
-          SizedBox(height: 5.h),
+          SizedBox(height: 12.h),
 
           // لا تملك حساباً؟
           Row(

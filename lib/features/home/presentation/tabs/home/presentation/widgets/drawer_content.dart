@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../config/routes/routes_manager.dart';
 import 'drawer_header_section.dart';
 import 'drawer_item.dart';
 import 'logout_button.dart';
@@ -18,8 +19,10 @@ class DrawerContent extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: EdgeInsets.only(top: 16.h),
-              children: const [
-                DrawerItem(icon: Icons.campaign, title: 'أعلن معنا'),
+              children:   [
+                DrawerItem(icon: Icons.campaign, title: 'أعلن معنا',onTap: () {
+                  Navigator.pushNamed(context, RoutesManager.addNewService);
+                },),
                 DrawerItem(icon: Icons.share, title: 'مشاركة الدليل'),
                 DrawerItem(icon: Icons.star_rate, title: 'تقييمك للتطبيق'),
                 DrawerItem(icon: Icons.phone_in_talk, title: 'اتصل بنا'),

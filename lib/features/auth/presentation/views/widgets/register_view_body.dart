@@ -1,10 +1,13 @@
+import 'dart:io';
+
+import 'package:dalel_elsham/core/components/mobile_number_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/components/custom_button.dart';
 import '../../../../../core/components/custom_text_field.dart';
-import '../../../../../core/components/or_divider.dart';
+import '../../../../../core/utils/assets_manager.dart';
 import '../../../../../core/utils/colors_manager.dart';
 
 import 'build_privacy_policy.dart';
@@ -26,13 +29,54 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   bool isFreelancer = false;
 
+  String? _avatarPath; // لو بعدين هتستخدم ImagePicker خزّن المسار هنا
+
   @override
   void dispose() {
     _fNameController.dispose();
     _lNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _phoneController.dispose();
     super.dispose();
+  }
+
+  Future<void> _onChangeAvatarPressed() async {
+    // TODO: نفّذ هنا منطق اختيار الصورة (image_picker أو غيره)
+    // مثال: final picked = await ImagePicker().pickImage(...);
+    // ثم setState(() => _avatarPath = picked.path);
+    debugPrint("Change avatar tapped");
+    // مؤقتاً نظهر مربع حوار للتأكيد
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading:   Icon(Icons.photo_library,size: 24.sp,),
+              title:   Text('اختيار من المعرض',style: TextStyle(fontSize: 16.sp),),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: اختيار من المعرض
+              },
+            ),
+            ListTile(
+              leading:   Icon(Icons.photo_camera,size: 24.sp,),
+              title:   Text('التقاط صورة',style: TextStyle(fontSize: 16.sp),),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: التقاط صورة بالكاميرا
+              },
+            ),
+            ListTile(
+              leading:   Icon(Icons.close,size: 24.sp ,),
+              title:   Text('إلغاء',style: TextStyle(fontSize: 16.sp),),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -46,21 +90,79 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 16.h),
-
-            /// العنوان الفرعي
             Center(
               child: Text(
                 "انشاء حساب جديد",
-
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontSize: 20.sp,
-                  fontFamily: 'DM Sans',
-                  fontWeight: FontWeight.w600,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            SizedBox(height: 32.h),
+            SizedBox(height: 16.h),
+            Center(
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  Container(
+                    height: 100.h,
+                    width: 100.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border:
+                      Border.all(color: Colors.grey.shade300, width: 2.w),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:ClipOval(
+                        child: _avatarPath == null
+                            ? Image.asset(
+                          AssetsManager.person,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        )
+                            : Image.file(
+                          File(_avatarPath!),
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      )
 
+                    ),
+                  ),
+
+                  // زر + صغير فوق الصورة
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Material(
+                      color: Colors.white,
+                      shape: const CircleBorder(),
+                      elevation: 2,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30.r),
+                        onTap: _onChangeAvatarPressed,
+                        child: Container(
+                          padding: EdgeInsets.all(6.r),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ColorsManager.primaryColor,
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 16.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 24.h),
             CustomTextFormField(
               prefixIcon: const Icon(CupertinoIcons.person),
               hintText: "الاسم",
@@ -68,21 +170,36 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
               validator: (v) => v!.isEmpty ? "هذا الحقل مطلوب" : null,
               keyboardType: TextInputType.text,
             ),
-
             SizedBox(height: 24.h),
-
-            /// البريد الإلكتروني
             CustomTextFormField(
               prefixIcon: const Icon(CupertinoIcons.mail),
               hintText: "البريد الإلكتروني",
               textEditingController: _emailController,
-              validator: (v) => v!.isEmpty ? "هذا الحقل مطلوب" : null,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "هذا الحقل مطلوب";
+                }
+
+                final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                if (!emailRegex.hasMatch(value)) {
+                  return "الرجاء إدخال بريد إلكتروني صحيح";
+                }
+
+                return null;
+              },
               keyboardType: TextInputType.emailAddress,
+            ),
+            SizedBox(height: 6.h),
+            Text(
+              "⚠ يرجى استخدام بريد إلكتروني حقيقي، لتجنّب إغلاق الحساب لاحقًا.",
+              style: TextStyle(
+                color: Colors.redAccent,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
 
             SizedBox(height: 24.h),
-
-            /// كلمة المرور
             CustomTextFormField(
               prefixIcon: const Icon(CupertinoIcons.lock),
               hintText: "كلمة المرور",
@@ -91,38 +208,11 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
               validator: (v) => v!.isEmpty ? "هذا الحقل مطلوب" : null,
               keyboardType: TextInputType.visiblePassword,
             ),
+            SizedBox(height: 24.h),
 
-            // SizedBox(height: 24.h),
-            //
-            // /// البريد الإلكتروني
-            // CustomTextFormField(
-            //   prefixIcon: const Icon(CupertinoIcons.phone),
-            //   hintText: "رقم الهاتف",
-            //   textEditingController: _phoneController,
-            //   validator: (v) => v!.isEmpty ? "هذا الحقل مطلوب" : null,
-            //   keyboardType: TextInputType.phone,
-            // ),
-            SizedBox(height: 20.h),
-
-            /// سياسة الخصوصية
             PrivacyPolicyWithCheck(),
-
             SizedBox(height: 30.h),
-            // const OrDivider(),
-            // SizedBox(height: 20.h),
-
-            // /// تسجيل عبر السوشيال (UI فقط)
-            // SocialLoginOptions(
-            //   onGoogleLogin: () {
-            //     debugPrint("Google login tapped (UI only)");
-            //   },
-            //   onFacebookLogin: () {
-            //     debugPrint("Facebook login tapped (UI only)");
-            //   },
-            // ),
             SizedBox(height: 48.h),
-
-            /// زر إنشاء حساب
             CustomButton(
               text: "إنشاء حساب",
               onPressed: () {
@@ -137,10 +227,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                 }
               },
             ),
-
             SizedBox(height: 5.h),
-
-            /// لديك حساب بالفعل؟
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -155,7 +242,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                 SizedBox(width: 5.w),
                 GestureDetector(
                   onTap: () {
-                 Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                   child: Text(
                     "تسجيل الدخول",

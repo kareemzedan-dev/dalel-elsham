@@ -12,13 +12,16 @@ class SearchTextField extends StatelessWidget {
     return Container(
       height: 45.h,
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: Colors.white, // مهم جداً
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1.5.w),
       ),
       alignment: Alignment.center,
       child: TextField(
-        style: AppTextStyles.regular14.copyWith(color: Colors.black),
+        style: const TextStyle(
+          color: Colors.black, // يثبت اللون في Release
+          fontSize: 14,
+        ),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           isDense: true,
@@ -31,14 +34,22 @@ class SearchTextField extends StatelessWidget {
             size: 20.sp,
             color: ColorsManager.primaryColor,
           ),
+
+          // يمنع تغطية النص
+          prefixIconConstraints: BoxConstraints(
+            minWidth: 40.w,
+            minHeight: 40.h,
+          ),
+
           hintText: 'ابحث عن خدمه، طبيب، مطعم...',
-          hintStyle: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: Colors.grey.shade500),
+          hintStyle: TextStyle(
+            color: Colors.grey.shade500,
+            fontSize: 14.sp,
+          ),
           border: InputBorder.none,
         ),
       ),
     );
   }
 }
+

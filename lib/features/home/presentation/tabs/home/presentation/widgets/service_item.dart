@@ -42,6 +42,7 @@ class ServiceItem extends StatelessWidget {
                 style: Theme.of(
                   context,
                 ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w900
+                    ,fontSize: 16.sp
                 ),
               ),
 

@@ -82,6 +82,7 @@ class CustomBottomNavBar extends StatelessWidget {
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
               color:
               isActive ? ColorsManager.primaryColor : Colors.grey,
             ),

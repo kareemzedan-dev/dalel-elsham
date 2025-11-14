@@ -62,7 +62,7 @@ class FeaturedPlaceCard extends StatelessWidget {
                           Text(
                             title,
                             style: Theme.of(context).textTheme.titleLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                                ?.copyWith(fontWeight: FontWeight.bold,fontSize: 16.sp),
                           ),
                           SizedBox(height: 8.h),
                           Text(
@@ -74,6 +74,7 @@ class FeaturedPlaceCard extends StatelessWidget {
                                 ?.copyWith(
                                   fontWeight: FontWeight.w500,
                                   height: 1.5,
+                                  fontSize: 14.sp,
                                 ),
                           ),
                           SizedBox(height: 8.h),
@@ -84,7 +85,7 @@ class FeaturedPlaceCard extends StatelessWidget {
                               Text(
                                 location,
                                 style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(fontWeight: FontWeight.w500),
+                                    ?.copyWith(fontWeight: FontWeight.w500,fontSize: 14.sp),
                               ),
                             ],
                           ),

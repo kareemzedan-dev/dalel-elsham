@@ -8,8 +8,8 @@ class CustomSearchBar extends StatelessWidget {
     super.key,
     required this.hintText,
     this.onChanged,
-    this.showBackIcon = false, // ✅ اختياري
-    this.onBackPressed, // ✅ حدث عند الضغط على السهم
+    this.showBackIcon = false,
+    this.onBackPressed,
   });
 
   final String hintText;
@@ -35,51 +35,63 @@ class CustomSearchBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // 🔙 أيقونة الرجوع (اختيارية)
           if (showBackIcon) ...[
             IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Colors.black,
-                size: 20.sp,
-              ),
+              icon: Icon(Icons.arrow_back_ios_new_rounded,
+                  color: Colors.black, size: 20.sp),
               onPressed: onBackPressed ?? () => Navigator.pop(context),
             ),
             SizedBox(width: 4.w),
           ],
 
-          // 🔍 حقل الكتابة
           Expanded(
-            child: TextField(
-              textAlign: TextAlign.right,
-              textAlignVertical: TextAlignVertical.center,
-              onChanged: onChanged,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
-                hintText: hintText,
-                hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            child: Center(
+              child: TextField(
+                textAlign: TextAlign.right,
+                textAlignVertical: TextAlignVertical.center,
+
+                onChanged: onChanged,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.black,
                   fontWeight: FontWeight.w500,
-                  color: Colors.grey,
                 ),
-                prefixIcon: Padding(
-                  padding: EdgeInsets.only(left: 8.w, right: 6.w),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
+
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  filled: false,
+
+
+
+                  // ⭐ العلم — ضبط الارتفاع علشان ما يلغبطش النص
+                  prefixIcon: SizedBox(
+                    width: 40.w,
+                    child: Center(
+                      child: Image.asset(
                         AssetsManager.syria,
-                        height: 22.h,
+                        height: 18.h,
                         width: 22.w,
-                        fit: BoxFit.contain,
                       ),
-                      SizedBox(width: 4.w),
-                    ],
+                    ),
                   ),
-                ),
-                suffixIcon: Icon(
-                  Icons.search,
-                  color: Colors.black.withValues(alpha: 0.5),
+
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    fontSize: 15.sp,
+                    color: Colors.grey,
+                  ),
+
+
+                  suffixIcon: SizedBox(
+                    width: 40.w,
+                    child: Center(
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.black.withOpacity(0.5),
+                        size: 20.sp,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

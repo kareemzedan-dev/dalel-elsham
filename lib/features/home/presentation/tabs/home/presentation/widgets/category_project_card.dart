@@ -57,6 +57,7 @@ class CategoryProjectCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
+                        fontSize: 16.sp,
                       ),
                     ),
                     SizedBox(height: 4.h),
@@ -68,6 +69,7 @@ class CategoryProjectCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w400,
                         height: 1.3.h,
+                        fontSize: 14.sp,
                       ),
                     ),
                     SizedBox(height: 8.h),
@@ -85,7 +87,7 @@ class CategoryProjectCard extends StatelessWidget {
                             location,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                                ?.copyWith(fontWeight: FontWeight.bold,fontSize: 14.sp),
                           ),
                         ),
                       ],

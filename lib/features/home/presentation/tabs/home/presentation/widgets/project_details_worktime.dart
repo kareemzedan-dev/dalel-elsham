@@ -23,6 +23,7 @@ class ProjectDetailsWorkTime extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
                 height: 1.6,
+                fontSize: 14.sp,
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/config/routes/routes_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +45,7 @@ class ModalBottomSheetContent extends StatelessWidget {
               'خلّي الناس تعرف مشروعك',
               style: Theme.of(
                 context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold,fontSize: 18.sp),
             ),
             SizedBox(height: 8.h),
             Text(
@@ -53,6 +54,7 @@ class ModalBottomSheetContent extends StatelessWidget {
 
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
+                fontSize: 16.sp,
 
               ),
             ),
@@ -61,15 +63,23 @@ class ModalBottomSheetContent extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: CustomButton(
                 text: 'تسجيل الدخول / إنشاء حساب',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, RoutesManager.login);
+                },
               ),
             ),
             SizedBox(height: 16.h),
-            Text(
-              "الغاء",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "الغاء",
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                  fontSize: 16.sp,
+                ),
               ),
             ),
           ],

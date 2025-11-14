@@ -33,7 +33,7 @@ class ServicesList extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: servicesList.length,
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.only(left: 16.w),
         separatorBuilder: (_, __) => SizedBox(width: 12.w),
         itemBuilder: (context, index) {
           final service = servicesList[index];

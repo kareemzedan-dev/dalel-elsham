@@ -15,6 +15,7 @@ class ProjectDetailsDescription extends StatelessWidget {
           "تفاصيل المشروع",
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
           ),
         ),
         SizedBox(height: 8.h),
@@ -24,6 +25,7 @@ class ProjectDetailsDescription extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w500,
             height: 1.6,
+            fontSize: 16.sp,
           ),
         ),
       ],

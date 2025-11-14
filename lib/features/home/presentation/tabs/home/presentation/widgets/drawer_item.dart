@@ -19,7 +19,7 @@ class DrawerItem extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(8.0.w),
       child: ListTile(
-        leading: Icon(icon, color: ColorsManager.primaryColor),
+        leading: Icon(icon, color: ColorsManager.primaryColor, size: 24.sp),
         title: Padding(
           padding: EdgeInsets.only(right: 8.w),
           child: Text(
@@ -27,6 +27,7 @@ class DrawerItem extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
 
               fontWeight: FontWeight.w600,
+              fontSize: 16.sp,
             ),
           ),
         ),

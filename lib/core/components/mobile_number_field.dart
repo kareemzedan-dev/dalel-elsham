@@ -26,12 +26,11 @@ class MobileNumberField extends StatelessWidget {
       ),
       child: Row(
         children: [
-
           /// علم الدولة
           ClipRRect(
             borderRadius: BorderRadius.circular(4.r),
             child: Image.asset(
-             AssetsManager.syria,
+              AssetsManager.syria,
               width: 32.w,
               height: 22.h,
               fit: BoxFit.cover,
@@ -69,11 +68,15 @@ class MobileNumberField extends StatelessWidget {
               onChanged: onChanged,
               style: TextStyle(
                 fontSize: 15.sp,
-                color: ColorsManager.black.withOpacity(0.5),
+                color: ColorsManager.black.withOpacity(0.8),
                 fontWeight: FontWeight.w500,
               ),
               decoration: InputDecoration(
                 hintText: hintText,
+                hintStyle: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.grey.shade500,
+                ),
                 border: InputBorder.none,
               ),
             ),

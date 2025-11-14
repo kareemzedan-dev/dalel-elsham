@@ -14,10 +14,12 @@ class ProjectDetailsHeader extends StatelessWidget {
           "عنوان المشروع",
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
           ),
         ),
         SizedBox(height: 8.h),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(Icons.location_on_outlined,
                 size: 24.sp, color: ColorsManager.primaryColor),
@@ -26,6 +28,7 @@ class ProjectDetailsHeader extends StatelessWidget {
               "دمشق",
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
+                fontSize: 16.sp,
               ),
             ),
           ],

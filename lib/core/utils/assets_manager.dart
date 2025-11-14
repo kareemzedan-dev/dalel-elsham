@@ -21,12 +21,13 @@ class AssetsManager {
     static const String instagram = '$baseUrl/instagram.png';
     static const String world = '$baseUrl/world.png';
     static const String location = '$baseUrl/location.png';
-    static const String syria = '$baseUrl/syria.png';
+    static const String syria = '$baseUrl/country.jpg';
     static const String person = '$baseUrl/user.png';
     static const String mosque = '$baseUrl/mosque.jpg';
     static const String onboarding1 = '$baseUrl/onboarding1.png';
     static const String onboarding2 = '$baseUrl/onboarding2.png';
     static const String onboarding3 = '$baseUrl/onboarding3.png';
     static const String onboarding4 = '$baseUrl/onboarding4.png';
+    static const String loginImage = '$baseUrl/login_image.jpg';
 
 }
