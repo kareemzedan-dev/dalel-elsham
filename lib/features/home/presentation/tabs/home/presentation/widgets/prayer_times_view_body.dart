@@ -19,7 +19,7 @@ class PrayerTimesViewBody extends StatelessWidget {
       children: [
         SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -148,7 +148,7 @@ class PrayerTimeItem extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 18.sp,
-              color: ColorsManager.primaryColor,
+              color: ColorsManager.white,
             ),
           ),
           Text(
@@ -156,7 +156,7 @@ class PrayerTimeItem extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 18.sp,
-              color: ColorsManager.primaryColor,
+              color: ColorsManager.white,
             ),
           ),
         ],

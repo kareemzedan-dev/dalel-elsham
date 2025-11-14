@@ -20,32 +20,7 @@ class CategoryItemList extends StatelessWidget {
     {"title": "طعام", "image": AssetsManager.category1},
     {"title": "سيارات", "image": AssetsManager.category2},
     {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
+
 
 
   ];
@@ -72,7 +47,7 @@ class CategoryItemList extends StatelessWidget {
     return SizedBox(
       height: (itemHeight * rows.length) + (itemSpacing * (rows.length - 1)), // ارتفاع كافٍ لعدد الصفوف
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal, // <-- واحد فقط, يحرك كل شيء
+        scrollDirection: Axis.horizontal,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(columnsCount, (colIndex) {

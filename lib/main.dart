@@ -18,29 +18,25 @@ class DalelElsham extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.light,
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: ThemeMode.light,
 
-          locale: const Locale('ar'),
-          supportedLocales: const [Locale('ar'), Locale('en')],
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
+            locale: const Locale('ar'),
+            supportedLocales: const [Locale('ar'), Locale('en')],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
 
-          builder: (context, widget) {
-            return Directionality(
-              textDirection: TextDirection.rtl,
-              child: widget!,
-            );
-          },
-
-          onGenerateRoute: RoutesManager.onGenerateRoute,
-          initialRoute: RoutesManager.splash,
+            onGenerateRoute: RoutesManager.onGenerateRoute,
+            initialRoute: RoutesManager.splash,
+          ),
         );
       },
     );

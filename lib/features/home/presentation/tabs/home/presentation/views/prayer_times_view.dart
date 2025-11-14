@@ -19,7 +19,7 @@ class PrayerTimesView extends StatelessWidget {
           width: double.infinity,
         ),
         Container(
-          color: ColorsManager.white.withOpacity(0.1),
+          color: ColorsManager.grey.withOpacity(0.2),
         ),
         Scaffold(
           backgroundColor: Colors.transparent,

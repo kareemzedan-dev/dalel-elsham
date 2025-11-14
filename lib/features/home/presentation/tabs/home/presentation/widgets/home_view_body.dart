@@ -31,7 +31,7 @@ class HomeViewBody extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 30.h),
-              CategoriesSection(),
+           //  CategoriesSection(),
               SectionWidget(title: "عناصر مميزه", child: ProjectsList()),
               SizedBox(height: 30.h),
               ServicesSection(),
