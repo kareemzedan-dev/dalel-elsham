@@ -8,6 +8,8 @@ import '../../features/home/presentation/tabs/home/presentation/views/Job_opport
 import '../../features/home/presentation/tabs/home/presentation/views/Job_seekers_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/add_new_service_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/categories_details_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/job_offer_form_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/job_request_form_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/prayer_times_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/project_details_view.dart';
 import '../../features/onboarding/presentation/views/onboarding_view.dart';
@@ -27,6 +29,8 @@ class RoutesManager {
   static const String register = "register";
   static const String onboarding = "onboarding";
   static const String addNewService = "addNewService";
+  static const String jobOfferForm = "jobOfferForm";
+  static const String jobRequestForm = "jobRequestForm";
 
 
   static Route onGenerateRoute(RouteSettings settings) {
@@ -55,6 +59,10 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => const OnboardingView());
         case addNewService:
         return MaterialPageRoute(builder: (_) => const AddNewServiceView());
+        case jobOfferForm:
+        return MaterialPageRoute(builder: (_) => const JobOfferFormView());
+        case jobRequestForm:
+        return MaterialPageRoute(builder: (_) => const JobRequestFormView());
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());

@@ -27,7 +27,7 @@ class AddFloatingButton extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.add, color: Colors.black, size: 22.sp),
+              Icon(Icons.add, color: Colors.white, size: 22.sp),
               SizedBox(height: 2.h),
               Text(
                 label,
@@ -35,7 +35,7 @@ class AddFloatingButton extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w700,
                   fontSize: 10.sp,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             ],

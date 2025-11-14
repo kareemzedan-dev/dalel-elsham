@@ -19,7 +19,7 @@ class ProjectDetailsFooter extends StatelessWidget {
               icon: Icons.location_on_outlined,
               label: "الموقع",
               backgroundColor: ColorsManager.primaryColor,
-              iconColor: Colors.black,
+              iconColor: Colors.white,
               onTap: () {},
 
             ),

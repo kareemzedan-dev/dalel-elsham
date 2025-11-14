@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/config/routes/routes_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -44,6 +45,9 @@ class CategoryProjectCardList extends StatelessWidget {
       itemBuilder: (context, index) {
         final project = projects[index];
         return CategoryProjectCard(
+          onTap: () {
+            Navigator.pushNamed(context, RoutesManager.projectDetails);
+          },
           title: project["title"]!,
           description: project["description"]!,
           location: project["location"]!,

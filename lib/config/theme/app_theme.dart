@@ -49,20 +49,20 @@ class AppTheme {
 
     textTheme: TextTheme(
       bodyLarge: TextStyle(
-        color: ColorsManager.white,
+        color: ColorsManager.black,
         fontSize: 16.sp,
         fontWeight: FontWeight.w400,
       ),
       bodyMedium: TextStyle(
-        color: ColorsManager.white.withValues(alpha: 0.8),
+        color: ColorsManager.black.withValues(alpha: 0.8),
         fontSize: 14.sp,
       ),
       bodySmall: TextStyle(
-        color: ColorsManager.white.withValues(alpha: 0.6),
+        color: ColorsManager.black.withValues(alpha: 0.6),
         fontSize: 12.sp,
       ),
       titleLarge: TextStyle(
-        color: ColorsManager.white,
+        color: ColorsManager.black,
         fontSize: 18.sp,
         fontWeight: FontWeight.w600,
       ),

@@ -22,7 +22,7 @@ class ContactButtonCard extends StatelessWidget {
         child: Center(
           child: Image(
             image: AssetImage(image),
-            color: Colors.black,
+            color: Colors.white,
             height: 24.h,
             width: 24.w,
           ),

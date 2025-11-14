@@ -54,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.add, color: Colors.black, size: 22.sp),
+                  Icon(Icons.add, color: Colors.white, size: 22.sp),
                   SizedBox(height: 2.h),
                   Text(
                     'أضف إعلانك',
@@ -62,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 10.sp,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ],
