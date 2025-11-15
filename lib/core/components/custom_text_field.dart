@@ -16,8 +16,11 @@ class CustomTextFormField extends StatefulWidget {
     this.autovalidateMode,
     this.prefixIcon,
     this.isEnable = true,
-    this.maxLines = 1,    // ← جديد
-    this.minLines,        // ← جديد
+    this.maxLines = 1,
+    this.minLines,
+
+    /// NEW: floating label inside the field
+    this.floatingLabel,
   });
 
   final String? hintText;
@@ -31,9 +34,11 @@ class CustomTextFormField extends StatefulWidget {
   Widget? prefixIcon;
   bool isEnable;
 
-  /// NEW
   final int maxLines;
   final int? minLines;
+
+  /// NEW
+  final String? floatingLabel;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -60,7 +65,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       autovalidateMode: widget.autovalidateMode,
       controller: widget.textEditingController,
 
-      /// NEW — هنا التحكم بعدد الأسطر
       obscureText: widget.iconShow ? !iconVisible : false,
       maxLines: widget.iconShow ? 1 : widget.maxLines,
       minLines: widget.iconShow ? 1 : widget.minLines,
@@ -75,17 +79,33 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         return null;
       },
       keyboardType: widget.keyboardType,
+
       decoration: InputDecoration(
+        /// NEW — Floating Label
+        labelText: widget.floatingLabel,
+        labelStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 14.sp,
+        ),
+        floatingLabelStyle: TextStyle(
+          color: ColorsManager.primaryColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+        ),
+
         fillColor: fillColor,
         filled: true,
         contentPadding: const EdgeInsets.all(16.0),
+
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
           color: hintColor,
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
         ),
+
         prefixIcon: widget.prefixIcon,
+
         suffixIcon: widget.iconShow
             ? GestureDetector(
           onTap: () {
@@ -99,6 +119,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
         )
             : null,
+
         border: buildBorder(Colors.grey),
         enabledBorder: buildBorder(Colors.grey),
         focusedBorder: buildBorder(ColorsManager.primaryColor),
