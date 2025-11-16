@@ -27,13 +27,13 @@ class ProjectDetailsViewBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 16.h),
-                  const BannerSection(
-                    images: [
-                      AssetsManager.banner,
-                      AssetsManager.banner2,
-
-                    ],
-                  ),
+                  //   BannerSection(
+                  //   images: [
+                  //     AssetsManager.banner,
+                  //     AssetsManager.banner2,
+                  //
+                  //   ],
+                  // ),
                   SizedBox(height: 16.h),
                   const ProjectDetailsHeader(),
                   SizedBox(height: 8.h),

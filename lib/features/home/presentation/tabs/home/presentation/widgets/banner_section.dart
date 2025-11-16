@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/domain/entities/banner_entity.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../core/services/open_url_service.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 
 class BannerSection extends StatefulWidget {
@@ -11,7 +13,7 @@ class BannerSection extends StatefulWidget {
     this.showDotsOnTop = false,
   });
 
-  final List<String> images;
+  final List<BannerEntity> images;
   final bool showDotsOnTop;
 
   @override
@@ -59,10 +61,13 @@ class _BannerSectionState extends State<BannerSection> {
           padding: EdgeInsets.symmetric(horizontal: 4.w),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
-            child: Image.asset(
-              widget.images[index],
-              fit: BoxFit.cover,
-              width: double.infinity,
+            child: GestureDetector(
+              onTap: () => openUrl(widget.images[index].link!),
+              child: Image.network(
+                widget.images[index].imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
             ),
           ),
         );

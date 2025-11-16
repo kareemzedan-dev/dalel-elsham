@@ -36,19 +36,19 @@ class FeaturedPlaceCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.r),
-                  topRight: Radius.circular(12.r),
-                ),
-                child: const BannerSection(showDotsOnTop: true,
-                  images: [
-                    AssetsManager.banner,
-                    AssetsManager.banner2,
-
-                  ],
-                ),
-              ),
+              // ClipRRect(
+              //   borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(12.r),
+              //     topRight: Radius.circular(12.r),
+              //   ),
+              //   child: const BannerSection(showDotsOnTop: true,
+              //     images: [
+              //       AssetsManager.banner,
+              //       AssetsManager.banner2,
+              //
+              //     ],
+              //   ),
+              // ),
 
               Padding(
                 padding: EdgeInsets.all(12.w),
