@@ -26,7 +26,7 @@ class CategoryItem extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: ClipOval(
-              child: Image.asset(
+              child: Image.network(
                 image,
                 fit: BoxFit.cover,
                 height: 50.h,

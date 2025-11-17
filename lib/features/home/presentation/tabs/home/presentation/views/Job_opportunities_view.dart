@@ -16,8 +16,10 @@ class JobOpportunitiesView extends StatelessWidget {
       floatingActionButton: AddFloatingButton(
         label: 'أضف وظيفة',
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const JobOfferFormView()));
-           
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const JobOfferFormView()),
+          );
         },
       ),
       body: const JobOpportunitiesViewBody(),

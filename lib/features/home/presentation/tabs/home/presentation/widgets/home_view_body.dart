@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/banners/get_banners_by_position_view_model/get_banners_by_position_view_model.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/banners/get_banners_by_position_view_model/get_banners_by_position_view_model_states.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/projects_list.dart';
@@ -11,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../core/di/di.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
+import '../manager/categories/get_all_categories_view_model/get_all_categories_view_model.dart';
+import '../manager/categories/get_all_categories_view_model/get_all_categories_view_model_states.dart';
 import 'banner_section.dart';
 import 'categories_section.dart';
 
@@ -54,7 +57,31 @@ class HomeViewBody extends StatelessWidget {
                     ),
               ),
               SizedBox(height: 30.h),
-              //  CategoriesSection(),
+              BlocProvider(
+                create: (context) =>
+                    getIt<GetAllCategoriesViewModel>()..getAllCategories(),
+                child:
+                    BlocBuilder<
+                      GetAllCategoriesViewModel,
+                      GetAllCategoriesViewModelStates
+                    >(
+                      builder: (context, state) {
+                        if (state is GetAllCategoriesViewModelLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is GetAllCategoriesViewModelSuccess) {
+                          return CategoriesSection(
+                            categoriesList: state.categories,
+                          );
+                        } else {
+                          return const Text("حدث خطأ");
+                        }
+                      },
+                    ),
+              ),
+              SizedBox(height: 30.h),
               SectionWidget(title: "عناصر مميزه", child: ProjectsList()),
               SizedBox(height: 30.h),
               ServicesSection(),

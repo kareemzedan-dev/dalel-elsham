@@ -96,7 +96,7 @@ class CategoryProjectCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ContactButtonCard(image: AssetsManager.phoneCall),
+                        ContactButtonCard(image: AssetsManager.phoneCall,),
                         SizedBox(width: 8.w),
                         ContactButtonCard(image: AssetsManager.whatsapp),
                       ],

@@ -2,36 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../config/routes/routes_manager.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
+import '../../domain/entities/category_entity.dart';
 import 'category_item.dart';
 
 class CategoryItemList extends StatelessWidget {
-  CategoryItemList({super.key});
+  CategoryItemList({super.key,required this.categoriesList});
 
-  final List<Map<String, String>> categoriesList = [
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
-    {"title": "طعام", "image": AssetsManager.category1},
-    {"title": "سيارات", "image": AssetsManager.category2},
-    {"title": "مشافي", "image": AssetsManager.category3},
+  final List<CategoryEntity> categoriesList  ;
 
-
-
-  ];
-
-  List<List<Map<String, String>>> chunk(List<Map<String, String>> list, int maxItemsPerRow) {
-    List<List<Map<String, String>>> out = [];
+  List<List<CategoryEntity>> chunk(List<CategoryEntity> list, int maxItemsPerRow) {
+    List<List<CategoryEntity>> out = [];
     for (int i = 0; i < list.length; i += maxItemsPerRow) {
-      out.add(list.sublist(i, (i + maxItemsPerRow > list.length) ? list.length : i + maxItemsPerRow));
+      out.add(list.sublist(
+        i,
+        (i + maxItemsPerRow > list.length) ? list.length : i + maxItemsPerRow,
+      ));
     }
     return out;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +61,8 @@ class CategoryItemList extends StatelessWidget {
                             onTap: () {
                               Navigator.pushNamed(context, RoutesManager.categoriesDetails);
                             },
-                            image: category["image"]!,
-                            title: category["title"]!,
+                            image: category.imageUrl,
+                            title: category.name,
                           ),
                         ),
                       );
