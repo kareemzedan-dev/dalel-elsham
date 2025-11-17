@@ -136,7 +136,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               SizedBox(width: 5.w),
               GestureDetector(
                 onTap: () {
-                   Navigator.pushNamed(context, RoutesManager.register);
+                  Navigator.pop(context);
                 },
                 child: Text(
                   "إنشاء حساب",

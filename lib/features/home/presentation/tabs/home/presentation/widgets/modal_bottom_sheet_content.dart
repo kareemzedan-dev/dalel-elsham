@@ -64,7 +64,7 @@ class ModalBottomSheetContent extends StatelessWidget {
               child: CustomButton(
                 text: 'تسجيل الدخول / إنشاء حساب',
                 onPressed: () {
-                  Navigator.pushNamed(context, RoutesManager.login);
+                  Navigator.pushNamed(context, RoutesManager.register);
                 },
               ),
             ),
