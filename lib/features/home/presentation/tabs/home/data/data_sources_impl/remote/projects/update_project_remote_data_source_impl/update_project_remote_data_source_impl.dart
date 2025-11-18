@@ -37,6 +37,14 @@ class UpdateProjectRemoteDataSourceImpl implements UpdateProjectRemoteDataSource
         status: project.status,
         isActive: project.isActive,
         tier: project.tier,
+        mapLink: project.mapLink,
+        whatsapp: project.whatsapp,
+        facebook: project.facebook,
+        instagram: project.instagram,
+        website: project.website,
+        views: project.views,
+        workTimeFrom: project.workTimeFrom,
+        workTimeTo: project.workTimeTo,
       );
 
       // 📝 3) تحديث الداتا

@@ -3,6 +3,7 @@ import 'package:dalel_elsham/core/utils/colors_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../core/services/contact_launcher_service.dart';
 import '../../../../../../../core/services/phone_call_service.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
 import '../../domain/entities/project_entity.dart';
@@ -10,11 +11,11 @@ import '../../domain/entities/project_entity.dart';
 class CategoryProjectCard extends StatelessWidget {
   const CategoryProjectCard({
     super.key,
- required this.project,
+    required this.project,
     required this.onTap,
   });
 
- final ProjectEntity project;
+  final ProjectEntity project;
   final VoidCallback onTap;
 
   @override
@@ -85,7 +86,10 @@ class CategoryProjectCard extends StatelessWidget {
                             project.location,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(fontWeight: FontWeight.bold,fontSize: 14.sp),
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.sp,
+                                ),
                           ),
                         ),
                       ],
@@ -94,12 +98,19 @@ class CategoryProjectCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ContactButtonCard(image: AssetsManager.phoneCall,onTap: () {
-
-                          PhoneCallService.callNumber(project.phone);
-                        },),
+                        ContactButtonCard(
+                          image: AssetsManager.phoneCall,
+                          onTap: () {
+                            PhoneCallService.callNumber(project.phone);
+                          },
+                        ),
                         SizedBox(width: 8.w),
-                        ContactButtonCard(image: AssetsManager.whatsapp),
+                        ContactButtonCard(
+                          image: AssetsManager.whatsapp,
+                          onTap: () {
+                            ContactLauncherService.openWhatsApp(project.phone);
+                          },
+                        ),
                       ],
                     ),
                   ],

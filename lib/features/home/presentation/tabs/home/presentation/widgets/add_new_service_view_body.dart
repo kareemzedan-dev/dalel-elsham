@@ -253,6 +253,14 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                         status: "pending",
                                         createdAt: DateTime.now()
                                             .toIso8601String(),
+                                        mapLink: "",
+                                        whatsapp: phoneController.text.trim(),
+                                        facebook: "",
+                                        instagram: "",
+                                        website: "",
+                                        views: 0,
+                                        workTimeFrom: "",
+                                        workTimeTo: "",
                                       ),
                                     );
                               },

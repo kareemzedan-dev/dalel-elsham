@@ -23,13 +23,15 @@ class ProjectDetailsHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(Icons.location_on_outlined,
-                size: 24.sp, color: ColorsManager.primaryColor),
+                size: 20.sp, color: ColorsManager.primaryColor),
             SizedBox(width: 4.w),
             Text(
               location,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
+                fontSize: 14.sp,
+                height: 1.6,
+                color: ColorsManager.primaryColor,
               ),
             ),
           ],

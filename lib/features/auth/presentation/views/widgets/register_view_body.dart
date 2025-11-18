@@ -28,7 +28,7 @@ class RegisterViewBody extends StatelessWidget {
     return BlocConsumer<RegisterViewModel, RegisterViewModelStates>(
       listener: (context, state) {
         if (state is RegisterViewModelStatesSuccess) {
-          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, RoutesManager.home, (route) => false);
         }
         if (state is RegisterViewModelStatesError) {
           showTemporaryMessage(context, state.message, MessageType.error);
@@ -36,6 +36,7 @@ class RegisterViewBody extends StatelessWidget {
       },
       builder: (context, state) {
         final isLoading = state is RegisterViewModelStatesLoading;
+
 
         return Stack(
           children: [

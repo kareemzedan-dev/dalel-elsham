@@ -24,13 +24,7 @@ class _CategoriesDetailsViewBodyState extends State<CategoriesDetailsViewBody> {
       child: Column(
         children: [
 
-          // SizedBox(height: 16.h,),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: CategoryFilterBar(
-          //     categoriesList: ['الكل', 'كافتيريات', 'مطاعم', 'مرطبات'],
-          //   ),
-          // ),
+
           SizedBox(height: 16.h),
           Padding(
             padding: const EdgeInsets.all(16.0),

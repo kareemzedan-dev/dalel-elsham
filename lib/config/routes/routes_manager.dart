@@ -45,7 +45,8 @@ class RoutesManager {
         );
       case projectDetails:
         final args = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) =>   ProjectDetailsView(projectId: args['projectId'],projectName: args['projectName']));
+        return MaterialPageRoute(builder: (_) =>   ProjectDetailsView(projectId: args['projectId'],
+            projectName: args['projectName'],watchCount: args['watchCount'],));
       case dalelElsham:
         return MaterialPageRoute(builder: (_) => const DalelElshamTabView());
       case jobOpportunities:

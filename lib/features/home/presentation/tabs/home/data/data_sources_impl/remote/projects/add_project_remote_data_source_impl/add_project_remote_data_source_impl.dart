@@ -37,6 +37,14 @@ class AddProjectRemoteDataSourceImpl implements AddProjectRemoteDataSource {
         status: project.status,
         images: project.images,
         additionalImages: project.additionalImages,
+        mapLink: project.mapLink,
+        whatsapp: project.whatsapp,
+        facebook: project.facebook,
+        instagram: project.instagram,
+        website: project.website,
+        views: project.views,
+        workTimeFrom: project.workTimeFrom,
+        workTimeTo: project.workTimeTo,
       );
 
       // 🔹 3) حفظ البيانات في Firestore

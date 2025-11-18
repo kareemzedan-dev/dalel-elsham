@@ -16,6 +16,15 @@ class ProjectModel extends ProjectEntity {
     required super.status,
     required super.additionalImages,
     required super.tier,
+    required super.mapLink,
+    required super.whatsapp,
+    required super.facebook,
+    required super.instagram,
+    required super.website,
+    required super.views,
+    required super.workTimeFrom,
+    required super.workTimeTo,
+
   });
 
   /// ------------------------------
@@ -38,6 +47,14 @@ class ProjectModel extends ProjectEntity {
 
       images: List<String>.from(map['images'] ?? []),
       additionalImages: List<String>.from(map['additionalImages'] ?? []),
+      mapLink: map['mapLink'] ?? '',
+      whatsapp: map['whatsapp'] ?? '',
+      facebook: map['facebook'] ?? '',
+      instagram: map['instagram'] ?? '',
+      website: map['website'] ?? '',
+      views: map['views'] ?? 0,
+      workTimeFrom: map['workTimeFrom'] ?? '',
+      workTimeTo: map['workTimeTo'] ?? '',
     );
   }
 
@@ -60,6 +77,14 @@ class ProjectModel extends ProjectEntity {
       'status': status,
       'images': images,
       'additionalImages': additionalImages,
+      'mapLink': mapLink,
+      'whatsapp': whatsapp,
+      'facebook': facebook,
+      'instagram': instagram,
+      'website': website,
+      'views': views,
+      'workTimeFrom': workTimeFrom,
+      'workTimeTo': workTimeTo,
     };
   }
 }

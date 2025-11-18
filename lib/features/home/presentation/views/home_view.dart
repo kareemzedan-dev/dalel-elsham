@@ -43,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(child: DrawerContent()),
+      drawer:   Drawer(child: DrawerContent()),
       extendBody: true,
 
       body: IndexedStack(

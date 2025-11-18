@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProjectDetailsWorkTime extends StatelessWidget {
-  const ProjectDetailsWorkTime({super.key});
+  const ProjectDetailsWorkTime({super.key,
+    required this.workTimeFrom,
+    required this.workTimeTo,
+  });
+  final String workTimeFrom;
+  final String workTimeTo;
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class ProjectDetailsWorkTime extends StatelessWidget {
             Icon(Icons.access_time, size: 16.sp),
             SizedBox(width: 8.w),
             Text(
-              "وقت العمل : من الساعة ٩ صباحًا إلى الساعة ٩ مساءً",
+               "وقت العمل : من الساعة $workTimeFrom إلى الساعة $workTimeTo",
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
                 height: 1.6,

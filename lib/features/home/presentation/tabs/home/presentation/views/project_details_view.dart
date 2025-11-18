@@ -8,16 +8,29 @@ import '../manager/projects/get_project_details_view_model/get_project_details_v
 import '../widgets/project_details_view_body.dart';
 
 class ProjectDetailsView extends StatelessWidget {
-  const ProjectDetailsView({super.key,required this.projectId,required this.projectName});
-  final String projectId , projectName;
+  const ProjectDetailsView({
+    super.key,
+    required this.projectId,
+    required this.projectName,
+    required this.watchCount,
+  });
+
+  final String projectId, projectName;
+  final int watchCount;
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: CustomAppBar(title:projectName,showWatch: true,),
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: projectName,
+        showWatch: true,
+        watchCount: watchCount.toString(),
+      ),
       body: BlocProvider(
-          create: (context) => getIt<GetProjectDetailsViewModel>()..getProjectDetails(projectId),
-          child: const ProjectDetailsViewBody()),
+        create: (context) =>
+            getIt<GetProjectDetailsViewModel>()..getProjectDetails(projectId),
+        child: const ProjectDetailsViewBody(),
+      ),
     );
   }
 }

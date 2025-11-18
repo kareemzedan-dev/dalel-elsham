@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../core/components/project_fullscreen_gallery.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
-
 class ProjectDetailsGallery extends StatelessWidget {
-  const ProjectDetailsGallery({super.key});
+  final List<String> images;
+
+  const ProjectDetailsGallery({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> images = [
-      AssetsManager.project1,
-      AssetsManager.project2,
-      AssetsManager.project3,
-      AssetsManager.project1,
-      AssetsManager.project2,
-      AssetsManager.project3,
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,16 +21,27 @@ class ProjectDetailsGallery extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
 
-
         Wrap(
           spacing: 10.w,
           runSpacing: 10.h,
-          children: images.map((image) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(12.r),
-              child: Container(
-                color: ColorsManager.grey.withOpacity(0.2),
-                child: Image.asset(
+          children: List.generate(images.length, (index) {
+            final image = images[index];
+
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ProjectFullScreenGallery(
+                      images: images,
+                      initialIndex: index,
+                    ),
+                  ),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: Image.network(
                   image,
                   height: 110.h,
                   width: 110.w,
@@ -45,7 +49,7 @@ class ProjectDetailsGallery extends StatelessWidget {
                 ),
               ),
             );
-          }).toList(),
+          }),
         ),
       ],
     );

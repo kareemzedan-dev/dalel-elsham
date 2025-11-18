@@ -40,8 +40,7 @@ class CategoryProjectCardList extends StatelessWidget {
                       height: 200.h,
                       width: 200.w,
                     ),
-                    SizedBox(height: 16.h
-                    ),
+                    SizedBox(height: 16.h),
                     Text(
                       "لا توجد مشاريع ضمن هذه الفئة حتى الآن",
                       style: TextStyle(fontSize: 16.sp, color: Colors.grey),
@@ -51,7 +50,6 @@ class CategoryProjectCardList extends StatelessWidget {
               ),
             );
           }
-
 
           return ListView.separated(
             shrinkWrap: true,
@@ -67,6 +65,7 @@ class CategoryProjectCardList extends StatelessWidget {
                     arguments: {
                       "projectId": state.projects[index].id,
                       "projectName": state.projects[index].title,
+                      "watchCount": state.projects[index].views,
                     },
                   );
                 },

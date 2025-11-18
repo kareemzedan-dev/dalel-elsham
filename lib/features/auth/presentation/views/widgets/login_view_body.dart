@@ -41,7 +41,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           );
 
           // بعد تسجيل الدخول
-          Navigator.pushReplacementNamed(context, RoutesManager.home);
+          Navigator.pushNamedAndRemoveUntil(context, RoutesManager.home, (route) => false);
         }
       },
 
