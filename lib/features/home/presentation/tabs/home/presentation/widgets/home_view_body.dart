@@ -74,6 +74,7 @@ class HomeViewBody extends StatelessWidget {
                         if (state is GetAllCategoriesViewModelSuccess) {
                           return CategoriesSection(
                             categoriesList: state.categories,
+
                           );
                         } else {
                           return const Text("حدث خطأ");

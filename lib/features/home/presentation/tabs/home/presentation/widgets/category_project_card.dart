@@ -3,20 +3,18 @@ import 'package:dalel_elsham/core/utils/colors_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../core/services/phone_call_service.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
+import '../../domain/entities/project_entity.dart';
 
 class CategoryProjectCard extends StatelessWidget {
   const CategoryProjectCard({
     super.key,
-    required this.title,
-    required this.description,
-    required this.location,
+ required this.project,
     required this.onTap,
   });
 
-  final String title;
-  final String description;
-  final String location;
+ final ProjectEntity project;
   final VoidCallback onTap;
 
   @override
@@ -37,8 +35,8 @@ class CategoryProjectCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
-                child: Image.asset(
-                  AssetsManager.project2,
+                child: Image.network(
+                  project.logo,
                   height: 120.h,
                   width: 100.w,
                   fit: BoxFit.cover,
@@ -52,7 +50,7 @@ class CategoryProjectCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      project.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -63,7 +61,7 @@ class CategoryProjectCard extends StatelessWidget {
                     SizedBox(height: 4.h),
 
                     Text(
-                      description,
+                      project.description,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -84,7 +82,7 @@ class CategoryProjectCard extends StatelessWidget {
                         SizedBox(width: 4.w),
                         Flexible(
                           child: Text(
-                            location,
+                            project.location,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(fontWeight: FontWeight.bold,fontSize: 14.sp),
@@ -96,7 +94,10 @@ class CategoryProjectCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ContactButtonCard(image: AssetsManager.phoneCall,),
+                        ContactButtonCard(image: AssetsManager.phoneCall,onTap: () {
+
+                          PhoneCallService.callNumber(project.phone);
+                        },),
                         SizedBox(width: 8.w),
                         ContactButtonCard(image: AssetsManager.whatsapp),
                       ],

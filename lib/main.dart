@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import 'config/routes/routes_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'core/cache/shared_preferences.dart';
 import 'core/di/di.dart';
 import 'firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -24,6 +25,7 @@ void main() async{
   );
   await seedCategories();
   await configureDependencies();
+  await SharedPrefHelper.init();
 
   runApp(const DalelElsham());
 }

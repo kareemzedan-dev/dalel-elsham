@@ -1,12 +1,43 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../../core/utils/colors_manager.dart';
+import '../../../../../../../core/helper/pick_image_source_sheet.dart';
+import '../../../../../../../core/services/image_picker_service.dart';
 import 'add_image_box.dart';
 
-class ImagesGroupBox extends StatelessWidget {
-  const ImagesGroupBox({super.key});
+class ImagesGroupBox extends StatefulWidget {
+  final Function(List<Uint8List> imagesBytes)? onImagesSelected;
+
+  const ImagesGroupBox({super.key, this.onImagesSelected});
+
+  @override
+  State<ImagesGroupBox> createState() => _ImagesGroupBoxState();
+}
+
+class _ImagesGroupBoxState extends State<ImagesGroupBox> {
+  final ImagePickerService _picker = ImagePickerService();
+
+  final List<Uint8List> _imagesBytes = [];
+  final List<String?> _imagesPaths = [null, null, null];
+
+  Future<void> _pickImage(int index) async {
+    final source = await showImageSourcePicker(context);
+    if (source == null) return;
+
+    final res = source == "gallery"
+        ? await _picker.pickFromGallery()
+        : await _picker.pickFromCamera();
+
+    if (!res.isEmpty) {
+      setState(() {
+        _imagesBytes.add(res.bytes!);
+        _imagesPaths[index] = res.path;
+      });
+
+      widget.onImagesSelected?.call(_imagesBytes);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +50,19 @@ class ImagesGroupBox extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _topCounter(context),
+          _topCounter(),
           SizedBox(height: 20.h),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                AddImageBox(),
-                AddImageBox(),
-                AddImageBox(),
-              ],
+              children: List.generate(3, (i) {
+                return AddImageBox(
+                  imageBytes: i < _imagesBytes.length ? _imagesBytes[i] : null,
+                  imagePath: _imagesPaths[i],
+                  onTap: () => _pickImage(i),
+                );
+              }),
             ),
           ),
         ],
@@ -37,7 +70,7 @@ class ImagesGroupBox extends StatelessWidget {
     );
   }
 
-  Widget _topCounter(BuildContext context) {
+  Widget _topCounter() {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
@@ -50,11 +83,11 @@ class ImagesGroupBox extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              "0/3",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              "${_imagesBytes.length}/3",
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14.sp,
-                color: ColorsManager.black.withOpacity(0.5),
+                color: Colors.black.withOpacity(0.5),
               ),
             ),
           ),

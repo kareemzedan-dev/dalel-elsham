@@ -81,4 +81,26 @@ class FirebaseServiceImpl implements FirebaseService {
     final ref = storage.ref().child(path).child(fileName);
     await ref.delete();
   }
+
+  @override
+  Future<List<Map<String, dynamic>>> getWhere({
+    required String collection,
+    required String field,
+    required String value,
+  }) async {
+    final querySnapshot = await firestore
+        .collection(collection)
+        .where(field, isEqualTo: value)
+        .get();
+
+    return querySnapshot.docs.map((doc) {
+      return {
+        "id": doc.id,
+        "data": doc.data(),
+      };
+    }).toList();
+  }
+
+
+
 }

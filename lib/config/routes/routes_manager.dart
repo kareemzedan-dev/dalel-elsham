@@ -15,7 +15,6 @@ import '../../features/home/presentation/tabs/home/presentation/views/project_de
 import '../../features/onboarding/presentation/views/onboarding_view.dart';
 import '../../features/splash/presentation/views/splash_view.dart';
 
-
 class RoutesManager {
   static const String splash = "/";
   static const String home = "home";
@@ -32,36 +31,40 @@ class RoutesManager {
   static const String jobOfferForm = "jobOfferForm";
   static const String jobRequestForm = "jobRequestForm";
 
-
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
         return MaterialPageRoute(builder: (_) => const SplashView());
       case home:
         return MaterialPageRoute(builder: (_) => const HomeView());
-        case categoriesDetails:
-        return MaterialPageRoute(builder: (_) => const CategoriesDetailsView());
-        case projectDetails:
-        return MaterialPageRoute(builder: (_) => const ProjectDetailsView());
-        case dalelElsham:
+      case categoriesDetails:
+        final args = settings.arguments as Map<String, dynamic>;
+
+        return MaterialPageRoute(
+          builder: (_) => CategoriesDetailsView(categoryId: args['categoryId'] ,categoryName: args['categoryName']),
+        );
+      case projectDetails:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) =>   ProjectDetailsView(projectId: args['projectId'],projectName: args['projectName']));
+      case dalelElsham:
         return MaterialPageRoute(builder: (_) => const DalelElshamTabView());
-        case jobOpportunities:
+      case jobOpportunities:
         return MaterialPageRoute(builder: (_) => const JobOpportunitiesView());
-        case jobSeekers:
+      case jobSeekers:
         return MaterialPageRoute(builder: (_) => const JobSeekersView());
-        case prayerTimes:
+      case prayerTimes:
         return MaterialPageRoute(builder: (_) => const PrayerTimesView());
-        case login:
+      case login:
         return MaterialPageRoute(builder: (_) => const LoginView());
-        case register:
+      case register:
         return MaterialPageRoute(builder: (_) => const RegisterView());
-        case onboarding:
+      case onboarding:
         return MaterialPageRoute(builder: (_) => const OnboardingView());
-        case addNewService:
+      case addNewService:
         return MaterialPageRoute(builder: (_) => const AddNewServiceView());
-        case jobOfferForm:
+      case jobOfferForm:
         return MaterialPageRoute(builder: (_) => const JobOfferFormView());
-        case jobRequestForm:
+      case jobRequestForm:
         return MaterialPageRoute(builder: (_) => const JobRequestFormView());
 
       default:

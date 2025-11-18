@@ -44,4 +44,10 @@ abstract class FirebaseService {
     required String path,
     required String fileName,
   });
+
+  Future<List<Map<String, dynamic>>> getWhere({
+    required String collection,
+    required String field,
+    required String value,
+  });
 }

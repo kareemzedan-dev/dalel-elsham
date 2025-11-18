@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProjectDetailsDescription extends StatelessWidget {
-  const ProjectDetailsDescription({super.key});
+  const ProjectDetailsDescription({super.key, required this.description});
+
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ProjectDetailsDescription extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-          "يُعد هذا المشروع من المبادرات الرائدة التي تهدف إلى دعم أصحاب الأعمال المحليين في مدينة دمشق. نهدف من خلال هذا المشروع إلى توفير منصة تجمع بين الخدمات المختلفة التي يحتاجها المواطنون، سواء كانت مطاعم، متاجر، مراكز طبية أو شركات خدمية، وذلك بطريقة سهلة وسريعة. يتميز المشروع بتصميم عصري وتجربة مستخدم سلسة، تُمكِّن المستخدم من الوصول إلى المعلومات والعروض المتاحة بشكل فوري دون عناء البحث الطويل. كما نسعى لتوسيع نطاق المشروع ليشمل باقي المحافظات قريبًا.",
+          description,
           textAlign: TextAlign.justify,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w500,

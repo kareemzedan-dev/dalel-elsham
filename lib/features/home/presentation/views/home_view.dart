@@ -1,6 +1,8 @@
+import 'package:dalel_elsham/core/cache/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../config/routes/routes_manager.dart';
 import '../tabs/dalel_elsham/presentation/views/dalel_elsham_tab_view.dart';
 import '../tabs/home/presentation/widgets/drawer_content.dart';
 import '../tabs/home/presentation/widgets/custom_bottom_nav_bar.dart';
@@ -18,59 +20,85 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
 
-  late final List<Widget> _pages = const [HomeViewBody(), DalelElshamTabView()];
+  String? authToken;
+
+  @override
+  void initState() {
+    super.initState();
+    loadAuthToken();
+  }
+
+  Future<void> loadAuthToken() async {
+    final token = SharedPrefHelper.getString("auth_token");
+    setState(() {
+      authToken = token;
+    });
+  }
+
+  late final List<Widget> _pages = const [
+    HomeViewBody(),
+    DalelElshamTabView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(
-
-        child: DrawerContent(),
-      ),
+      drawer: const Drawer(child: DrawerContent()),
       extendBody: true,
 
-      body: IndexedStack(index: currentIndex, children: _pages),
+      body: IndexedStack(
+        index: currentIndex,
+        children: _pages,
+      ),
 
-      floatingActionButton: Visibility(
-        child: SizedBox(
-          height: 70.w,
-          width: 70.w,
-          child: FloatingActionButton(
-            backgroundColor: ColorsManager.primaryColor,
-            elevation: 8,
-            shape: const CircleBorder(),
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                builder: (context) => const ModalBottomSheetContent(),
-              );
-            },
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.add, color: Colors.white, size: 22.sp),
-                  SizedBox(height: 2.h),
-                  Text(
-                    'أضف إعلانك',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 10.sp,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+      floatingActionButton: SizedBox(
+        height: 70.w,
+        width: 70.w,
+        child: FloatingActionButton(
+          backgroundColor: ColorsManager.primaryColor,
+          elevation: 8,
+          shape: const CircleBorder(),
+          onPressed: () {
+            print("TOKEN: $authToken");
+
+            // مستخدم سجل دخول فقط يفتح صفحة إضافة إعلان
+            if (authToken != null && authToken!.isNotEmpty) {
+              Navigator.pushNamed(context, RoutesManager.addNewService);
+              return;
+            }
+
+            // لو مش مسجل دخول → افتح bottom sheet
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
+              builder: (context) => const ModalBottomSheetContent(),
+            );
+          },
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add, color: Colors.white, size: 22.sp),
+                SizedBox(height: 2.h),
+                Text(
+                  'أضف إعلانك',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 10.sp,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
       ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       bottomNavigationBar: CustomBottomNavBar(

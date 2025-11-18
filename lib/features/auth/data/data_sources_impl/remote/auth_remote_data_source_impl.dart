@@ -5,10 +5,12 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../core/cache/shared_preferences.dart';
 import '../../../../../core/errors/failures.dart';
+import '../../../../../core/errors/firebase_auth_error_mapper.dart';
 import '../../../../../core/services/firebase_service.dart';
 import '../../../domain/entities/auth_entity.dart';
 import '../../data_sources/remote/auth_remote_data_source.dart';
 import '../../model/auth_model.dart';
+
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,9 +19,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl(this.firebaseService);
 
-  /// ------------------------------------------------------
-  /// 🔵 REGISTER
-  /// ------------------------------------------------------
+  // ------------------------------------------------------
+  // 🔵 REGISTER
+  // ------------------------------------------------------
   @override
   Future<Either<Failures, AuthEntity>> register({
     required String name,
@@ -28,7 +30,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      // 1) Create user in Firebase Auth
+      // 1) Firebase Auth
       final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -37,7 +39,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final user = userCredential.user!;
       final uid = user.uid;
 
-      // 2) Save user data in Firestore
+      // 2) Save profile in Firestore
       final userData = AuthModel(
         id: uid,
         name: name,
@@ -48,29 +50,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       await _firestore.collection("users").doc(uid).set(userData.toMap());
 
-      // 3) Get token from Firebase Auth
-      final token = await user.getIdToken();
+      // 3) Get Firebase token
+      final token = await user.getIdToken(true);
 
-      // 4) Save token in SharedPrefs
+      // 4) Save in SharedPreferences
       await SharedPrefHelper.setString("auth_token", token!);
 
       return Right(userData);
-
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      final msg = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
+      return Left(ServerFailure(msg));
     }
   }
 
-
-  /// ------------------------------------------------------
-  /// 🔵 LOGIN
-  /// ------------------------------------------------------
+  // ------------------------------------------------------
+  // 🔵 LOGIN
+  // ------------------------------------------------------
   @override
   Future<Either<Failures, AuthEntity>> login({
     required String email,
     required String password,
   }) async {
     try {
+      // 1) Auth Login
       final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -79,35 +81,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final user = userCredential.user!;
       final uid = user.uid;
 
-      // 1) Fetch profile
+      // 2) Get user profile
       final doc = await _firestore.collection("users").doc(uid).get();
+
       if (!doc.exists) {
-        return Left(ServerFailure("User profile not found in Firestore."));
+        return Left(ServerFailure("User profile not found."));
       }
 
       final authUser = AuthModel.fromMap(doc.data()!, doc.id);
 
-      // 2) Fetch token
-      final token = await user.getIdToken();
+      // 3) Get token from Firebase
+      final token = await user.getIdToken(true);
 
-      // 3) Save to SharedPrefs
+      // 4) Save it
       await SharedPrefHelper.setString("auth_token", token!);
 
       return Right(authUser);
-
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      final msg = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
+      return Left(ServerFailure(msg));
     }
   }
 
-
-  /// ------------------------------------------------------
-  /// 🔵 GET CURRENT USER
-  /// ------------------------------------------------------
+  // ------------------------------------------------------
+  // 🔵 GET CURRENT USER
+  // ------------------------------------------------------
   @override
   Future<Either<Failures, AuthEntity>> getCurrentUser() async {
     try {
       final user = _auth.currentUser;
+
       if (user == null) {
         return Left(ServerFailure("No logged-in user."));
       }
@@ -115,26 +118,27 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final doc = await _firestore.collection("users").doc(user.uid).get();
 
       if (!doc.exists) {
-        return Left(ServerFailure("User profile not found in Firestore."));
+        return Left(ServerFailure("User profile not found."));
       }
 
       return Right(AuthModel.fromMap(doc.data()!, doc.id));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      final msg = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
+      return Left(ServerFailure(msg));
     }
   }
 
-  /// ------------------------------------------------------
-  /// 🔵 LOGOUT
-  /// ------------------------------------------------------
+  // ------------------------------------------------------
+  // 🔵 LOGOUT
+  // ------------------------------------------------------
   @override
   Future<void> logout() async {
     try {
       await _auth.signOut();
       await SharedPrefHelper.remove("auth_token");
     } catch (e) {
-      throw ServerFailure(e.toString());
+      final readable = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
+      throw ServerFailure(readable);
     }
   }
-
 }
