@@ -1,11 +1,19 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../../../../core/helper/pick_image_source_sheet.dart';
 import '../../../../../core/utils/assets_manager.dart';
 import '../../../../../core/utils/colors_manager.dart';
 
 class RegisterAvatarPicker extends StatefulWidget {
-  const RegisterAvatarPicker({super.key});
+
+  final Function(String path)? onImageSelected;
+
+  const RegisterAvatarPicker({
+    super.key,
+    this.onImageSelected,
+  });
 
   @override
   State<RegisterAvatarPicker> createState() => _RegisterAvatarPickerState();
@@ -14,30 +22,27 @@ class RegisterAvatarPicker extends StatefulWidget {
 class _RegisterAvatarPickerState extends State<RegisterAvatarPicker> {
   String? avatarPath;
 
-  void _pickImage() {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => SafeArea(
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('اختيار من المعرض'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_camera),
-              title: Text('التقاط صورة'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+  void onTap() {
+    showImageSourcePicker(context).then((value) async {
+      XFile? picked;
+
+      if (value == "camera") {
+        picked = await ImagePicker().pickImage(source: ImageSource.camera);
+      } else if (value == "gallery") {
+        picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+      }
+
+      if (picked != null) {
+        setState(() {
+          avatarPath = picked!.path;
+        });
+
+        // 🔥 هنا بندي الباث للسك्रीन الأم
+        if (widget.onImageSelected != null) {
+          widget.onImageSelected!(picked.path);
+        }
+      }
+    });
   }
 
   @override
@@ -63,7 +68,7 @@ class _RegisterAvatarPickerState extends State<RegisterAvatarPicker> {
             right: 0,
             bottom: 0,
             child: GestureDetector(
-              onTap: _pickImage,
+              onTap: onTap,
               child: Container(
                 padding: EdgeInsets.all(6),
                 decoration: BoxDecoration(

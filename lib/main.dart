@@ -23,7 +23,7 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await seedCategories();
+ 
   await configureDependencies();
   await SharedPrefHelper.init();
 
@@ -65,52 +65,3 @@ class DalelElsham extends StatelessWidget {
   }
 }
 
-
-Future<void> seedCategories() async {
-  final firestore = FirebaseFirestore.instance;
-
-  final categories = [
-    {
-      "name": "مطاعم",
-      "imageUrl": "https://rfxticljudaqokliiugx.supabase.co/storage/v1/object/public/categories/42771.jpg",
-      "isActive": true,
-    },
-    {
-      "name": "خدمات",
-      "imageUrl": "https://rfxticljudaqokliiugx.supabase.co/storage/v1/object/public/categories/42771.jpg",
-      "isActive": true,
-    },
-    {
-      "name": "ترفيه",
-      "imageUrl": "https://rfxticljudaqokliiugx.supabase.co/storage/v1/object/public/categories/42771.jpg",
-      "isActive": true,
-    },
-    {
-      "name": "تسوق",
-      "imageUrl": "https://rfxticljudaqokliiugx.supabase.co/storage/v1/object/public/categories/42771.jpg",
-      "isActive": true,
-    },
-  ];
-
-  final collectionRef = firestore.collection("categories");
-
-  final snapshot = await collectionRef.get();
-
-  if (snapshot.docs.isEmpty) {
-    for (var item in categories) {
-      final id = const Uuid().v4(); // إنشاء ID فريد
-
-      await collectionRef.doc(id).set({
-        "id": id,
-        "name": item["name"],
-        "imageUrl": item["imageUrl"],
-        "isActive": item["isActive"],
-        "order": 0, // ممكن تحط ترتيب لو عايز
-        "createdAt": DateTime.now(),
-      });
-    }
-    print("Dummy categories inserted successfully!");
-  } else {
-    print("Categories already exist — skip seeding.");
-  }
-}

@@ -25,6 +25,9 @@
     <key>NSMicrophoneUsageDescription</key>
     <string>نحتاج إلى الميكروفون لتسجيل فيديو أو صوت.</string>
     <!-- 🚀 انتهى -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>نحتاج للوصول إلى موقعك لعرض مواقيت الصلاة بدقة</string>
+
 
     <key>CFBundlePackageType</key>
     <string>APPL</string>

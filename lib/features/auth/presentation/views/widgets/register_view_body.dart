@@ -47,7 +47,11 @@ class RegisterViewBody extends StatelessWidget {
                 children: [
                   RegisterHeader(),
                   SizedBox(height: 16),
-                  RegisterAvatarPicker(),
+                  RegisterAvatarPicker(
+                    onImageSelected: (path) {
+
+                    },
+                  ),
                   SizedBox(height: 24),
                   RegisterFormFields(),
                   SizedBox(height: 24),
