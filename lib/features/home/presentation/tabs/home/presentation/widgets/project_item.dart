@@ -1,73 +1,107 @@
+import 'package:dalel_elsham/features/home/presentation/tabs/home/domain/entities/project_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../config/routes/routes_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 
-
 class ProjectItem extends StatelessWidget {
-  const ProjectItem({super.key, required this.image, required this.title, required this.description, required this.location});
-  final String image;
-  final String title;
-  final String description;
-  final String location;
+  const ProjectItem({super.key, required this.projectEntity});
+
+  final ProjectEntity projectEntity;
 
   @override
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, RoutesManager.projectDetails);
+        Navigator.pushNamed(
+          context,
+          RoutesManager.projectDetails,
+          arguments: {
+            "projectId": projectEntity.id,
+            "projectName": projectEntity.title,
+            "watchCount": projectEntity.views,
+          },
+        );
       },
       child: Container(
-        height: 200.h,
-        width: 140.w,
+        width: 150.w,
+        padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          color: isDark  ? ColorsManager.grey.withOpacity(0.5):ColorsManager.grey,
-          borderRadius: BorderRadius.circular(4.r),
+          color: isDark
+              ? ColorsManager.grey.withOpacity(0.5)
+              : ColorsManager.grey.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(color: Colors.grey.withOpacity(0.2)),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // 👈 أهم سطر لحل الـ overflow
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// IMAGE
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.r),
+              child: SizedBox(
                 height: 120.h,
-                width: 140.w,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.r),
-                  child: Image.asset( image, fit: BoxFit.cover),
+                width: double.infinity,
+                child: Image.network(projectEntity.logo, fit: BoxFit.cover),
+              ),
+            ),
+            SizedBox(height: 10.h),
+
+            /// TITLE
+            Text(
+              projectEntity.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w800,
+                fontSize: 15.sp,
+                height: 1.2,
+              ),
+            ),
+            SizedBox(height: 4.h),
+
+            /// DESCRIPTION
+            Text(
+              projectEntity.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: 13.sp,
+                height: 1.2,
+                color: Colors.grey[700],
+              ),
+            ),
+            SizedBox(height: 6.h),
+
+            /// LOCATION
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on_outlined,
+                  size: 16.sp,
+                  color: ColorsManager.primaryColor,
                 ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                title,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w800,fontSize: 16.sp),
-              ),
-              SizedBox(height: 4.h),
-              Text(
-               description,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500,fontSize: 14.sp),
-              ),
-              SizedBox(height: 4.h),
-              Row(
-                children: [
-                  Icon(Icons.location_on_outlined, size: 16.sp),
-                  SizedBox(width: 4.w),
-                  Text(
-                    location,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500,fontSize: 14.sp),
+                SizedBox(width: 4.w),
+                Expanded(
+                  child: Text(
+                    projectEntity.location,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13.sp,
+                      color: ColorsManager.primaryColor,
+                    ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

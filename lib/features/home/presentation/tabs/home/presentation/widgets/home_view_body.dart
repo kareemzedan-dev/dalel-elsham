@@ -14,6 +14,8 @@ import '../../../../../../../core/di/di.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
 import '../manager/categories/get_all_categories_view_model/get_all_categories_view_model.dart';
 import '../manager/categories/get_all_categories_view_model/get_all_categories_view_model_states.dart';
+import '../manager/projects/get_newest_projects_view_model/get_newest_projects_view_model.dart';
+import '../manager/projects/get_newest_projects_view_model/get_newest_projects_view_model_states.dart';
 import 'banner_section.dart';
 import 'categories_section.dart';
 
@@ -74,7 +76,6 @@ class HomeViewBody extends StatelessWidget {
                         if (state is GetAllCategoriesViewModelSuccess) {
                           return CategoriesSection(
                             categoriesList: state.categories,
-
                           );
                         } else {
                           return const Text("حدث خطأ");
@@ -83,11 +84,35 @@ class HomeViewBody extends StatelessWidget {
                     ),
               ),
               SizedBox(height: 30.h),
-              SectionWidget(title: "عناصر مميزه", child: ProjectsList()),
+              //    SectionWidget(title: "عناصر مميزه", child: ProjectsList()),
               SizedBox(height: 30.h),
               ServicesSection(),
               SizedBox(height: 30.h),
-              SectionWidget(title: "نورونا جديد", child: ProjectsList()),
+              SectionWidget(
+                title: "نورونا جديد",
+                child: BlocProvider(
+                  create: (context) =>
+                      getIt<GetNewestProjectsViewModel>()..getNewestProjects(),
+                  child:
+                      BlocBuilder<
+                        GetNewestProjectsViewModel,
+                        GetNewestProjectsViewModelStates
+                      >(
+                        builder: (context, state) {
+                          if (state is GetNewestProjectsViewModelLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (state is GetNewestProjectsViewModelSuccess) {
+                            return ProjectsList(projects: state.projects);
+                          } else {
+                            return const Text("حدث خطأ");
+                          }
+                        },
+                      ),
+                ),
+              ),
             ],
           ),
         ),

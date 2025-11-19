@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/core/components/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../config/routes/routes_manager.dart';
@@ -50,7 +51,7 @@ class _DrawerContentState extends State<DrawerContent> {
                       return;
                     }
 
-                    // لو مش مسجل دخول → افتح bottom sheet
+
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -70,10 +71,19 @@ class _DrawerContentState extends State<DrawerContent> {
               ],
             ),
           ),
+          if(authToken != null && authToken!.isNotEmpty)
 
           LogoutButton(
             onTap: () {
-              // TODO: تنفيذ عملية تسجيل الخروج
+              showConfirmationDialog(
+                context: context,
+                title: 'تسجيل الخروج',
+                message: 'هل أنت متأكد من تسجيل الخروج؟',
+                onConfirm: () {
+                  SharedPrefHelper.clear();
+                  Navigator.pushNamed(context, RoutesManager.home);
+                },
+              );
             },
           ),
 

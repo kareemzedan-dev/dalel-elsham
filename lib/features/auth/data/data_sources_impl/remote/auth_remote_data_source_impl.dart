@@ -56,6 +56,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // 4) Save in SharedPreferences
       await SharedPrefHelper.setString("auth_token", token!);
 
+      await SharedPrefHelper.setString("user_name", name);
+      await SharedPrefHelper.setString("user_email", email);
+      await SharedPrefHelper.setString("user_phone", phone);
+
       return Right(userData);
     } catch (e) {
       final msg = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
@@ -95,6 +99,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       // 4) Save it
       await SharedPrefHelper.setString("auth_token", token!);
+      await SharedPrefHelper.setString("user_name", authUser.name);
+
+      await SharedPrefHelper.setString("user_email", email);
 
       return Right(authUser);
     } catch (e) {
@@ -137,7 +144,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await _auth.signOut();
       await SharedPrefHelper.remove("auth_token");
     } catch (e) {
-      final readable = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
+      final readable = FirebaseAuthErrorMapper.fromExceptionMessage(
+        e.toString(),
+      );
       throw ServerFailure(readable);
     }
   }
