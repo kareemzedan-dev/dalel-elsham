@@ -37,7 +37,7 @@ class ProjectItem extends StatelessWidget {
           border: Border.all(color: Colors.grey.withOpacity(0.2)),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // 👈 أهم سطر لحل الـ overflow
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// IMAGE

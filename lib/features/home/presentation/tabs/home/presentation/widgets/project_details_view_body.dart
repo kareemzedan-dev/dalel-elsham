@@ -75,8 +75,8 @@ class ProjectDetailsViewBody extends StatelessWidget {
                         ),
                         SizedBox(height: 16.h),
                           ProjectDetailsWorkTime(
-                          workTimeFrom:  state.project.workTimeFrom ?? "9",
-                          workTimeTo:  state.project.workTimeTo ?? "10",
+                          workTimeFrom:  state.project.workTimeFrom ?? "",
+                          workTimeTo:  state.project.workTimeTo ?? "",
                         ),
                         SizedBox(height: 8.h),
                         Divider(thickness: 1.w, color: Colors.grey),

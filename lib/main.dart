@@ -26,7 +26,7 @@ void main() async{
  
   await configureDependencies();
   await SharedPrefHelper.init();
-
+  await addDummyAppLinks();
   runApp(const DalelElsham());
 }
 
@@ -65,3 +65,52 @@ class DalelElsham extends StatelessWidget {
   }
 }
 
+
+Future<void> addDummyAppLinks() async {
+  final added = SharedPrefHelper.getBool("dummy_links_added") ?? false;
+
+  if (added) return; // علشان ميعملش إضافة كل مرة
+
+  final firestore = FirebaseFirestore.instance;
+  const uuid = Uuid();
+
+  final List<Map<String, dynamic>> dummyLinks = [
+    {
+      "id": uuid.v4(),
+      "type": "contact_us",
+      "title": "اتصل بنا",
+      "url": "https://wa.me/963987654321",
+      "updatedAt": DateTime.now().toIso8601String(),
+    },
+    {
+      "id": uuid.v4(),
+      "type": "share_app",
+      "title": "مشاركة التطبيق",
+      "url": "https://your-app-link.com",
+      "updatedAt": DateTime.now().toIso8601String(),
+    },
+    {
+      "id": uuid.v4(),
+      "type": "rate_us",
+      "title": "قيّم التطبيق",
+      "url": "https://play.google.com/store/apps/details?id=your.app.id",
+      "updatedAt": DateTime.now().toIso8601String(),
+    },
+    {
+      "id": uuid.v4(),
+      "type": "terms",
+      "title": "سياسة الخصوصية",
+      "url": "https://yourwebsite.com/privacy",
+      "updatedAt": DateTime.now().toIso8601String(),
+    },
+  ];
+
+  for (var item in dummyLinks) {
+    await firestore
+        .collection("app_links")
+        .doc(item["id"])
+        .set(item);
+  }
+
+  SharedPrefHelper.setBool("dummy_links_added", true);
+}

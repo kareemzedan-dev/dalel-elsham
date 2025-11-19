@@ -62,11 +62,7 @@ class CategoryProjectCardList extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     RoutesManager.projectDetails,
-                    arguments: {
-                      "projectId": state.projects[index].id,
-                      "projectName": state.projects[index].title,
-                      "watchCount": state.projects[index].views,
-                    },
+                    arguments: {"projectId": state.projects[index].id},
                   );
                 },
                 project: state.projects[index],

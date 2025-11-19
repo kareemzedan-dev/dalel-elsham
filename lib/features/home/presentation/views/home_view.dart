@@ -1,9 +1,12 @@
 import 'package:dalel_elsham/core/cache/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/routes/routes_manager.dart';
+import '../../../../core/di/di.dart';
 import '../tabs/dalel_elsham/presentation/views/dalel_elsham_tab_view.dart';
+import '../tabs/home/presentation/manager/app_links/get_all_app_links_view_model/get_all_app_links_view_model.dart';
 import '../tabs/home/presentation/widgets/drawer_content.dart';
 import '../tabs/home/presentation/widgets/custom_bottom_nav_bar.dart';
 import '../tabs/home/presentation/widgets/home_view_body.dart';
@@ -35,21 +38,19 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  late final List<Widget> _pages = const [
-    HomeViewBody(),
-    DalelElshamTabView(),
-  ];
+  late final List<Widget> _pages = const [HomeViewBody(), DalelElshamTabView()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:   Drawer(child: DrawerContent()),
+      drawer: BlocProvider(
+        create: (_) => getIt<GetAllAppLinksViewModel>()..getAllAppLinks(),
+        child: Drawer(child: DrawerContent()),
+      ),
+
       extendBody: true,
 
-      body: IndexedStack(
-        index: currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: currentIndex, children: _pages),
 
       floatingActionButton: SizedBox(
         height: 70.w,
@@ -61,7 +62,6 @@ class _HomeViewState extends State<HomeView> {
           onPressed: () {
             print("TOKEN: $authToken");
 
-            // مستخدم سجل دخول فقط يفتح صفحة إضافة إعلان
             if (authToken != null && authToken!.isNotEmpty) {
               Navigator.pushNamed(context, RoutesManager.addNewService);
               return;

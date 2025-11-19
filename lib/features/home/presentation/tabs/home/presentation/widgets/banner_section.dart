@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dalel_elsham/config/routes/routes_manager.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/domain/entities/banner_entity.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,7 @@ class _BannerSectionState extends State<BannerSection> {
       alignment: Alignment.bottomCenter,
       children: [
         _buildCarousel(),
-        Positioned(
-          bottom: 12.h,
-          child: _buildDotsIndicator(),
-        ),
+        Positioned(bottom: 12.h, child: _buildDotsIndicator()),
       ],
     );
   }
@@ -62,10 +60,20 @@ class _BannerSectionState extends State<BannerSection> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
             child: GestureDetector(
-              onTap: () => openUrl(widget.images[index].link!),
+              onTap: () {
+                if (widget.images[index].type == "external") {
+                  openUrl(widget.images[index].link!);
+                } else if (widget.images[index].type == "internal") {
+                  Navigator.pushNamed(
+                    context,
+                    RoutesManager.projectDetails,
+                    arguments: {"projectId": widget.images[index].projectId},
+                  );
+                }
+              },
               child: Image.network(
                 widget.images[index].imageUrl,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
                 width: double.infinity,
               ),
             ),

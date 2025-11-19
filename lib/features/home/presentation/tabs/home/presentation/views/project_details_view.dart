@@ -5,32 +5,51 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../core/components/custom_app_bar.dart';
 import '../../../../../../../core/di/di.dart';
 import '../manager/projects/get_project_details_view_model/get_project_details_view_model.dart';
+import '../manager/projects/get_project_details_view_model/get_project_details_view_model_states.dart';
 import '../widgets/project_details_view_body.dart';
 
 class ProjectDetailsView extends StatelessWidget {
-  const ProjectDetailsView({
-    super.key,
-    required this.projectId,
-    required this.projectName,
-    required this.watchCount,
-  });
+  final String projectId;
 
-  final String projectId, projectName;
-  final int watchCount;
+  const ProjectDetailsView({super.key, required this.projectId});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: projectName,
-        showWatch: true,
-        watchCount: watchCount.toString(),
-      ),
-      body: BlocProvider(
-        create: (context) =>
-            getIt<GetProjectDetailsViewModel>()..getProjectDetails(projectId),
-        child: const ProjectDetailsViewBody(),
-      ),
+    return BlocProvider(
+      create: (_) =>
+          getIt<GetProjectDetailsViewModel>()..getProjectDetails(projectId),
+      child:
+          BlocBuilder<
+            GetProjectDetailsViewModel,
+            GetProjectDetailsViewModelStates
+          >(
+            builder: (context, state) {
+              if (state is GetProjectDetailsViewModelLoading) {
+                return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              if (state is GetProjectDetailsViewModelError) {
+                return Scaffold(body: Center(child: Text(state.message)));
+              }
+
+              if (state is GetProjectDetailsViewModelSuccess) {
+                final project = state.project;
+
+                return Scaffold(
+                  appBar: CustomAppBar(
+                    title: project.title,
+                    showWatch: true,
+                    watchCount: project.views.toString(),
+                  ),
+                  body: const ProjectDetailsViewBody(),
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
+          ),
     );
   }
 }
