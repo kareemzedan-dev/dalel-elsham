@@ -69,7 +69,6 @@ class JobSeekerCard extends StatelessWidget {
     );
   }
 
-  /// 📍 الموقع والتاريخ
   Widget _buildLocationAndDate(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,

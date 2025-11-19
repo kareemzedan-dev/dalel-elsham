@@ -39,7 +39,7 @@ class JobOpportunitiesViewBody extends StatelessWidget {
                           );
                         }
                         if (state is GetAllOpportunitiesViewModelSuccess) {
-                          return JobSeekerCardList(jobs: state.jobs);
+                          return JobSeekerCardList(jobs: state.jobs, position: "opportunities",);
                         } else {
                           return const Center(
                             child: Text("حدث خطا ما"),

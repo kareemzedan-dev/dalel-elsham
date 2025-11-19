@@ -26,38 +26,42 @@ class JobSeekersViewBody extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: BlocBuilder<GetAllJobsViewModel, GetAllJobsViewModelStates>(
-                  builder: (context, state) {
-                    if (state is GetAllJobsViewModelLoading) {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 40),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
+                child:
+                    BlocBuilder<GetAllJobsViewModel, GetAllJobsViewModelStates>(
+                      builder: (context, state) {
+                        if (state is GetAllJobsViewModelLoading) {
+                          return const Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 40),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
 
-                    if (state is GetAllJobsViewModelSuccess) {
-                      if (state.jobs.isEmpty) {
+                        if (state is GetAllJobsViewModelSuccess) {
+                          if (state.jobs.isEmpty) {
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 40),
+                                child: Text("لا يوجد طلبات عمل حالياً"),
+                              ),
+                            );
+                          }
+
+                          return JobSeekerCardList(
+                            jobs: state.jobs,
+                            position: "job_seekers",
+                          );
+                        }
+
                         return const Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 40),
-                            child: Text("لا يوجد طلبات عمل حالياً"),
+                            child: Text("حدث خطأ ما"),
                           ),
                         );
-                      }
-
-                      return JobSeekerCardList(jobs: state.jobs);
-                    }
-
-                    return const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 40),
-                        child: Text("حدث خطأ ما"),
-                      ),
-                    );
-                  },
-                ),
+                      },
+                    ),
               ),
             ),
           ),

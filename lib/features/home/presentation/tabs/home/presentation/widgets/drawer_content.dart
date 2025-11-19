@@ -141,7 +141,9 @@ class _DrawerContentState extends State<DrawerContent> {
                     DrawerItem(
                       icon: Icons.phone_in_talk,
                       title: 'اتصل بنا',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesManager.contactUs);
+                      },
                     ),
 
                     DrawerItem(icon: Icons.settings, title: 'الإعدادات'),

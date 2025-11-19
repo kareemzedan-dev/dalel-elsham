@@ -19,6 +19,9 @@ class AssetsManager {
     static const String facebook = '$baseUrl/facebook.png';
 
     static const String instagram = '$baseUrl/instagram.png';
+    static const String twitter = '$baseUrl/twitter.png';
+    static const String linkedin = '$baseUrl/linkedin.png';
+    static const String youtube = '$baseUrl/youtube.png';
     static const String world = '$baseUrl/world.png';
     static const String location = '$baseUrl/location.png';
     static const String syria = '$baseUrl/country.jpg';
@@ -30,5 +33,6 @@ class AssetsManager {
     static const String onboarding4 = '$baseUrl/onboarding4.png';
     static const String loginImage = '$baseUrl/login_image.jpg';
     static const String addNewServiceImage = '$baseUrl/image.png';
+
 
 }
