@@ -261,6 +261,7 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                         views: 0,
                                         workTimeFrom: "",
                                         workTimeTo: "",
+                                        displaySections: [],
                                       ),
                                     );
                               },

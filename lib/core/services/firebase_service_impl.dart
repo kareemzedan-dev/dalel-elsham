@@ -101,6 +101,24 @@ class FirebaseServiceImpl implements FirebaseService {
     }).toList();
   }
 
+  @override
+  Future<List<Map<String, dynamic>>> getWhereArrayContains({
+    required String collection,
+    required String field,
+    required String value,
+  }) async {
+    final querySnapshot = await firestore
+        .collection(collection)
+        .where(field, arrayContains: value)
+        .get();
+
+    return querySnapshot.docs.map((doc) {
+      return {
+        "id": doc.id,
+        ...doc.data(),
+      };
+    }).toList();
+  }
 
 
 }

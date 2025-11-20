@@ -1,0 +1,8 @@
+abstract class UpdateProjectDisplaySectionViewModelStates {}
+class UpdateProjectDisplaySectionViewModelInitial extends UpdateProjectDisplaySectionViewModelStates {}
+class UpdateProjectDisplaySectionViewModelLoading extends UpdateProjectDisplaySectionViewModelStates {}
+class UpdateProjectDisplaySectionViewModelSuccess extends UpdateProjectDisplaySectionViewModelStates {}
+class UpdateProjectDisplaySectionViewModelError extends UpdateProjectDisplaySectionViewModelStates {
+  final String ? message;
+  UpdateProjectDisplaySectionViewModelError({this.message});
+}

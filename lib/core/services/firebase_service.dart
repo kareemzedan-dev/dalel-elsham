@@ -50,4 +50,12 @@ abstract class FirebaseService {
     required String field,
     required String value,
   });
+
+  /// البحث داخل قائمة (Array)
+  Future<List<Map<String, dynamic>>> getWhereArrayContains({
+    required String collection,
+    required String field,
+    required String value,
+  });
+
 }
