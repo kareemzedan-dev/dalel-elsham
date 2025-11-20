@@ -46,7 +46,7 @@ class ProjectDetailsViewBody extends StatelessWidget {
                             return BannerEntity(
                               id: UniqueKey().toString(),
                               imageUrl: img,
-                              type: "internal",
+                              type: "",
                               link: null,
                               projectId: state.project.id,
                               places: ["projects"],

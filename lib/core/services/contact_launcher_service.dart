@@ -9,6 +9,18 @@ class ContactLauncherService {
       print("❌ Cannot open URL: $url");
     }
   }
+  static Future<void> openMapByLink(String mapLink) async {
+    if (mapLink.isEmpty) {
+      print("❌ الرابط فارغ!");
+      return;
+    }
+
+    final Uri url = Uri.parse(mapLink);
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw "❌ لا يمكن فتح الرابط: $url";
+    }
+  }
 
   static Future<void> openWhatsApp(String phone) async {
     final cleanedPhone = _formatSyrianPhone(phone);

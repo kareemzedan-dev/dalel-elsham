@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/core/cache/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,7 +19,6 @@ class OnboardingHeader extends StatelessWidget {
   final int currentPage;
   final PageController controller;
 
-
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
@@ -31,14 +31,13 @@ class OnboardingHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 /// Indicators
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(
                     children: List.generate(
                       4,
-                          (index) => OnboardingIndicator(
+                      (index) => OnboardingIndicator(
                         index: index,
                         currentIndex: currentPage,
                       ),
@@ -54,10 +53,10 @@ class OnboardingHeader extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       /// تخطي
                       GestureDetector(
                         onTap: () {
+                          SharedPrefHelper.setBool("onboarding_skipped", true);
                           Navigator.pushReplacementNamed(
                             context,
                             RoutesManager.home,
@@ -75,6 +74,7 @@ class OnboardingHeader extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           if (currentPage == 3) {
+                            SharedPrefHelper.setBool("onboarding_skipped", true);
                             Navigator.pushReplacementNamed(
                               context,
                               RoutesManager.home,
@@ -84,7 +84,6 @@ class OnboardingHeader extends StatelessWidget {
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeInOut,
                             );
-
                           }
                         },
                         child: Row(
@@ -107,7 +106,6 @@ class OnboardingHeader extends StatelessWidget {
                     ],
                   ),
                 ),
-
               ],
             ),
           ),

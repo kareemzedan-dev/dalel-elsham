@@ -6,16 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../core/services/open_url_service.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
-
 class BannerSection extends StatefulWidget {
   const BannerSection({
     super.key,
     required this.images,
     this.showDotsOnTop = false,
+    this.disableAutoPlay = false,
   });
 
   final List<BannerEntity> images;
   final bool showDotsOnTop;
+
+  /// 🔥 لو true → يوقف التحريك التلقائي
+  final bool disableAutoPlay;
 
   @override
   State<BannerSection> createState() => _BannerSectionState();
@@ -61,16 +64,24 @@ class _BannerSectionState extends State<BannerSection> {
             borderRadius: BorderRadius.circular(12.r),
             child: GestureDetector(
               onTap: () {
-                if (widget.images[index].type == "external") {
-                  openUrl(widget.images[index].link!);
-                } else if (widget.images[index].type == "internal") {
+                final banner = widget.images[index];
+
+                /// لو النوع مش external ولا internal → متعملش حاجة
+                if (banner.type != "external" && banner.type != "internal") {
+                  return;
+                }
+
+                if (banner.type == "external") {
+                  openUrl(banner.link!);
+                } else if (banner.type == "internal") {
                   Navigator.pushNamed(
                     context,
                     RoutesManager.projectDetails,
-                    arguments: {"projectId": widget.images[index].projectId},
+                    arguments: {"projectId": banner.projectId},
                   );
                 }
               },
+
               child: Image.network(
                 widget.images[index].imageUrl,
                 fit: BoxFit.fill,
@@ -82,7 +93,8 @@ class _BannerSectionState extends State<BannerSection> {
       },
       options: CarouselOptions(
         height: 200.h,
-        autoPlay: true,
+        /// 🔥 هنا التفعيل أو الإيقاف
+        autoPlay: !widget.disableAutoPlay,
         autoPlayInterval: const Duration(seconds: 5),
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.easeInOut,

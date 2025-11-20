@@ -24,6 +24,7 @@ void main() async {
   await configureDependencies();
   await SharedPrefHelper.init();
 
+
   runApp(const DalelElsham());
 }
 

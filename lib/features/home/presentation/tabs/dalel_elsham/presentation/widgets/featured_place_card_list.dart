@@ -1,5 +1,10 @@
+import 'package:dalel_elsham/features/home/presentation/tabs/dalel_elsham/presentation/manager/get_all_place_view_model/get_all_place_view_model.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/dalel_elsham/presentation/manager/get_all_place_view_model/get_all_place_view_model_states.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../../core/di/di.dart';
 import 'featured_place_card.dart';
 
 class FeaturedPlaceCardList extends StatelessWidget {
@@ -7,17 +12,26 @@ class FeaturedPlaceCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return   FeaturedPlaceCard(
-          title: "جبل قاسيون",
-          description: "يمكنك الذهاب إلى الموقع أو التواصل معهم على الرقم مباشرة. يُعد جبل قاسيون من أبرز المعالم في دمشق، ويتميز بإطلالته الجميلة على المدينة.",
-          location: "الشام",
-        );
+    return BlocBuilder<GetAllPlaceViewModel, GetAllPlaceViewModelStates>(
+      builder: (context, state) {
+        if (state is GetAllPlaceViewModelLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is GetAllPlaceViewModelSuccess) {
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: state.places.length,
+            itemBuilder: (context, index) {
+              return FeaturedPlaceCard(place: state.places[index],);
+            },
+          );
+        }
+        if (state is GetAllPlaceViewModelError) {
+          return Center(child: Text(state.error));
+        }
+        return const SizedBox();
       },
     );
   }

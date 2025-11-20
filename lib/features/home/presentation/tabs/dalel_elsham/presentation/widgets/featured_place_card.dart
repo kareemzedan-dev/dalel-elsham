@@ -1,22 +1,19 @@
 import 'package:dalel_elsham/core/components/contact_button_card.dart';
+import 'package:dalel_elsham/core/services/phone_call_service.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/dalel_elsham/domain/entities/dalel_al_sham_place_entity.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/banner_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../core/services/contact_launcher_service.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
+import '../../../home/domain/entities/banner_entity.dart';
 
 class FeaturedPlaceCard extends StatelessWidget {
-  const FeaturedPlaceCard({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.location,
-  });
+  const FeaturedPlaceCard({super.key, required this.place});
 
-  final String title;
-  final String description;
-  final String location;
+  final DalelAlShamPlaceEntity place;
 
   @override
   Widget build(BuildContext context) {
@@ -36,56 +33,76 @@ class FeaturedPlaceCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ClipRRect(
-              //   borderRadius: BorderRadius.only(
-              //     topLeft: Radius.circular(12.r),
-              //     topRight: Radius.circular(12.r),
-              //   ),
-              //   child: const BannerSection(showDotsOnTop: true,
-              //     images: [
-              //       AssetsManager.banner,
-              //       AssetsManager.banner2,
-              //
-              //     ],
-              //   ),
-              // ),
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.r),
+                  topRight: Radius.circular(12.r),
+                ),
+                child: BannerSection(
+                  showDotsOnTop: true,
+                  disableAutoPlay: true,
+                  images: place.images.map((img) {
+                    return BannerEntity(
+                      id: UniqueKey().toString(),
+                      imageUrl: img,
+                      type:"",
+                      link: null,
+                      projectId: null,
+                      places: ["dalel_al_sham"],
+                      isActive: true,
+                      order: 0,
+                      createdAt: DateTime.now(),
+                    );
+                  }).toList(),
+                ),
+              ),
 
               Padding(
                 padding: EdgeInsets.all(12.w),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
+                    Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            title,
-                            style: Theme.of(context).textTheme.titleLarge
-                                ?.copyWith(fontWeight: FontWeight.bold,fontSize: 16.sp),
+                            place.name,
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
+                            ),
                           ),
                           SizedBox(height: 8.h),
+
                           Text(
-                            description,
+                            place.description,
                             textAlign: TextAlign.justify,
+                            softWrap: true,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.5,
-                                  fontSize: 14.sp,
-                                ),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              height: 1.5,
+                              fontSize: 14.sp,
+                            ),
                           ),
+
                           SizedBox(height: 8.h),
                           Row(
                             children: [
                               Icon(Icons.location_on_outlined, size: 16.sp),
                               SizedBox(width: 4.w),
-                              Text(
-                                location,
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(fontWeight: FontWeight.w500,fontSize: 14.sp),
+                              Expanded(
+                                child: Text(
+                                  place.addressText,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -93,13 +110,26 @@ class FeaturedPlaceCard extends StatelessWidget {
                       ),
                     ),
 
+
                     SizedBox(width: 12.w),
 
                     Row(
                       children: [
-                        ContactButtonCard(image: AssetsManager.phoneCall),
+                        ContactButtonCard(
+                          image: AssetsManager.phoneCall,
+                          onTap: () {
+                            PhoneCallService.callNumber(place.phone);
+                          },
+                        ),
                         SizedBox(width: 8.w),
-                        ContactButtonCard(image: AssetsManager.location),
+                        ContactButtonCard(
+                          image: AssetsManager.location,
+                          onTap: () {
+                            ContactLauncherService.openMapByLink(
+                              place.mapLink ?? "",
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ],

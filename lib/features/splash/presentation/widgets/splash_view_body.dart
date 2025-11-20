@@ -15,6 +15,7 @@ class SplashViewBody extends StatefulWidget {
 
 class _SplashViewBodyState extends State<SplashViewBody> {
   final token = SharedPrefHelper.getString("auth_token");
+  final onboardingSkipped = SharedPrefHelper.getBool("onboarding_skipped");
 
   @override
   void initState() {
@@ -23,7 +24,12 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       if (token != null) {
         Navigator.pushReplacementNamed(context, RoutesManager.home);
       } else {
-        Navigator.pushReplacementNamed(context, RoutesManager.onboarding);
+        if (onboardingSkipped ?? false) {
+
+          Navigator.pushReplacementNamed(context, RoutesManager.home);
+        } else {
+          Navigator.pushReplacementNamed(context, RoutesManager.onboarding);
+        }
       }
     });
   }
