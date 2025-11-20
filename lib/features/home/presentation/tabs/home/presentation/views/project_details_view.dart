@@ -38,11 +38,13 @@ class ProjectDetailsView extends StatelessWidget {
                 final project = state.project;
 
                 return Scaffold(
-                  appBar: CustomAppBar(
-                    title: project.title,
-                    showWatch: true,
-                    watchCount: project.views.toString(),
-                  ),
+                  appBar: project.viewCountOn == false
+                      ? CustomAppBar(title: project.title, showWatch: false)
+                      : CustomAppBar(
+                          title: project.title,
+                          showWatch: true,
+                          watchCount: project.views.toString(),
+                        ),
                   body: const ProjectDetailsViewBody(),
                 );
               }

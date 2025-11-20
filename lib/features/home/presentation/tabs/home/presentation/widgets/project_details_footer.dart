@@ -3,7 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 
 class ProjectDetailsFooter extends StatelessWidget {
-  const ProjectDetailsFooter({super.key});
+  const ProjectDetailsFooter({super.key, required this.onLocationTab, required this.onPhoneTab,required this.showPhoneButton,required this.showLocationButton});
+  final VoidCallback onLocationTab;
+  final VoidCallback onPhoneTab;
+  final bool showPhoneButton,showLocationButton;
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +19,23 @@ class ProjectDetailsFooter extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children:   [
+            if (showLocationButton)
             _FooterButton(
               icon: Icons.location_on_outlined,
               label: "الموقع",
               backgroundColor: ColorsManager.primaryColor,
               iconColor: Colors.white,
-              onTap: () {},
+              onTap:  onLocationTab,
 
             ),
+            if (showPhoneButton)
+
             _FooterButton(
               icon: Icons.phone,
               label: "الاتصال",
               backgroundColor: Colors.blue,
               iconColor: Colors.white,
-              onTap: () {},
+              onTap: onPhoneTab,
             ),
           ],
         ),

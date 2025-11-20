@@ -27,6 +27,8 @@ class ProjectEntity {
   final String? workTimeFrom;
   final String? workTimeTo;
   final List<String> displaySections;
+  final bool viewCountOn;
+
 
 
 
@@ -54,5 +56,6 @@ class ProjectEntity {
     this.workTimeFrom,
     this.workTimeTo,
     required this.displaySections,
+    this.viewCountOn = false,
   });
 }

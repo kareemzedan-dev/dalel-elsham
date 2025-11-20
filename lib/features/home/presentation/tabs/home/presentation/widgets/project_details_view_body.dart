@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/core/services/contact_launcher_service.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/projects/get_project_details_view_model/get_project_details_view_model.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/projects/get_project_details_view_model/get_project_details_view_model_states.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/project_details_contacts.dart';
@@ -9,6 +10,7 @@ import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/w
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../core/services/phone_call_service.dart';
 import '../../../../../../../core/utils/assets_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 import '../../domain/entities/banner_entity.dart';
@@ -63,26 +65,29 @@ class ProjectDetailsViewBody extends StatelessWidget {
                           location: state.project.location,
                         ),
                         SizedBox(height: 8.h),
-                          ProjectDetailsContacts(
-                          facebook: state.project.facebook??"",
-                          instagram: state.project.instagram??"",
-                          whatsapp: state.project.whatsapp??"",
-                          website: state.project.website??"",
+                        ProjectDetailsContacts(
+                          facebook: state.project.facebook ?? "",
+                          instagram: state.project.instagram ?? "",
+                          whatsapp: state.project.whatsapp ?? "",
+                          website: state.project.website ?? "",
                         ),
                         SizedBox(height: 8.h),
                         ProjectDetailsDescription(
                           description: state.project.description,
                         ),
                         SizedBox(height: 16.h),
+                        if (state.project.workTimeFrom != null &&
+                            state.project.workTimeTo != null)
                           ProjectDetailsWorkTime(
-                          workTimeFrom:  state.project.workTimeFrom ?? "",
-                          workTimeTo:  state.project.workTimeTo ?? "",
-                        ),
+                            workTimeFrom: state.project.workTimeFrom ?? "",
+                            workTimeTo: state.project.workTimeTo ?? "",
+                          ),
                         SizedBox(height: 8.h),
                         Divider(thickness: 1.w, color: Colors.grey),
                         SizedBox(height: 16.h),
+                        if (state.project.additionalImages.isNotEmpty)
                           ProjectDetailsGallery(
-                            images: state.project.images,
+                            images: state.project.additionalImages,
                           ),
                       ],
                     ),
@@ -90,7 +95,18 @@ class ProjectDetailsViewBody extends StatelessWidget {
                 ),
               ),
 
-              const ProjectDetailsFooter(),
+              ProjectDetailsFooter(
+                onLocationTab: () {
+                  ContactLauncherService.openMapByLink(
+                    state.project.mapLink ?? "",
+                  );
+                },
+                showLocationButton: state.project.mapLink != null,
+                showPhoneButton: state.project.phone != null,
+                onPhoneTab: () {
+                  PhoneCallService.callNumber(state.project.phone ?? "");
+                },
+              ),
             ],
           );
         }
