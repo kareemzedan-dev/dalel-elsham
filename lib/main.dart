@@ -1,4 +1,5 @@
 import 'package:dalel_elsham/config/theme/app_theme.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uuid/uuid.dart';
@@ -25,6 +26,13 @@ void main() async {
   await SharedPrefHelper.init();
 
 
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
   runApp(const DalelElsham());
 }
 

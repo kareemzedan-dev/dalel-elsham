@@ -33,34 +33,30 @@ class CustomBottomNavBar extends StatelessWidget {
 
 
           clipBehavior: Clip.antiAlias,
-          child: SizedBox(
-            height: 70.h,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildNavItem(
-                  icon: FontAwesomeIcons.house,
-                  label: 'الرئيسيه',
-                  isActive: currentIndex == 0,
-                  onTap: () => onItemTapped(0),
-                  context: context,
-                ),
-                const SizedBox(width: 40),
-                _buildNavItem(
-                  icon: FontAwesomeIcons.mapLocation,
-                  label: 'دليل الشام',
-                  isActive: currentIndex == 1,
-                  onTap: () => onItemTapped(1),
-                  context: context,
-                ),
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavItem(
+                icon: FontAwesomeIcons.house,
+                label: 'الرئيسيه',
+                isActive: currentIndex == 0,
+                onTap: () => onItemTapped(0),
+                context: context,
+              ),
+              const SizedBox(width: 40),
+              _buildNavItem(
+                icon: FontAwesomeIcons.mapLocation,
+                label: 'دليل الشام',
+                isActive: currentIndex == 1,
+                onTap: () => onItemTapped(1),
+                context: context,
+              ),
+            ],
           ),
         ),
       ),
     );
   }
-
   Widget _buildNavItem({
     required IconData icon,
     required String label,
@@ -68,27 +64,35 @@ class CustomBottomNavBar extends StatelessWidget {
     required VoidCallback onTap,
     required BuildContext context,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 24.sp,
-            color: isActive ? ColorsManager.primaryColor : Colors.grey,
-          ),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: 14.sp,
-              color:
-              isActive ? ColorsManager.primaryColor : Colors.grey,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.35,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 24.sp,
+              color: isActive ? ColorsManager.primaryColor : Colors.grey,
             ),
-          ),
-        ],
+            SizedBox(height: 4.h),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                fontSize: 14.sp,
+                color: isActive
+                    ? ColorsManager.primaryColor
+                    : Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dart_either/dart_either.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../core/cache/shared_preferences.dart';
@@ -53,12 +54,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // 3) Get Firebase token
       final token = await user.getIdToken(true);
 
-      // 4) Save in SharedPreferences
-      await SharedPrefHelper.setString("auth_token", token!);
+// 🔥 Get FCM Token
+      final fcmToken = await FirebaseMessaging.instance.getToken();
 
+// 4) Save in SharedPreferences
+      await SharedPrefHelper.setString("auth_token", token!);
       await SharedPrefHelper.setString("user_name", name);
       await SharedPrefHelper.setString("user_email", email);
       await SharedPrefHelper.setString("user_phone", phone);
+
+// 🔥 Save FCM Token in Firestore
+      await _firestore.collection("users").doc(uid).update({
+        "fcmToken": fcmToken,
+      });
+
 
       return Right(userData);
     } catch (e) {
@@ -97,11 +106,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // 3) Get token from Firebase
       final token = await user.getIdToken(true);
 
-      // 4) Save it
+// 🔥 Get new FCM Token
+      final fcmToken = await FirebaseMessaging.instance.getToken();
+
+// 4) Save it
       await SharedPrefHelper.setString("auth_token", token!);
       await SharedPrefHelper.setString("user_name", authUser.name);
-
       await SharedPrefHelper.setString("user_email", email);
+
+// 🔥 Update FCM Token in Firestore
+      await _firestore.collection("users").doc(uid).update({
+        "fcmToken": fcmToken,
+      });
+
 
       return Right(authUser);
     } catch (e) {
