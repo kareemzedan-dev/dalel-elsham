@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../core/components/add_floating_button.dart';
 import '../../../../../../../core/components/custom_app_bar.dart';
+import '../../../../../../../core/di/di.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
+import '../manager/jobs/get_all_opportunities_view_model/get_all_opportunities_view_model.dart';
 import '../widgets/job_opportunities_view_body.dart';
 import 'job_offer_form_view.dart';
 
@@ -22,7 +25,10 @@ class JobOpportunitiesView extends StatelessWidget {
           );
         },
       ),
-      body: const JobOpportunitiesViewBody(),
+      body:   BlocProvider(
+        create: (_) => getIt<GetAllOpportunitiesViewModel>()..getAllOpportunities(),
+        child: const JobOpportunitiesViewBody(),
+      )
     );
   }
 }

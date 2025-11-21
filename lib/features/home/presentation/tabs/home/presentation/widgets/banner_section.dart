@@ -1,24 +1,26 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dalel_elsham/config/routes/routes_manager.dart';
-import 'package:dalel_elsham/features/home/presentation/tabs/home/domain/entities/banner_entity.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../config/routes/routes_manager.dart';
 import '../../../../../../../core/services/open_url_service.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
+import '../../domain/entities/banner_entity.dart';
 class BannerSection extends StatefulWidget {
   const BannerSection({
     super.key,
     required this.images,
     this.showDotsOnTop = false,
     this.disableAutoPlay = false,
+    this.onDelete,
   });
 
   final List<BannerEntity> images;
   final bool showDotsOnTop;
-
-  /// 🔥 لو true → يوقف التحريك التلقائي
   final bool disableAutoPlay;
+
+  /// 🔥 دالة الحذف الجديدة
+  final Function(String bannerId)? onDelete;
 
   @override
   State<BannerSection> createState() => _BannerSectionState();
@@ -58,42 +60,64 @@ class _BannerSectionState extends State<BannerSection> {
     return CarouselSlider.builder(
       itemCount: widget.images.length,
       itemBuilder: (context, index, realIndex) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.w),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: GestureDetector(
-              onTap: () {
-                final banner = widget.images[index];
+        final banner = widget.images[index];
 
-                /// لو النوع مش external ولا internal → متعملش حاجة
-                if (banner.type != "external" && banner.type != "internal") {
-                  return;
-                }
-
-                if (banner.type == "external") {
-                  openUrl(banner.link!);
-                } else if (banner.type == "internal") {
-                  Navigator.pushNamed(
-                    context,
-                    RoutesManager.projectDetails,
-                    arguments: {"projectId": banner.projectId},
-                  );
-                }
-              },
-
-              child: Image.network(
-                widget.images[index].imageUrl,
-                fit: BoxFit.fill,
-                width: double.infinity,
+        return Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: GestureDetector(
+                  onTap: () {
+                    if (banner.type == "external") {
+                      openUrl(banner.link!);
+                    } else if (banner.type == "internal") {
+                      Navigator.pushNamed(
+                        context,
+                        RoutesManager.projectDetails,
+                        arguments: {"projectId": banner.projectId},
+                      );
+                    }
+                  },
+                  child: Image.network(
+                    banner.imageUrl,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                  ),
+                ),
               ),
             ),
-          ),
+
+            /// ---------------- زر الحذف ----------------
+            Positioned(
+              top: 12,
+              right: 12,
+              child: InkWell(
+                onTap: () {
+                  if (widget.onDelete != null) {
+                    widget.onDelete!(banner.id); // ← إرسال ID
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.all(6.w),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.8),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                    size: 20.sp,
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
       options: CarouselOptions(
         height: 200.h,
-        /// 🔥 هنا التفعيل أو الإيقاف
         autoPlay: !widget.disableAutoPlay,
         autoPlayInterval: const Duration(seconds: 5),
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
@@ -107,7 +131,7 @@ class _BannerSectionState extends State<BannerSection> {
 
   Widget _buildDotsIndicator() {
     return DotsIndicator(
-      dotsCount: widget.images.length,
+      dotsCount: widget.images.length > 0 ? widget.images.length : 1,
       position: _currentIndex.toDouble(),
       decorator: DotsDecorator(
         activeColor: ColorsManager.primaryColor,

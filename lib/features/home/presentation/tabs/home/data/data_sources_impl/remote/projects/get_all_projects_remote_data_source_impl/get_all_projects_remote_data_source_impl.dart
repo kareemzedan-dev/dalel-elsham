@@ -10,6 +10,7 @@ import '../../../../models/project_model.dart';
 @Injectable(as: GetAllProjectsRemoteDataSource)
 class GetAllProjectsRemoteDataSourceImpl
     implements GetAllProjectsRemoteDataSource {
+
   final FirebaseService fireStoreService;
 
   GetAllProjectsRemoteDataSourceImpl(this.fireStoreService);
@@ -22,12 +23,17 @@ class GetAllProjectsRemoteDataSourceImpl
         return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
       }
 
-      // 2) جلب البيانات من Firestore عبر FirebaseService
+      // 2) جلب البيانات من Firestore
       final List<Map<String, dynamic>> rawData =
       await fireStoreService.getCollection(collection: "projects");
 
-      // 3) تحويل البيانات إلى ProjectEntity
-      final projects = rawData.map((data) {
+      // 3) فلترة المشاريع المعتمدة فقط
+      final filtered = rawData.where((item) {
+        return item["status"] == "approved";
+      }).toList();
+
+      // 4) تحويل البيانات
+      final projects = filtered.map((data) {
         return ProjectModel.fromMap(
           data,
           data['id'] ?? "",
@@ -35,6 +41,7 @@ class GetAllProjectsRemoteDataSourceImpl
       }).toList();
 
       return Right(projects);
+
     } catch (e) {
       return Left(ServerFailure("حدث خطأ أثناء جلب المشاريع: $e"));
     }

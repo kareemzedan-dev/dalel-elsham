@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../../../../core/di/di.dart';
 
 import 'Job_seeker_card_list.dart';
+import 'banner_section_for_opportunities_and_jobs.dart';
 import 'custom_search_bar.dart';
 import 'jobs_header.dart';
 
@@ -20,13 +22,25 @@ class JobSeekersViewBody extends StatelessWidget {
       create: (context) => getIt<GetAllJobsViewModel>()..getAllJobs(),
       child: Column(
         children: [
-          JobsHeader(searchHint: "أضف طلب عمل"),
+          JobsHeader(
+            searchHint: "أضف طلب عمل",
+            onChanged: (value) {
+              context.read<GetAllJobsViewModel>().searchJobs(value);
+            },
+          ),
 
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child:
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  children: [
+                    BannerSectionForOpportunitiesAndJobs(
+                      position: "job_seekers",
+                    ),
+
+                    SizedBox(height: 16.h),
+
                     BlocBuilder<GetAllJobsViewModel, GetAllJobsViewModelStates>(
                       builder: (context, state) {
                         if (state is GetAllJobsViewModelLoading) {
@@ -40,10 +54,26 @@ class JobSeekersViewBody extends StatelessWidget {
 
                         if (state is GetAllJobsViewModelSuccess) {
                           if (state.jobs.isEmpty) {
-                            return const Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 40),
-                                child: Text("لا يوجد طلبات عمل حالياً"),
+                            return SizedBox(
+
+                              height: 350.h,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Lottie.asset(
+                                    "assets/lottie/Loading.json",
+                                    height: 200.h,
+                                    width: 200.w,
+                                  ),
+                                  SizedBox(height: 16.h),
+                                  Text(
+                                    "لا يوجد طلبات عمل حالياً",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           }
@@ -62,6 +92,8 @@ class JobSeekersViewBody extends StatelessWidget {
                         );
                       },
                     ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -5,10 +5,12 @@ import 'custom_search_bar.dart';
 
 class JobsHeader extends StatelessWidget {
   final String searchHint;
+  final  Function(String)? onChanged;
 
   const JobsHeader({
     super.key,
     required this.searchHint,
+    this.onChanged,
   });
 
   @override
@@ -42,7 +44,7 @@ class JobsHeader extends StatelessWidget {
               Expanded(
                 child: CustomSearchBar(
                   hintText: searchHint,
-                  onChanged: (value) {},
+                  onChanged: onChanged,
                 ),
               ),
             ],

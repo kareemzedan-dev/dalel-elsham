@@ -17,7 +17,7 @@ class AddNewServiceView extends StatelessWidget {
       appBar: CustomAppBar(title: "أضف اعلانك"),
       body: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => getIt<GetAllCategoriesViewModel>()),
+          BlocProvider(create: (context) => getIt<GetAllCategoriesViewModel>()..getAllCategories()),
           BlocProvider(create: (context) => getIt<AddNewServiceViewModel>()),
         ],
 

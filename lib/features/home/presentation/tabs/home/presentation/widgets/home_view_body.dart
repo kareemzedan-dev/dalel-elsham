@@ -1,3 +1,9 @@
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/banner_section_skeleton.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/category_item_list_skeleton.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/display_sections_skeleton.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/project_item_skeleton.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/project_list_skeleton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +25,7 @@ import '../manager/projects/get_projects_by_display_section_view_model/get_proje
 import '../manager/projects/get_newest_projects_view_model/get_newest_projects_view_model.dart';
 import '../manager/projects/get_newest_projects_view_model/get_newest_projects_view_model_states.dart';
 
+import '../views/search_for_projects_view.dart';
 import 'banner_section.dart';
 import 'categories_section.dart';
 import 'top_bar_section.dart';
@@ -38,7 +45,38 @@ class HomeViewBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TopBarSection(),
+              TopBarSection(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 350),
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        final fade = Tween<double>(begin: 0, end: 1)
+                            .animate(animation);
+
+                        final slide = Tween<Offset>(
+                          begin: Offset(0, 0.15),
+                          end: Offset.zero,
+                        ).animate(CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeOut,
+                        ));
+
+                        return FadeTransition(
+                          opacity: fade,
+                          child: SlideTransition(
+                            position: slide,
+                            child: const SearchForProjectsView(),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+
+                },
+              ),
+
               SizedBox(height: 30.h),
 
               /// ---------------- BANNERS ----------------
@@ -56,10 +94,11 @@ class HomeViewBody extends StatelessWidget {
                   builder: (context, state) {
                     if (state
                     is GetAllProjectDisplaySectionsViewModelLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return Center(
+                        child: DisplaySectionsSkeleton(),
                       );
                     }
+
 
                     if (state
                     is GetAllProjectDisplaySectionsViewModelSuccess) {
@@ -109,7 +148,7 @@ class HomeViewBody extends StatelessWidget {
                       );
                     }
 
-                    return const SizedBox.shrink();
+                    return const DisplaySectionsSkeleton();
                   },
                 ),
               ),
@@ -132,12 +171,12 @@ class HomeViewBody extends StatelessWidget {
           GetBannersByPositionViewModelStates>(
         builder: (context, state) {
           if (state is GetBannersByPositionViewModelStatesLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return BannerSectionSkeleton();
           }
           if (state is GetBannersByPositionViewModelStatesSuccess) {
             return BannerSection(images: state.banners);
           }
-          return const SizedBox.shrink();
+          return const BannerSectionSkeleton();
         },
       ),
     );
@@ -150,12 +189,14 @@ class HomeViewBody extends StatelessWidget {
           GetAllCategoriesViewModelStates>(
         builder: (context, state) {
           if (state is GetAllCategoriesViewModelLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return CategoryItemListSkeleton();
           }
           if (state is GetAllCategoriesViewModelSuccess) {
             return CategoriesSection(categoriesList: state.categories);
           }
-          return const SizedBox.shrink();
+          return const CategoryItemListSkeleton(
+
+          );
         },
       ),
     );
@@ -171,12 +212,12 @@ class HomeViewBody extends StatelessWidget {
             GetNewestProjectsViewModelStates>(
           builder: (context, state) {
             if (state is GetNewestProjectsViewModelLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return ProjectListSkeleton();
             }
             if (state is GetNewestProjectsViewModelSuccess) {
               return ProjectsList(projects: state.projects);
             }
-            return const SizedBox.shrink();
+            return const ProjectListSkeleton();
           },
         ),
       ),

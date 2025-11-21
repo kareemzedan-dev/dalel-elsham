@@ -28,12 +28,19 @@ class JobSeekerCard extends StatelessWidget {
           border: Border.all(color: Colors.grey.shade300, width: 1.5.w),
         ),
         padding: EdgeInsets.all(12.w),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
           children: [
-            Expanded(child: _buildUserInfo(context)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _buildUserInfo(context)),
 
-            _buildAvatarAndContact(),
+                _buildAvatarAndContact(),
+
+              ],
+            ),
+            SizedBox(height: 8.h),
+            _buildLocationAndDate(context),
           ],
         ),
       ),
@@ -63,8 +70,7 @@ class JobSeekerCard extends StatelessWidget {
             fontSize: 14.sp,
           ),
         ),
-        SizedBox(height: 8.h),
-        _buildLocationAndDate(context),
+
       ],
     );
   }
@@ -79,30 +85,42 @@ class JobSeekerCard extends StatelessWidget {
           color: ColorsManager.primaryColor,
         ),
         SizedBox(width: 4.w),
-        Text(
-          job.location,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
+        Flexible(
+          child: Text(
+            job.location,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
           ),
         ),
-        SizedBox(width: 30.w),
+
+        SizedBox(width: 12.w),
+
         Icon(
           Icons.access_time_rounded,
           size: 16.sp,
           color: ColorsManager.primaryColor,
         ),
         SizedBox(width: 4.w),
-        Text(
-          DateFormat.yMMMd().format(job.createdAt),
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
+
+        Flexible(
+          child: Text(
+            DateFormat('yyyy-MM-dd').format(job.createdAt),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
           ),
         ),
       ],
     );
   }
+
 
   Widget _buildAvatarAndContact() {
     return Column(

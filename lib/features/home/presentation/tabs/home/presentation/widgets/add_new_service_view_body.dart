@@ -130,42 +130,41 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
 
                       SizedBox(height: 20.h),
 
-                      BlocBuilder<
-                        GetAllCategoriesViewModel,
-                        GetAllCategoriesViewModelStates
-                      >(
-                        builder: (context, state) {
-                          final categories =
-                              state is GetAllCategoriesViewModelSuccess
-                              ? state.categories
-                              : <CategoryEntity>[];
+                BlocBuilder<GetAllCategoriesViewModel, GetAllCategoriesViewModelStates>(
+                  builder: (context, state) {
+                    if (state is GetAllCategoriesViewModelLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                          CategoryEntity? selectedEntity;
+                    // نحصل على الفئات بشكل صحيح
+                    final List<CategoryEntity> categories =
+                    state is GetAllCategoriesViewModelSuccess
+                        ? state.categories
+                        : [];
 
-                          if (selectedCategory != null) {
-                            try {
-                              selectedEntity = categories.firstWhere(
-                                (e) => e.id == selectedCategory,
-                              );
-                            } catch (_) {}
-                          }
+                    // selectedEntity لو عايز تخليها CategoryEntity بدل String
+                    CategoryEntity? selectedEntity;
+                    if (selectedCategory != null) {
+                      for (var cat in categories) {
+                        if (cat.id == selectedCategory) {
+                          selectedEntity = cat;
+                          break;
+                        }
+                      }
+                    }
 
-                          return CategoryDropdownWidget(
-                            categories: categories,
-                            selectedValue: selectedEntity,
-                            onTap: () {
-                              context
-                                  .read<GetAllCategoriesViewModel>()
-                                  .getAllCategories();
-                            },
-                            onChanged: (value) {
-                              setState(() => selectedCategory = value?.id);
-                            },
-                          );
-                        },
-                      ),
+                    return CategoryDropdownWidget(
+                      categories: categories,
+                      selectedValue: selectedEntity,
+                      onChanged: (value) {
+                        setState(() => selectedCategory = value?.id);
+                      },
+                    );
+                  },
+                ),
 
-                      SizedBox(height: 20.h),
+
+                SizedBox(height: 20.h),
 
                       CustomTextFormField(
                         hintText: "الموقع",

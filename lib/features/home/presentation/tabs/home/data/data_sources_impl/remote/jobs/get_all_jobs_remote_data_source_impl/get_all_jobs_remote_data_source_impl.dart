@@ -34,7 +34,7 @@ class GetAllJobsRemoteDataSourceImpl implements GetAllJobsRemoteDataSource {
         final String status =
         (item["status"] ?? "").toString().trim().toLowerCase();
 
-        return isActive && status == "accepted";
+        return isActive && status == "approved";
       }).toList();
 
       print("FILTERED JOBS: $filtered"); // 👈 اطبع بعد الفلترة

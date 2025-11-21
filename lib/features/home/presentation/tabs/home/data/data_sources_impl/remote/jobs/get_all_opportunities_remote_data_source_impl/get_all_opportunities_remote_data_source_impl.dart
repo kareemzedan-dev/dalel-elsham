@@ -31,7 +31,7 @@ class GetAllOpportunitiesRemoteDataSourceImpl
       );
 
       final filtered = data.where((item) {
-        return item["status"] == "accepted" &&
+        return item["status"] == "approved" &&
             item["isActive"] == true;
       }).toList();
 
