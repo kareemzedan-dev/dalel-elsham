@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/core/cache/shared_preferences.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/categories/get_all_categories_view_model/get_all_categories_view_model.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/categories/get_all_categories_view_model/get_all_categories_view_model_states.dart';
 import 'package:flutter/material.dart';
@@ -130,41 +131,45 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
 
                       SizedBox(height: 20.h),
 
-                BlocBuilder<GetAllCategoriesViewModel, GetAllCategoriesViewModelStates>(
-                  builder: (context, state) {
-                    if (state is GetAllCategoriesViewModelLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
+                      BlocBuilder<
+                        GetAllCategoriesViewModel,
+                        GetAllCategoriesViewModelStates
+                      >(
+                        builder: (context, state) {
+                          if (state is GetAllCategoriesViewModelLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
 
-                    // نحصل على الفئات بشكل صحيح
-                    final List<CategoryEntity> categories =
-                    state is GetAllCategoriesViewModelSuccess
-                        ? state.categories
-                        : [];
+                          // نحصل على الفئات بشكل صحيح
+                          final List<CategoryEntity> categories =
+                              state is GetAllCategoriesViewModelSuccess
+                              ? state.categories
+                              : [];
 
-                    // selectedEntity لو عايز تخليها CategoryEntity بدل String
-                    CategoryEntity? selectedEntity;
-                    if (selectedCategory != null) {
-                      for (var cat in categories) {
-                        if (cat.id == selectedCategory) {
-                          selectedEntity = cat;
-                          break;
-                        }
-                      }
-                    }
+                          // selectedEntity لو عايز تخليها CategoryEntity بدل String
+                          CategoryEntity? selectedEntity;
+                          if (selectedCategory != null) {
+                            for (var cat in categories) {
+                              if (cat.id == selectedCategory) {
+                                selectedEntity = cat;
+                                break;
+                              }
+                            }
+                          }
 
-                    return CategoryDropdownWidget(
-                      categories: categories,
-                      selectedValue: selectedEntity,
-                      onChanged: (value) {
-                        setState(() => selectedCategory = value?.id);
-                      },
-                    );
-                  },
-                ),
+                          return CategoryDropdownWidget(
+                            categories: categories,
+                            selectedValue: selectedEntity,
+                            onChanged: (value) {
+                              setState(() => selectedCategory = value?.id);
+                            },
+                          );
+                        },
+                      ),
 
-
-                SizedBox(height: 20.h),
+                      SizedBox(height: 20.h),
 
                       CustomTextFormField(
                         hintText: "الموقع",
@@ -262,6 +267,9 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                         workTimeTo: "",
                                         displaySections: [],
                                         viewCountOn: false,
+                                        userId: SharedPrefHelper.getString(
+                                          "user_id",
+                                        )!,
                                       ),
                                     );
                               },

@@ -47,6 +47,7 @@ class UpdateProjectRemoteDataSourceImpl implements UpdateProjectRemoteDataSource
         workTimeTo: project.workTimeTo,
         displaySections: project.displaySections,
         viewCountOn: project.viewCountOn,
+        userId: project.userId,
       );
 
       // 📝 3) تحديث الداتا

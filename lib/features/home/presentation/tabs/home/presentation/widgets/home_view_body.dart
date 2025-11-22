@@ -5,6 +5,7 @@ import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/w
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../../../core/di/di.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 import '../manager/banners/get_banners_by_position_view_model/get_banners_by_position_view_model.dart';
 import '../manager/banners/get_banners_by_position_view_model/get_banners_by_position_view_model_states.dart';
@@ -92,8 +93,8 @@ class HomeViewBody extends StatelessWidget {
 
                 /// DISPLAY SECTIONS
                 BlocBuilder<
-                  GetAllProjectDisplaySectionsViewModel,
-                  GetAllProjectDisplaySectionsViewModelStates
+                    GetAllProjectDisplaySectionsViewModel,
+                    GetAllProjectDisplaySectionsViewModelStates
                 >(
                   builder: (context, state) {
                     if (state is GetAllProjectDisplaySectionsViewModelLoading) {
@@ -121,7 +122,7 @@ class HomeViewBody extends StatelessWidget {
                           _buildCategories(),
                           SizedBox(height: 30.h),
 
-                          _buildProjectSection(first.id, first.title),
+                          _buildProjectSection(first.id, first.title, context),
                           SizedBox(height: 30.h),
 
                           const ServicesSection(),
@@ -131,9 +132,9 @@ class HomeViewBody extends StatelessWidget {
                           SizedBox(height: 30.h),
 
                           ...others.map(
-                            (sec) => Padding(
+                                (sec) => Padding(
                               padding: EdgeInsets.only(bottom: 30.h),
-                              child: _buildProjectSection(sec.id, sec.title),
+                              child: _buildProjectSection(sec.id, sec.title, context),
                             ),
                           ),
                         ],
@@ -152,7 +153,6 @@ class HomeViewBody extends StatelessWidget {
       ),
     );
   }
-
   // ============================================================
   // BANNERS
   // ============================================================
@@ -224,38 +224,45 @@ class HomeViewBody extends StatelessWidget {
   // PROJECT SECTION
   // ============================================================
 
-  Widget _buildProjectSection(String id, String title) {
-    return SectionWidget(
-      title: title,
-      child:
-          BlocBuilder<
-            GetProjectsByDisplaySectionViewModel,
-            GetProjectsByDisplaySectionViewModelStates
-          >(
-            builder: (context, state) {
-              if (state is GetProjectsByDisplaySectionViewModelStatesLoading) {
-                return const ProjectListSkeleton();
-              }
+  Widget _buildProjectSection(String id, String title, BuildContext context) {
+    return BlocProvider(
+      create: (_) =>
+          getIt<GetProjectsByDisplaySectionViewModel>()
+            ..getProjectsByDisplaySection(id),
 
-              if (state is GetProjectsByDisplaySectionViewModelStatesSuccess) {
-                if (state.projects.isEmpty) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
-                    child: Center(
-                      child: Text(
-                        "لا يوجد مشاريع متاحة في هذا القسم حالياً",
-                        style: TextStyle(color: Colors.grey, fontSize: 13.sp),
-                      ),
-                    ),
-                  );
+      child: SectionWidget(
+        title: title,
+        child:
+            BlocBuilder<
+              GetProjectsByDisplaySectionViewModel,
+              GetProjectsByDisplaySectionViewModelStates
+            >(
+              builder: (context, state) {
+                if (state
+                    is GetProjectsByDisplaySectionViewModelStatesLoading) {
+                  return const ProjectListSkeleton();
                 }
 
-                return ProjectsList(projects: state.projects);
-              }
+                if (state
+                    is GetProjectsByDisplaySectionViewModelStatesSuccess) {
+                  if (state.projects.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Center(
+                        child: Text(
+                          "لا يوجد مشاريع متاحة في هذا القسم حالياً",
+                          style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+                        ),
+                      ),
+                    );
+                  }
+                  return ProjectsList(projects: state.projects);
+                }
 
-              return const ProjectListSkeleton();
-            },
-          ),
+                return const ProjectListSkeleton();
+              },
+            ),
+      ),
     );
   }
 }

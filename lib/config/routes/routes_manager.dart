@@ -12,7 +12,7 @@ import '../../features/home/presentation/tabs/home/presentation/views/contact_us
 import '../../features/home/presentation/tabs/home/presentation/views/job_offer_form_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/job_request_form_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/prayer_times_view.dart';
-import '../../features/home/presentation/tabs/home/presentation/views/privacy_policy_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/info_page_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/project_details_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/settings_view.dart';
 import '../../features/onboarding/presentation/views/onboarding_view.dart';
@@ -78,7 +78,8 @@ class RoutesManager {
         case settingsView:
         return MaterialPageRoute(builder: (_) => const SettingsView());
         case privacyPolicy:
-        return MaterialPageRoute(builder: (_) => const PrivacyPolicyView());
+          final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) =>   InfoPageView(title: args['title']));
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());

@@ -12,40 +12,92 @@ class JobSeekerCard extends StatelessWidget {
 
   const JobSeekerCard({super.key, required this.job});
 
+  Color _getTypeColor() {
+    switch (job.type) {
+      case "gold":
+        return Colors.amber;
+      case "silver":
+        return Colors.blueGrey;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  double _getCardElevation() {
+    switch (job.type) {
+      case "gold":
+        return 8;
+      case "silver":
+        return 5;
+      default:
+        return 2;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      color: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-      child: Container(
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(vertical: 8.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.r),
-          color: ColorsManager.grey.withValues(alpha: 0.2),
-          border: Border.all(color: Colors.grey.shade300, width: 1.5.w),
-        ),
-        padding: EdgeInsets.all(12.w),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      children: [
+        // ⭐ الكارد الأساسي
+        Card(
+          elevation: _getCardElevation(),
+          color: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          child: Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(vertical: 12.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.r),
+              color: ColorsManager.grey.withValues(alpha: 0.2),
+
+              // ⭐ تغيير لون الإطار حسب النوع
+              border: Border.all(
+                color: _getTypeColor(),
+                width: 2.w,
+              ),
+            ),
+            padding: EdgeInsets.all(12.w),
+            child: Column(
               children: [
-                Expanded(child: _buildUserInfo(context)),
-
-                _buildAvatarAndContact(),
-
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: _buildUserInfo(context)),
+                    _buildAvatarAndContact(),
+                  ],
+                ),
+                SizedBox(height: 8.h),
+                _buildLocationAndDate(context),
               ],
             ),
-            SizedBox(height: 8.h),
-            _buildLocationAndDate(context),
-          ],
+          ),
         ),
-      ),
+
+        // ⭐ البادج (وسام النوع) — Gold / Silver / Normal
+        // ⭐ البادج (ميدالية بسيطة)
+        Positioned(
+          top: 8.h,
+          left: 8.w,
+          child: Container(
+            padding: EdgeInsets.all(6.w),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: _getTypeColor(), // ← اللون حسب النوع
+            ),
+            child: Icon(
+              Icons.workspace_premium,
+              size: 18.sp,
+              color: Colors.white,
+            ),
+          ),
+        ),
+
+      ],
     );
   }
+
+  // ---------------------------------------------------
 
   Widget _buildUserInfo(BuildContext context) {
     return Column(
@@ -70,21 +122,20 @@ class JobSeekerCard extends StatelessWidget {
             fontSize: 14.sp,
           ),
         ),
-
       ],
     );
   }
+
+  // ---------------------------------------------------
 
   Widget _buildLocationAndDate(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(
-          Icons.location_on_outlined,
-          size: 16.sp,
-          color: ColorsManager.primaryColor,
-        ),
+        Icon(Icons.location_on_outlined,
+            size: 16.sp, color: ColorsManager.primaryColor),
         SizedBox(width: 4.w),
+
         Flexible(
           child: Text(
             job.location,
@@ -99,11 +150,8 @@ class JobSeekerCard extends StatelessWidget {
 
         SizedBox(width: 12.w),
 
-        Icon(
-          Icons.access_time_rounded,
-          size: 16.sp,
-          color: ColorsManager.primaryColor,
-        ),
+        Icon(Icons.access_time_rounded,
+            size: 16.sp, color: ColorsManager.primaryColor),
         SizedBox(width: 4.w),
 
         Flexible(
@@ -121,6 +169,7 @@ class JobSeekerCard extends StatelessWidget {
     );
   }
 
+  // ---------------------------------------------------
 
   Widget _buildAvatarAndContact() {
     return Column(
@@ -132,7 +181,11 @@ class JobSeekerCard extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.all(8.w),
-            child: Image.asset(AssetsManager.person, height: 50.h, width: 50.w),
+            child: Image.asset(
+              AssetsManager.person,
+              height: 50.h,
+              width: 50.w,
+            ),
           ),
         ),
         SizedBox(height: 8.h),

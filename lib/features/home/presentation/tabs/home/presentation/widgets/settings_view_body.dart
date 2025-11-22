@@ -90,7 +90,9 @@ class _SettingsViewBodyState extends State<SettingsViewBody> {
             icon: CupertinoIcons.info_circle,
             title: "من نحن",
             onTap: () {
-              Navigator.pushNamed(context, RoutesManager.privacyPolicy);
+              Navigator.pushNamed(context, RoutesManager.privacyPolicy, arguments: {
+                'title': 'من نحن',
+              });
             },
           ),
 
@@ -98,7 +100,9 @@ class _SettingsViewBodyState extends State<SettingsViewBody> {
             icon: CupertinoIcons.doc_text,
             title: "سياسة الاستخدام",
             onTap: () {
-              Navigator.pushNamed(context, RoutesManager.privacyPolicy);
+              Navigator.pushNamed(context, RoutesManager.privacyPolicy, arguments: {
+                'title': 'سياسة الاستخدام',
+              });
             },
           ),
 

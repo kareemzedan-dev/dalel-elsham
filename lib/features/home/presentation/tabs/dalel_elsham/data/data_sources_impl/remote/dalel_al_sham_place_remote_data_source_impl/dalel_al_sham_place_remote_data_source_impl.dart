@@ -91,4 +91,38 @@ class DalelAlShamPlaceRemoteDataSourceImpl
       return Left(ServerFailure("خطأ أثناء جلب الأماكن: $e"));
     }
   }
+
+  @override
+  Future<Either<Failures, bool>> getSectionStatus(String sectionId) async {
+    try {
+      // 🌍 التحقق من الاتصال
+      if (!await NetworkValidation.hasInternet()) {
+        return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
+      }
+
+      // 📥 جلب الدوكيومنت
+      final doc = await firebaseService.getDocument(
+        collection: "sections",
+        docId: sectionId,
+      );
+
+      // 📌 لو مفيش بيانات
+      if (doc == null) {
+        return Left(ServerFailure("القسم غير موجود"));
+      }
+
+      // ⭐ قراءة الحقل isActive
+      final isActive = doc["isActive"];
+
+      // ⚠ لو الحقل مش Boolean
+      if (isActive is! bool) {
+        return Left(ServerFailure("قيمة isActive غير صحيحة"));
+      }
+
+      return Right(isActive);
+    } catch (e) {
+      return Left(ServerFailure("خطأ أثناء جلب حالة القسم: $e"));
+    }
+  }
+
 }

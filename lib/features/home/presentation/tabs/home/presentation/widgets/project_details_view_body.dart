@@ -76,8 +76,8 @@ class ProjectDetailsViewBody extends StatelessWidget {
                           description: state.project.description,
                         ),
                         SizedBox(height: 16.h),
-                        if (state.project.workTimeFrom != null &&
-                            state.project.workTimeTo != null)
+                        if (state.project.workTimeFrom != "" ||
+                            state.project.workTimeTo != "")
                           ProjectDetailsWorkTime(
                             workTimeFrom: state.project.workTimeFrom ?? "",
                             workTimeTo: state.project.workTimeTo ?? "",

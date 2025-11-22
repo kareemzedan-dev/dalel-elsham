@@ -54,7 +54,7 @@ class JobOfferFormViewBody extends StatelessWidget {
           id: const Uuid().v4(),
           title: vm.titleController.text.trim(),
           description: vm.descriptionController.text.trim(),
-          type: "opportunity",
+          type: "normal",
           phone: vm.phoneController.text.trim(),
           location: vm.locationController.text.trim(),
           imageUrl: "",

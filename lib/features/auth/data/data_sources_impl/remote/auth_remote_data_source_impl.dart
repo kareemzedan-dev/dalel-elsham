@@ -54,20 +54,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // 3) Get Firebase token
       final token = await user.getIdToken(true);
 
-// 🔥 Get FCM Token
+      // 🔥 Get FCM Token
       final fcmToken = await FirebaseMessaging.instance.getToken();
 
-// 4) Save in SharedPreferences
+      // 4) Save in SharedPreferences
       await SharedPrefHelper.setString("auth_token", token!);
       await SharedPrefHelper.setString("user_name", name);
       await SharedPrefHelper.setString("user_email", email);
       await SharedPrefHelper.setString("user_phone", phone);
+      await SharedPrefHelper.setString("user_id", uid);
 
-// 🔥 Save FCM Token in Firestore
+      // 🔥 Save FCM Token in Firestore
       await _firestore.collection("users").doc(uid).update({
         "fcmToken": fcmToken,
+        "userId": uid,
       });
-
 
       return Right(userData);
     } catch (e) {
@@ -106,19 +107,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // 3) Get token from Firebase
       final token = await user.getIdToken(true);
 
-// 🔥 Get new FCM Token
+      // 🔥 Get new FCM Token
       final fcmToken = await FirebaseMessaging.instance.getToken();
 
-// 4) Save it
+      // 4) Save it
       await SharedPrefHelper.setString("auth_token", token!);
       await SharedPrefHelper.setString("user_name", authUser.name);
       await SharedPrefHelper.setString("user_email", email);
+      await SharedPrefHelper.setString("user_id", uid);
 
-// 🔥 Update FCM Token in Firestore
+      // 🔥 Update FCM Token in Firestore
       await _firestore.collection("users").doc(uid).update({
         "fcmToken": fcmToken,
-      });
+        "userId": uid,
 
+      });
 
       return Right(authUser);
     } catch (e) {

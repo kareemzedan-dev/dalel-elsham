@@ -45,7 +45,7 @@ class JobSeekersViewBody extends StatelessWidget {
                     BlocBuilder<GetAllJobsViewModel, GetAllJobsViewModelStates>(
                       builder: (context, state) {
                         if (state is GetAllJobsViewModelLoading) {
-                          return       ListView.builder(
+                          return ListView.builder(
                             itemCount: 5,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),

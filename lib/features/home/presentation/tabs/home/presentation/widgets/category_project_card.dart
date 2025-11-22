@@ -18,107 +18,155 @@ class CategoryProjectCard extends StatelessWidget {
   final ProjectEntity project;
   final VoidCallback onTap;
 
+  // 🟡 تحديد لون الحدود حسب النوع
+  Color _getTypeColor() {
+    switch (project.tier) {
+      case "gold":
+        return Colors.amber;
+      case "silver":
+        return Colors.blueGrey;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  // ⭐ شكل البادج (الميدالية)
+  Widget _buildTypeBadge() {
+    if (project.tier == "normal") return SizedBox();
+
+    return Positioned(
+      top: 0,
+      left: 0,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+        decoration: BoxDecoration(
+          color: _getTypeColor(),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12.r),
+            bottomRight: Radius.circular(12.r),
+          ),
+        ),
+        child: Icon(Icons.workspace_premium, size: 16.sp, color: Colors.white),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12.h),
-        decoration: BoxDecoration(
-          color: ColorsManager.grey.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(8.w),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12.r),
-                child: Image.network(
-                  project.logo,
-                  height: 120.h,
-                  width: 100.w,
-                  fit: BoxFit.cover,
-                ),
+      child: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 12.h),
+            decoration: BoxDecoration(
+              color: ColorsManager.grey.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(12.r),
+
+              // ⭐ تلوين الإطار حسب النوع
+              border: Border.all(
+                color: _getTypeColor(),
+                width: 2.w,
               ),
-
-              SizedBox(width: 12.w),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      project.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.sp,
-                      ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(8.w),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12.r),
+                    child: Image.network(
+                      project.logo,
+                      height: 120.h,
+                      width: 100.w,
+                      fit: BoxFit.cover,
                     ),
-                    SizedBox(height: 4.h),
+                  ),
 
-                    Text(
-                      project.description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        height: 1.3.h,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
+                  SizedBox(width: 12.w),
 
-                    Row(
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          size: 16.sp,
-                          color: ColorsManager.primaryColor,
+                        Text(
+                          project.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
                         ),
-                        SizedBox(width: 4.w),
-                        Flexible(
-                          child: Text(
-                            project.location,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
+                        SizedBox(height: 4.h),
+
+                        Text(
+                          project.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                          Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            height: 1.3.h,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              size: 16.sp,
+                              color: ColorsManager.primaryColor,
+                            ),
+                            SizedBox(width: 4.w),
+                            Flexible(
+                              child: Text(
+                                project.location,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14.sp,
                                 ),
-                          ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 8.h),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ContactButtonCard(
+                              image: AssetsManager.phoneCall,
+                              onTap: () =>
+                                  PhoneCallService.callNumber(project.phone),
+                            ),
+                            SizedBox(width: 8.w),
+                            ContactButtonCard(
+                              image: AssetsManager.whatsapp,
+                              onTap: () => ContactLauncherService.openWhatsApp(
+                                  project.phone),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ContactButtonCard(
-                          image: AssetsManager.phoneCall,
-                          onTap: () {
-                            PhoneCallService.callNumber(project.phone);
-                          },
-                        ),
-                        SizedBox(width: 8.w),
-                        ContactButtonCard(
-                          image: AssetsManager.whatsapp,
-                          onTap: () {
-                            ContactLauncherService.openWhatsApp(project.phone);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+
+          // ⭐ الميدالية
+          _buildTypeBadge(),
+        ],
       ),
     );
   }

@@ -35,4 +35,11 @@ class DalelAlShamPlaceRepoImpl implements DalelAlShamPlaceRepo {
   Future<Either<Failures, void>> updatePlace(DalelAlShamPlaceModel place) {
     return dalelAlShamPlaceRemoteDataSource.updatePlace(place);
   }
+
+  @override
+  Future<Either<Failures, bool>> getSectionStatus(String sectionId) {
+    return dalelAlShamPlaceRemoteDataSource.getSectionStatus(sectionId);
+  }
+
+
 }

@@ -1,6 +1,7 @@
 import 'package:dalel_elsham/config/theme/app_theme.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uuid/uuid.dart';
 import 'config/routes/routes_manager.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/cache/shared_preferences.dart';
 import 'core/di/di.dart';
+import 'core/services/notification_service.dart';
+import 'features/home/presentation/tabs/home/presentation/manager/app_links/get_all_app_links_view_model/get_all_app_links_view_model.dart';
 import 'firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,6 +27,7 @@ void main() async {
 
   await configureDependencies();
   await SharedPrefHelper.init();
+  await NotificationService.loadAdminTokens();
 
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -33,7 +37,20 @@ void main() async {
     badge: true,
     sound: true,
   );
-  runApp(const DalelElsham());
+  final appLinksVM = getIt<GetAllAppLinksViewModel>();
+  appLinksVM.getAllAppLinks();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<GetAllAppLinksViewModel>(
+          create: (_) => appLinksVM,
+        ),
+      ],
+      child: const DalelElsham(),
+    ),
+  );
+
 }
 
 class DalelElsham extends StatelessWidget {

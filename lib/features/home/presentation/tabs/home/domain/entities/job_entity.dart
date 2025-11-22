@@ -2,7 +2,7 @@ class JobEntity {
   final String id;
   final String title;
   final String description;
-  final String type; // "job" = وظيفة، "opportunity" = فرصة عمل
+  final String type;
   final String phone;
   final String location;
   final String imageUrl;

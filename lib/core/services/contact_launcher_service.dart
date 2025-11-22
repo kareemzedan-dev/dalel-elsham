@@ -1,47 +1,39 @@
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactLauncherService {
+
   static Future<void> openUrl(String url) async {
-    final uri = Uri.parse(url.trim());
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
+    final Uri uri = Uri.parse(url);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       print("❌ Cannot open URL: $url");
-    }
-  }
-  static Future<void> openMapByLink(String mapLink) async {
-    if (mapLink.isEmpty) {
-      print("❌ الرابط فارغ!");
-      return;
-    }
-
-    final Uri url = Uri.parse(mapLink);
-
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw "❌ لا يمكن فتح الرابط: $url";
     }
   }
 
   static Future<void> openWhatsApp(String phone) async {
-    final cleanedPhone = _formatSyrianPhone(phone);
-    final url = "https://wa.me/$cleanedPhone";
-    await openUrl(url);
+    final cleanedPhone = _formatPhone(phone);
+    final Uri uri = Uri.parse("https://wa.me/$cleanedPhone");
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      print("❌ Cannot open WhatsApp");
+    }
   }
 
-  static Future<void> sendSms(String phone) async {
-    final cleanedPhone = _formatSyrianPhone(phone);
-    final url = "sms:$cleanedPhone";
-    await openUrl(url);
+  static Future<void> openMapByLink(String link) async {
+    final Uri uri = Uri.parse(link);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      print("❌ Cannot open Maps");
+    }
   }
 
-  static String _formatSyrianPhone(String phone) {
+  static String _formatPhone(String phone) {
     String digits = phone.replaceAll(RegExp(r'[^0-9]'), "");
-    if (digits.startsWith("963")) {
-      return digits;
-    }
-    if (digits.startsWith("0")) {
-      digits = digits.substring(1);
-    }
+
+    if (digits.startsWith("963")) return digits;
+
+    if (digits.startsWith("0")) digits = digits.substring(1);
+
     return "963$digits";
   }
 }

@@ -10,4 +10,6 @@ abstract class DalelAlShamPlaceRepo {
   Future<Either<Failures, void>> updatePlace(DalelAlShamPlaceModel place);
   Future<Either<Failures, void>> deletePlace(String id);
 
+  /// ⭐ جديد: جلب حالة القسم (مفعّل ولا لا)
+  Future<Either<Failures, bool>> getSectionStatus(String sectionId);
 }

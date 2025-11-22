@@ -26,11 +26,29 @@ class GetAllJobsViewModel extends Cubit<GetAllJobsViewModelStates> {
       result.fold(
         ifLeft: (fail) => emit(GetAllJobsViewModelError(fail.message)),
         ifRight: (jobs) {
+
+          // ⭐ 1) ترتيب الوظائف حسب type
+          jobs.sort((a, b) {
+            const priority = {
+              "gold": 3,
+              "silver": 2,
+              "normal": 1,
+            };
+
+            final aRank = priority[a.type.toLowerCase()] ?? 0;
+            final bRank = priority[b.type.toLowerCase()] ?? 0;
+
+            return bRank.compareTo(aRank); // ترتيب تنازلي
+          });
+
+          // حفظ البيانات
           allJobs = jobs;
-          filteredJobs = jobs; // أول مرة مفيش بحث
+          filteredJobs = jobs;
+
           emit(GetAllJobsViewModelSuccess(filteredJobs));
         },
       );
+
 
       return result;
 
