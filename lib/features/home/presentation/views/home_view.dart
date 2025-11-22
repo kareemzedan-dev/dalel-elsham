@@ -7,6 +7,11 @@ import '../../../../config/routes/routes_manager.dart';
 import '../../../../core/di/di.dart';
 import '../tabs/dalel_elsham/presentation/views/dalel_elsham_tab_view.dart';
 import '../tabs/home/presentation/manager/app_links/get_all_app_links_view_model/get_all_app_links_view_model.dart';
+import '../tabs/home/presentation/manager/banners/get_banners_by_position_view_model/get_banners_by_position_view_model.dart';
+import '../tabs/home/presentation/manager/categories/get_all_categories_view_model/get_all_categories_view_model.dart';
+import '../tabs/home/presentation/manager/project_display_section_view_model/get_all_project_display_sections_view_model/get_all_project_display_sections_view_model.dart';
+import '../tabs/home/presentation/manager/projects/get_newest_projects_view_model/get_newest_projects_view_model.dart';
+import '../tabs/home/presentation/manager/projects/get_projects_by_display_section_view_model/get_projects_by_display_section_view_model.dart';
 import '../tabs/home/presentation/widgets/drawer_content.dart';
 import '../tabs/home/presentation/widgets/custom_bottom_nav_bar.dart';
 import '../tabs/home/presentation/widgets/home_view_body.dart';
@@ -37,8 +42,34 @@ class _HomeViewState extends State<HomeView> {
       authToken = token;
     });
   }
+  late final List<Widget> _pages = [
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<GetBannersByPositionViewModel>()..getBannersByPosition("home"),
+        ),
+        BlocProvider(
+          create: (_) => getIt<GetAllCategoriesViewModel>()..getAllCategories(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<GetAllProjectDisplaySectionsViewModel>()..getAllProjectDisplaySections(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<GetNewestProjectsViewModel>()..getNewestProjects(),
+        ),
 
-  late final List<Widget> _pages = const [HomeViewBody(), DalelElshamTabView()];
+        /// ★★★ مهم جداً جداً جداً ★★★
+        BlocProvider(
+          create: (_) => getIt<GetProjectsByDisplaySectionViewModel>(),
+        ),
+      ],
+      child: const HomeViewBody(),
+    ),
+
+    const DalelElshamTabView(),
+  ];
+
+
 
   @override
   Widget build(BuildContext context) {

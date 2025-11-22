@@ -12,7 +12,9 @@ import '../../features/home/presentation/tabs/home/presentation/views/contact_us
 import '../../features/home/presentation/tabs/home/presentation/views/job_offer_form_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/job_request_form_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/prayer_times_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/privacy_policy_view.dart';
 import '../../features/home/presentation/tabs/home/presentation/views/project_details_view.dart';
+import '../../features/home/presentation/tabs/home/presentation/views/settings_view.dart';
 import '../../features/onboarding/presentation/views/onboarding_view.dart';
 import '../../features/splash/presentation/views/splash_view.dart';
 
@@ -32,6 +34,8 @@ class RoutesManager {
   static const String jobOfferForm = "jobOfferForm";
   static const String jobRequestForm = "jobRequestForm";
   static const String contactUs = "contactUs";
+  static const String settingsView = "settings";
+  static const String privacyPolicy = "privacyPolicy";
 
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -71,6 +75,10 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => const JobRequestFormView());
         case contactUs:
         return MaterialPageRoute(builder: (_) => const ContactUsView());
+        case settingsView:
+        return MaterialPageRoute(builder: (_) => const SettingsView());
+        case privacyPolicy:
+        return MaterialPageRoute(builder: (_) => const PrivacyPolicyView());
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());

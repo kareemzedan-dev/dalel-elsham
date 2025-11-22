@@ -12,15 +12,14 @@ class BannerSection extends StatefulWidget {
     required this.images,
     this.showDotsOnTop = false,
     this.disableAutoPlay = false,
-    this.onDelete,
+
   });
 
   final List<BannerEntity> images;
   final bool showDotsOnTop;
   final bool disableAutoPlay;
 
-  /// 🔥 دالة الحذف الجديدة
-  final Function(String bannerId)? onDelete;
+
 
   @override
   State<BannerSection> createState() => _BannerSectionState();
@@ -62,58 +61,29 @@ class _BannerSectionState extends State<BannerSection> {
       itemBuilder: (context, index, realIndex) {
         final banner = widget.images[index];
 
-        return Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12.r),
-                child: GestureDetector(
-                  onTap: () {
-                    if (banner.type == "external") {
-                      openUrl(banner.link!);
-                    } else if (banner.type == "internal") {
-                      Navigator.pushNamed(
-                        context,
-                        RoutesManager.projectDetails,
-                        arguments: {"projectId": banner.projectId},
-                      );
-                    }
-                  },
-                  child: Image.network(
-                    banner.imageUrl,
-                    fit: BoxFit.fill,
-                    width: double.infinity,
-                  ),
-                ),
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4.w),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.r),
+            child: GestureDetector(
+              onTap: () {
+                if (banner.type == "external") {
+                  openUrl(banner.link!);
+                } else if (banner.type == "internal") {
+                  Navigator.pushNamed(
+                    context,
+                    RoutesManager.projectDetails,
+                    arguments: {"projectId": banner.projectId},
+                  );
+                }
+              },
+              child: Image.network(
+                banner.imageUrl,
+                fit: BoxFit.fill,
+                width: double.infinity,
               ),
             ),
-
-            /// ---------------- زر الحذف ----------------
-            Positioned(
-              top: 12,
-              right: 12,
-              child: InkWell(
-                onTap: () {
-                  if (widget.onDelete != null) {
-                    widget.onDelete!(banner.id); // ← إرسال ID
-                  }
-                },
-                child: Container(
-                  padding: EdgeInsets.all(6.w),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.8),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                    size: 20.sp,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         );
       },
       options: CarouselOptions(

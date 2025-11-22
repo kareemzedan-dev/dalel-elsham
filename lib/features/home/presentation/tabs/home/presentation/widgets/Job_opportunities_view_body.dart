@@ -1,5 +1,6 @@
 import 'package:dalel_elsham/features/home/presentation/tabs/dalel_elsham/presentation/widgets/sponsored_banner.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/jobs/get_all_opportunities_view_model/get_all_opportunities_view_model_states.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/job_seeker_card_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,7 +50,12 @@ class JobOpportunitiesViewBody extends StatelessWidget {
                   >(
                     builder: (context, state) {
                       if (state is GetAllOpportunitiesViewModelLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return ListView.builder(
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (_, __) => const JobSeekerCardSkeleton(),
+                        );
                       }
 
                       if (state is GetAllOpportunitiesViewModelSuccess) {
@@ -82,7 +88,12 @@ class JobOpportunitiesViewBody extends StatelessWidget {
                         );
                       }
 
-                      return const Center(child: Text("حدث خطأ ما"));
+                      return ListView.builder(
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, __) => const JobSeekerCardSkeleton(),
+                      );
                     },
                   ),
                 ],

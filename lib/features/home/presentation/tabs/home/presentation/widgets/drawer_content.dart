@@ -146,7 +146,10 @@ class _DrawerContentState extends State<DrawerContent> {
                       },
                     ),
 
-                    DrawerItem(icon: Icons.settings, title: 'الإعدادات'),
+                    DrawerItem(icon: Icons.settings, title: 'الإعدادات',
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesManager.settingsView);
+                    },),
                   ],
                 ),
               ),

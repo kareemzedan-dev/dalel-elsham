@@ -1,4 +1,5 @@
 
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/banner_section_skeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,7 @@ class BannerSectionForOpportunitiesAndJobs extends StatelessWidget {
           GetBannersByPositionViewModelStates>(
         builder: (context, state) {
           if (state is GetBannersByPositionViewModelStatesLoading) {
-            return const SizedBox.shrink();
+            return BannerSectionSkeleton();
           }
 
           if (state is GetBannersByPositionViewModelStatesSuccess) {
@@ -28,7 +29,7 @@ class BannerSectionForOpportunitiesAndJobs extends StatelessWidget {
             return BannerSection(images: state.banners);
           }
 
-          return const SizedBox.shrink();
+          return BannerSectionSkeleton();
         },
       ),
     );

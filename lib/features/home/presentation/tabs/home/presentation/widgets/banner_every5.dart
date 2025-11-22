@@ -1,4 +1,5 @@
 
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/banner_section_skeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,13 +20,17 @@ class BannerEvery5 extends StatelessWidget {
       child: BlocBuilder<
           GetBannersByPositionViewModel,
           GetBannersByPositionViewModelStates>(
+
         builder: (context, state) {
+          if (state is GetBannersByPositionViewModelStatesLoading) {
+            return BannerSectionSkeleton();
+          }
           if (state is GetBannersByPositionViewModelStatesSuccess &&
               state.banners.isNotEmpty) {
             return BannerSection(images: state.banners);
           }
 
-          return const SizedBox.shrink();
+          return BannerSectionSkeleton();
         },
       ),
     );

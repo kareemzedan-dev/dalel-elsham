@@ -1,5 +1,6 @@
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/jobs/get_all_jobs_view_model/get_all_jobs_view_model.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/jobs/get_all_jobs_view_model/get_all_jobs_view_model_states.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/job_seeker_card_skeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,10 +45,13 @@ class JobSeekersViewBody extends StatelessWidget {
                     BlocBuilder<GetAllJobsViewModel, GetAllJobsViewModelStates>(
                       builder: (context, state) {
                         if (state is GetAllJobsViewModelLoading) {
-                          return const Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 40),
-                              child: CircularProgressIndicator(),
+                          return       ListView.builder(
+                            itemCount: 5,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (_, __) => Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: const JobSeekerCardSkeleton(),
                             ),
                           );
                         }
@@ -84,11 +88,11 @@ class JobSeekersViewBody extends StatelessWidget {
                           );
                         }
 
-                        return const Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 40),
-                            child: Text("حدث خطأ ما"),
-                          ),
+                        return ListView.builder(
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (_, __) => const JobSeekerCardSkeleton(),
                         );
                       },
                     ),
