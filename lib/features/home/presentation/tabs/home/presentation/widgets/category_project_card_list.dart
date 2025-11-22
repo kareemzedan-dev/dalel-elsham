@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../manager/projects/get_projects_by_category_view_model/get_projects_by_category_view_model_states.dart';
+import '../manager/projects/update_project_views_view_model/update_project_views_view_model.dart';
 import 'category_project_card.dart';
 import 'package:lottie/lottie.dart';
 
@@ -59,6 +60,8 @@ class CategoryProjectCardList extends StatelessWidget {
             itemBuilder: (context, index) {
               return CategoryProjectCard(
                 onTap: () {
+                  final projectId = state.projects[index].id;
+                  context.read<UpdateProjectViewsViewModel>().updateProjectViews(projectId);
                   Navigator.pushNamed(
                     context,
                     RoutesManager.projectDetails,

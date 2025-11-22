@@ -34,7 +34,7 @@ class CustomTextFormField extends StatefulWidget {
   Widget? prefixIcon;
   bool isEnable;
 
-  final int maxLines;
+  final int? maxLines;
   final int? minLines;
 
   /// NEW
@@ -66,8 +66,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       controller: widget.textEditingController,
 
       obscureText: widget.iconShow ? !iconVisible : false,
-      maxLines: widget.iconShow ? 1 : widget.maxLines,
-      minLines: widget.iconShow ? 1 : widget.minLines,
+      minLines: widget.minLines ?? 1,
+      maxLines: widget.maxLines ?? null,
 
       onSaved: widget.onSaved,
       validator: widget.isEmailValidator

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../core/di/di.dart';
 import '../manager/projects/get_projects_by_category_view_model/get_projects_by_category_view_model.dart';
+import '../manager/projects/update_project_views_view_model/update_project_views_view_model.dart';
 import 'category_filter_bar.dart';
 import 'category_project_card_list.dart';
 
@@ -28,7 +29,9 @@ class _CategoriesDetailsViewBodyState extends State<CategoriesDetailsViewBody> {
           SizedBox(height: 16.h),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: const CategoryProjectCardList(),
+            child: BlocProvider(
+                create: (context) => getIt<UpdateProjectViewsViewModel>(),
+                child: const CategoryProjectCardList()),
           ),
         ],
       ),

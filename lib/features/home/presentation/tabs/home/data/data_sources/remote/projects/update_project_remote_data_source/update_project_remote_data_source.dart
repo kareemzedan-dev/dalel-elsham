@@ -5,4 +5,5 @@ import '../../../../../domain/entities/project_entity.dart';
 
 abstract class UpdateProjectRemoteDataSource {
   Future<Either<Failures, void>> updateProject(ProjectEntity project);
+  Future<Either<Failures, void>> updateProjectViews(String projectId);
 }

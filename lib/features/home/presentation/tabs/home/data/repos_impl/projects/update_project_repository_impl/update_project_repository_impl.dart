@@ -14,4 +14,9 @@ class UpdateProjectRepositoryImpl implements UpdateProjectRepository {
   Future<Either<Failures, void>> updateProject(ProjectEntity project) {
     return updateProjectRemoteDataSource.updateProject(project);
   }
+
+  @override
+  Future<Either<Failures, void>> updateProjectViews(String projectId) {
+    return updateProjectRemoteDataSource.updateProjectViews(projectId);
+  }
 }

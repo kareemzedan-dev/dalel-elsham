@@ -14,4 +14,7 @@ class UpdateProjectUseCase {
   Future<Either<Failures, void>> updateProject(ProjectEntity project) {
     return updateProjectRepo.updateProject(project);
   }
+  Future<Either<Failures, void>> updateProjectViews(String projectId) {
+    return updateProjectRepo.updateProjectViews(projectId);
+  }
 }

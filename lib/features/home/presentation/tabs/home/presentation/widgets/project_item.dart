@@ -1,9 +1,11 @@
 import 'package:dalel_elsham/features/home/presentation/tabs/home/domain/entities/project_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../../config/routes/routes_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
+import '../manager/projects/update_project_views_view_model/update_project_views_view_model.dart';
 
 class ProjectItem extends StatelessWidget {
   const ProjectItem({super.key, required this.projectEntity});
@@ -16,6 +18,7 @@ class ProjectItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        context.read<UpdateProjectViewsViewModel>().updateProjectViews(projectEntity.id);
         Navigator.pushNamed(
           context,
           RoutesManager.projectDetails,

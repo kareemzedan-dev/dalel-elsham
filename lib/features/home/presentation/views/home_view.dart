@@ -12,6 +12,7 @@ import '../tabs/home/presentation/manager/categories/get_all_categories_view_mod
 import '../tabs/home/presentation/manager/project_display_section_view_model/get_all_project_display_sections_view_model/get_all_project_display_sections_view_model.dart';
 import '../tabs/home/presentation/manager/projects/get_newest_projects_view_model/get_newest_projects_view_model.dart';
 import '../tabs/home/presentation/manager/projects/get_projects_by_display_section_view_model/get_projects_by_display_section_view_model.dart';
+import '../tabs/home/presentation/manager/projects/update_project_views_view_model/update_project_views_view_model.dart';
 import '../tabs/home/presentation/widgets/drawer_content.dart';
 import '../tabs/home/presentation/widgets/custom_bottom_nav_bar.dart';
 import '../tabs/home/presentation/widgets/home_view_body.dart';
@@ -58,9 +59,12 @@ class _HomeViewState extends State<HomeView> {
           create: (_) => getIt<GetNewestProjectsViewModel>()..getNewestProjects(),
         ),
 
-        /// ★★★ مهم جداً جداً جداً ★★★
+
         BlocProvider(
           create: (_) => getIt<GetProjectsByDisplaySectionViewModel>(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<UpdateProjectViewsViewModel>(),
         ),
       ],
       child: const HomeViewBody(),

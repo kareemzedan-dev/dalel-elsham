@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
 import 'package:injectable/injectable.dart';
 
@@ -63,4 +64,29 @@ class UpdateProjectRemoteDataSourceImpl implements UpdateProjectRemoteDataSource
       return Left(ServerFailure("فشل في تعديل المشروع: $e"));
     }
   }
+
+  @override
+  Future<Either<Failures, void>> updateProjectViews(String projectId) async {
+    try {
+      // 🔍 Check internet
+      if (!await NetworkValidation.hasInternet()) {
+        return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
+      }
+
+      // ➕ زيادة عدد المشاهدات بمقدار 1
+      await fireStoreService.updateDocument(
+        collection: "projects",
+        docId: projectId,
+        data: {
+          "views": FieldValue.increment(1),
+        },
+      );
+
+      return const Right(null);
+
+    } catch (e) {
+      return Left(ServerFailure("فشل في تحديث عدد المشاهدات: $e"));
+    }
+  }
+
 }

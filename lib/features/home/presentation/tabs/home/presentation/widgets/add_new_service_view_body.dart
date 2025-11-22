@@ -114,15 +114,12 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                 SizedBox(height: 12.h),
                                 CustomTextFormField(
                                   hintText: "وصف المشروع",
-                                  keyboardType: TextInputType.text,
+                                  keyboardType: TextInputType.multiline,
                                   textEditingController: descController,
-                                  validator: (value) {
-                                    if (value == null || value.trim().isEmpty) {
-                                      return "وصف المشروع مطلوب";
-                                    }
-                                    return null;
-                                  },
-                                ),
+                                  minLines: 1,   // يبدأ صغير
+                                  maxLines: null, // يكبر تلقائيًا
+                                )
+
                               ],
                             ),
                           ),
