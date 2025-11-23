@@ -101,8 +101,8 @@ class ProjectDetailsViewBody extends StatelessWidget {
                     state.project.mapLink ?? "",
                   );
                 },
-                showLocationButton: state.project.mapLink != null,
-                showPhoneButton: state.project.phone != null,
+                showLocationButton: state.project.mapLink != "",
+                showPhoneButton: state.project.phone != "",
                 onPhoneTab: () {
                   PhoneCallService.callNumber(state.project.phone ?? "");
                 },

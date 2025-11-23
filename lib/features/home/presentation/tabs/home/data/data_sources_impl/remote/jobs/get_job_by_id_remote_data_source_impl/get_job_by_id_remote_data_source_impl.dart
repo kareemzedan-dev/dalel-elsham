@@ -28,10 +28,43 @@ class GetJobByIdRemoteDataSourceImpl implements GetJobByIdRemoteDataSource {
         return Left(ServerFailure("الوظيفة غير موجودة"));
       }
 
-      if (data["isActive"] != true || data["status"] != "accepted") {
+      /// ---------------------------
+      /// 🔥 فلترة الحالة
+      /// ---------------------------
+      final bool isActive = data["isActive"] == true;
+      final String status =
+      (data["status"] ?? "").toString().trim().toLowerCase();
+
+      if (!isActive || status != "approved") {
         return Left(ServerFailure("هذه الوظيفة غير متاحة"));
       }
 
+      /// ---------------------------
+      /// 🔥 فلترة المدة (Duration)
+      /// ---------------------------
+      final createdAt =
+          DateTime.tryParse(data["createdAt"] ?? "") ?? DateTime(2000);
+
+      int durationDays = 7; // قيمة افتراضية
+
+      if (data["duration"] != null) {
+        final match =
+        RegExp(r'\d+').firstMatch(data["duration"].toString());
+        if (match != null) {
+          durationDays = int.parse(match.group(0)!);
+        }
+      }
+
+      final isExpired =
+          DateTime.now().difference(createdAt).inDays >= durationDays;
+
+      if (isExpired) {
+        return Left(ServerFailure("هذه الوظيفة انتهت صلاحيتها"));
+      }
+
+      /// ---------------------------
+      /// 🔥 تحويل إلى Entity
+      /// ---------------------------
       final job = JobModel.fromMap(data, jobId);
 
       return Right(job);

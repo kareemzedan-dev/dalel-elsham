@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({super.key, required this.image, required this.title, required this.onTap});
+  const CategoryItem({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.onTap,
+  });
 
   final String image, title;
   final VoidCallback onTap;
@@ -26,21 +32,28 @@ class CategoryItem extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: ClipOval(
-              child: Image.network(
-                image,
-                fit: BoxFit.cover,
-                height: 50.h,
-                width: 50.w,
-              ),
+              child: image.isNotEmpty
+                  ? Image.network(
+                      image,
+                      fit: BoxFit.cover,
+                      height: 50.h,
+                      width: 50.w,
+                    )
+                  : Container(
+                      color: ColorsManager.primaryColor,
+                      height: 50.h,
+                      width: 50.w,
+                    ),
             ),
           ),
 
           SizedBox(height: 8.h),
-          Text(
+          AutoSizeText(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold,fontSize: 16.sp),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.sp,
+            ),
           ),
         ],
       ),

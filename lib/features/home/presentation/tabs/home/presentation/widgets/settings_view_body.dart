@@ -49,37 +49,37 @@ class _SettingsViewBodyState extends State<SettingsViewBody> {
           SizedBox(height: 30.h),
 
           /// ------------------ DARK MODE ------------------
-          _buildSectionTitle("المظهر"),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 12.h),
-            child: Row(
-              children: [
-                Icon(
-                  CupertinoIcons.moon_fill,
-                  size: 22.sp,
-                  color: Colors.grey.shade700,
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Text(
-                    "الوضع الداكن",
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Switch(
-                  value: isDark,
-                  activeColor: Colors.blue,
-                  onChanged: (value) {
-                    setState(() => isDark = value);
-                    // TODO: apply theme mode
-                  },
-                ),
-              ],
-            ),
-          ),
+          // _buildSectionTitle("المظهر"),
+          // Container(
+          //   padding: EdgeInsets.symmetric(vertical: 12.h),
+          //   child: Row(
+          //     children: [
+          //       Icon(
+          //         CupertinoIcons.moon_fill,
+          //         size: 22.sp,
+          //         color: Colors.grey.shade700,
+          //       ),
+          //       SizedBox(width: 12.w),
+          //       Expanded(
+          //         child: Text(
+          //           "الوضع الداكن",
+          //           style: TextStyle(
+          //             fontSize: 15.sp,
+          //             fontWeight: FontWeight.w600,
+          //           ),
+          //         ),
+          //       ),
+          //       Switch(
+          //         value: isDark,
+          //         activeColor: Colors.blue,
+          //         onChanged: (value) {
+          //           setState(() => isDark = value);
+          //           // TODO: apply theme mode
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          // ),
 
           SizedBox(height: 25.h),
 

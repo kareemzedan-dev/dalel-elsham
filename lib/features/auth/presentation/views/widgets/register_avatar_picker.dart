@@ -63,10 +63,13 @@ class _RegisterAvatarPickerState extends State<RegisterAvatarPicker> {
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey.shade300, width: 2),
             ),
-            child: ClipOval(
-              child: avatarPath == null
-                  ? Image.asset(AssetsManager.person, fit: BoxFit.cover)
-                  : Image.file(File(avatarPath!), fit: BoxFit.cover),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipOval(
+                child: avatarPath == null
+                    ? Image.asset(AssetsManager.person, fit: BoxFit.cover)
+                    : Image.file(File(avatarPath!), fit: BoxFit.cover),
+              ),
             ),
           ),
           Positioned(
@@ -74,13 +77,16 @@ class _RegisterAvatarPickerState extends State<RegisterAvatarPicker> {
             bottom: 0,
             child: GestureDetector(
               onTap: onTap,
-              child: Container(
-                padding: EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: ColorsManager.primaryColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorsManager.primaryColor,
+                  ),
+                  child: Icon(Icons.add, color: Colors.white, size: 16),
                 ),
-                child: Icon(Icons.add, color: Colors.white, size: 16),
               ),
             ),
           )

@@ -49,7 +49,7 @@ class ProjectItem extends StatelessWidget {
               child: SizedBox(
                 height: 120.h,
                 width: double.infinity,
-                child: Image.network(projectEntity.logo, fit: BoxFit.cover),
+                child:projectEntity.logo.isNotEmpty ? Image.network(projectEntity.logo, fit: BoxFit.cover):Container(color: Colors.grey.withOpacity(0.2)),
               ),
             ),
             SizedBox(height: 10.h),

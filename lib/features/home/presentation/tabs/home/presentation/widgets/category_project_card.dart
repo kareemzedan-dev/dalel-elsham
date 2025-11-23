@@ -18,22 +18,22 @@ class CategoryProjectCard extends StatelessWidget {
   final ProjectEntity project;
   final VoidCallback onTap;
 
-  // 🟡 تحديد لون الحدود حسب النوع
   Color _getTypeColor() {
     switch (project.tier) {
       case "gold":
         return Colors.amber;
       case "silver":
         return Colors.blueGrey;
+      case "normal":
+        return Colors.grey; // ⭐ جديد
       default:
         return Colors.grey;
     }
   }
 
+
   // ⭐ شكل البادج (الميدالية)
   Widget _buildTypeBadge() {
-    if (project.tier == "normal") return SizedBox();
-
     return Positioned(
       top: 0,
       left: 0,
@@ -49,6 +49,7 @@ class CategoryProjectCard extends StatelessWidget {
         child: Icon(Icons.workspace_premium, size: 16.sp, color: Colors.white),
       ),
     );
+
   }
 
   @override
@@ -76,12 +77,12 @@ class CategoryProjectCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12.r),
-                    child: Image.network(
+                    child: project.logo.isNotEmpty ? Image.network(
                       project.logo,
                       height: 120.h,
                       width: 100.w,
                       fit: BoxFit.cover,
-                    ),
+                    ) : Container(color: Colors.grey.withOpacity(0.2), height: 120.h, width: 100.w,)
                   ),
 
                   SizedBox(width: 12.w),

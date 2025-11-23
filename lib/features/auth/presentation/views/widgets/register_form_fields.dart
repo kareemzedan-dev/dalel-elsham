@@ -47,6 +47,14 @@ class _RegisterFormFieldsState extends State<RegisterFormFields> {
             keyboardType: TextInputType.emailAddress,
             validator: RegisterValidators.validateEmail,
           ),
+          SizedBox(height: 6.h,),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text("(يرجي إدخال البريد الإلكتروني الحقيقي لتجنب اغلاق الحساب *)",
+
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith
+                (fontWeight: FontWeight.w500,fontSize: 12.sp,color: Colors.grey),),
+          ),
           SizedBox(height: 20.h),
 
           CustomTextFormField(

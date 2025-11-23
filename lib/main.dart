@@ -29,7 +29,6 @@ void main() async {
   await SharedPrefHelper.init();
   await NotificationService.loadAdminTokens();
 
-
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(
@@ -43,14 +42,11 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider<GetAllAppLinksViewModel>(
-          create: (_) => appLinksVM,
-        ),
+        BlocProvider<GetAllAppLinksViewModel>(create: (_) => appLinksVM),
       ],
       child: const DalelElsham(),
     ),
   );
-
 }
 
 class DalelElsham extends StatelessWidget {
@@ -85,4 +81,5 @@ class DalelElsham extends StatelessWidget {
         );
       },
     );
-  }}
+  }
+}

@@ -33,8 +33,8 @@ class ProjectDetailsFooter extends StatelessWidget {
             _FooterButton(
               icon: Icons.phone,
               label: "الاتصال",
-              backgroundColor: Colors.blue,
-              iconColor: Colors.white,
+              backgroundColor: Colors.transparent,
+              iconColor: ColorsManager.primaryColor,
               onTap: onPhoneTab,
             ),
           ],
@@ -68,6 +68,7 @@ class _FooterButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
           color: backgroundColor,
+          border: Border.all(color: ColorsManager.primaryColor),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
