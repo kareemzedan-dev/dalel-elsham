@@ -1,4 +1,4 @@
-package com.example.dalel_elsham
+package com.dalel.elsham
 
 import io.flutter.embedding.android.FlutterActivity
 
