@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../../core/di/di.dart';
 import '../manager/projects/get_all_projects_view_model/get_all_projects_view_model.dart';
+import '../manager/projects/update_project_views_view_model/update_project_views_view_model.dart';
 import '../widgets/search_for_projects_view_body.dart';
 
 class SearchForProjectsView extends StatelessWidget {
@@ -12,8 +13,12 @@ class SearchForProjectsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (_) => getIt<GetAllProjectsViewModel>(),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => getIt<GetAllProjectsViewModel>()..getAllProjects()),
+          BlocProvider(create: (context) => getIt<UpdateProjectViewsViewModel>()),
+        ],
+
         child: SafeArea(child: const SearchForProjectsViewBody()),
       ),
     );
