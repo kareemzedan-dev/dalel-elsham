@@ -43,29 +43,17 @@ class _HomeViewState extends State<HomeView> {
       authToken = token;
     });
   }
+
   late final List<Widget> _pages = [
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => getIt<GetBannersByPositionViewModel>()..getBannersByPosition("home"),
-        ),
-        BlocProvider(
-          create: (_) => getIt<GetAllCategoriesViewModel>()..getAllCategories(),
-        ),
-        BlocProvider(
-          create: (_) => getIt<GetAllProjectDisplaySectionsViewModel>()..getAllProjectDisplaySections(),
-        ),
-        BlocProvider(
-          create: (_) => getIt<GetNewestProjectsViewModel>()..getNewestProjects(),
+          create: (_) =>
+              getIt<GetBannersByPositionViewModel>()
+                ..getBannersByPosition("home"),
         ),
 
-
-        BlocProvider(
-          create: (_) => getIt<GetProjectsByDisplaySectionViewModel>(),
-        ),
-        BlocProvider(
-          create: (_) => getIt<UpdateProjectViewsViewModel>(),
-        ),
+        BlocProvider(create: (_) => getIt<UpdateProjectViewsViewModel>()),
       ],
       child: const HomeViewBody(),
     ),
@@ -73,15 +61,10 @@ class _HomeViewState extends State<HomeView> {
     const DalelElshamTabView(),
   ];
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: BlocProvider(
-        create: (_) => getIt<GetAllAppLinksViewModel>()..getAllAppLinks(),
-        child: Drawer(child: DrawerContent()),
-      ),
+      drawer: Drawer(child: DrawerContent()),
 
       extendBody: true,
 

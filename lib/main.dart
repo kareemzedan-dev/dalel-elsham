@@ -11,6 +11,10 @@ import 'core/cache/shared_preferences.dart';
 import 'core/di/di.dart';
 import 'core/services/notification_service.dart';
 import 'features/home/presentation/tabs/home/presentation/manager/app_links/get_all_app_links_view_model/get_all_app_links_view_model.dart';
+import 'features/home/presentation/tabs/home/presentation/manager/categories/get_all_categories_view_model/get_all_categories_view_model.dart';
+import 'features/home/presentation/tabs/home/presentation/manager/project_display_section_view_model/get_all_project_display_sections_view_model/get_all_project_display_sections_view_model.dart';
+import 'features/home/presentation/tabs/home/presentation/manager/projects/get_newest_projects_view_model/get_newest_projects_view_model.dart';
+import 'features/home/presentation/tabs/home/presentation/manager/projects/get_projects_by_display_section_view_model/get_projects_by_display_section_view_model.dart';
 import 'firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,6 +47,22 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider<GetAllAppLinksViewModel>(create: (_) => appLinksVM),
+        BlocProvider(
+          create: (_) => getIt<GetAllCategoriesViewModel>()..getAllCategories(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<GetAllProjectDisplaySectionsViewModel>()..getAllProjectDisplaySections(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<GetNewestProjectsViewModel>()..getNewestProjects(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<GetAllAppLinksViewModel>()..getAllAppLinks(),
+        ),
+
+        BlocProvider(
+          create: (_) => getIt<GetProjectsByDisplaySectionViewModel>(),
+        ),
       ],
       child: const DalelElsham(),
     ),

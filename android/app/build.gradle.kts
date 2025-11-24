@@ -45,6 +45,12 @@ android {
     }
 
 
+    packaging {
+        jniLibs {
+
+            useLegacyPackaging = false
+        }
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

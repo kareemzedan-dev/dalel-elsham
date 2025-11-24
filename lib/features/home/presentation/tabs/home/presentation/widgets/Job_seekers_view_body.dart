@@ -19,90 +19,87 @@ class JobSeekersViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<GetAllJobsViewModel>()..getAllJobs(),
-      child: Column(
-        children: [
-          JobsHeader(
-            searchHint: "أضف طلب عمل",
-            onChanged: (value) {
-              context.read<GetAllJobsViewModel>().searchJobs(value);
-            },
-          ),
+    return Column(
+      children: [
+        JobsHeader(
+          searchHint: "أضف طلب عمل",
+          onChanged: (value) {
+            context.read<GetAllJobsViewModel>().searchJobs(value);
+          },
+        ),
 
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(16.w),
-                child: Column(
-                  children: [
-                    BannerSectionForOpportunitiesAndJobs(
-                      position: "job_seekers",
-                    ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16.w),
+              child: Column(
+                children: [
+                  BannerSectionForOpportunitiesAndJobs(
+                    position: "job_seekers",
+                  ),
 
-                    SizedBox(height: 16.h),
+                  SizedBox(height: 16.h),
 
-                    BlocBuilder<GetAllJobsViewModel, GetAllJobsViewModelStates>(
-                      builder: (context, state) {
-                        if (state is GetAllJobsViewModelLoading) {
-                          return ListView.builder(
-                            itemCount: 5,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (_, __) => Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: const JobSeekerCardSkeleton(),
-                            ),
-                          );
-                        }
-
-                        if (state is GetAllJobsViewModelSuccess) {
-                          if (state.jobs.isEmpty) {
-                            return SizedBox(
-
-                              height: 350.h,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Lottie.asset(
-                                    "assets/lottie/Loading.json",
-                                    height: 200.h,
-                                    width: 200.w,
-                                  ),
-                                  SizedBox(height: 16.h),
-                                  Text(
-                                    "لا يوجد طلبات عمل حالياً",
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-
-                          return JobSeekerCardList(
-                            jobs: state.jobs,
-                            position: "job_seekers",
-                          );
-                        }
-
+                  BlocBuilder<GetAllJobsViewModel, GetAllJobsViewModelStates>(
+                    builder: (context, state) {
+                      if (state is GetAllJobsViewModelLoading) {
                         return ListView.builder(
                           itemCount: 5,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (_, __) => const JobSeekerCardSkeleton(),
+                          itemBuilder: (_, __) => Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: const JobSeekerCardSkeleton(),
+                          ),
                         );
-                      },
-                    ),
-                  ],
-                ),
+                      }
+
+                      if (state is GetAllJobsViewModelSuccess) {
+                        if (state.jobs.isEmpty) {
+                          return SizedBox(
+
+                            height: 350.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Lottie.asset(
+                                  "assets/lottie/Loading.json",
+                                  height: 200.h,
+                                  width: 200.w,
+                                ),
+                                SizedBox(height: 16.h),
+                                Text(
+                                  "لا يوجد طلبات عمل حالياً",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        return JobSeekerCardList(
+                          jobs: state.jobs,
+                          position: "job_seekers",
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, __) => const JobSeekerCardSkeleton(),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

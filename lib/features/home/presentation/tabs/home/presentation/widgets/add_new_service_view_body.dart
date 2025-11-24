@@ -233,42 +233,44 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                 }
 
                                 final id = const Uuid().v4();
+                                final savedUserId = SharedPrefHelper.getString("user_id");
 
-                                context
-                                    .read<AddNewServiceViewModel>()
-                                    .addProject(
-                                      ProjectEntity(
-                                        id: id,
-                                        title: titleController.text.trim(),
-                                        description: descController.text.trim(),
-                                        categoryTitle: selectedCategory ?? "",
-                                        logo: logoPath ?? "",
-                                        images: imagesUrls,
-                                        additionalImages: [],
-                                        phone: phoneController.text.trim(),
-                                        location: locationController.text
-                                            .trim(),
-                                        isActive: true,
-                                        duration: "غير محدد",
-                                        tier: "normal",
-                                        status: "pending",
-                                        createdAt: DateTime.now()
-                                            .toIso8601String(),
-                                        mapLink: "",
-                                        whatsapp: phoneController.text.trim(),
-                                        facebook: "",
-                                        instagram: "",
-                                        website: "",
-                                        views: 0,
-                                        workTimeFrom: "",
-                                        workTimeTo: "",
-                                        displaySections: [],
-                                        viewCountOn: false,
-                                        userId: SharedPrefHelper.getString(
-                                          "user_id",
-                                        )!,
-                                      ),
-                                    );
+                                print("USER ID FROM PREF = $savedUserId");
+
+                                if (savedUserId == null || savedUserId.isEmpty) {
+                                  return _showError("لا يوجد مستخدم مسجل الدخول.");
+                                }
+
+                                context.read<AddNewServiceViewModel>().addProject(
+                                  ProjectEntity(
+                                    id: id,
+                                    title: titleController.text.trim(),
+                                    description: descController.text.trim(),
+                                    categoryTitle: selectedCategory ?? "",
+                                    logo: logoPath ?? "",
+                                    images: imagesUrls,
+                                    additionalImages: [],
+                                    phone: phoneController.text.trim(),
+                                    location: locationController.text.trim(),
+                                    isActive: true,
+                                    duration: "7",
+                                    tier: "normal",
+                                    status: "pending",
+                                    createdAt: DateTime.now().toIso8601String(),
+                                    mapLink: "",
+                                    whatsapp: phoneController.text.trim(),
+                                    facebook: "",
+                                    instagram: "",
+                                    website: "",
+                                    views: 0,
+                                    workTimeFrom: "",
+                                    workTimeTo: "",
+                                    displaySections: [],
+                                    viewCountOn: false,
+                                    userId: savedUserId,   // ← هنا اتحلّت
+                                  ),
+                                );
+
                               },
                       ),
 

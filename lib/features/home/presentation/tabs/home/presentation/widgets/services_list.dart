@@ -10,17 +10,17 @@ class ServicesList extends StatelessWidget {
 
   final List<Map<String, dynamic>> servicesList = [
     {
-      "image": AssetsManager.service1,
+      "image": AssetsManager.mawaqet,
       "title": "مواقيت الصلاة",
       "route": RoutesManager.prayerTimes, // اسم الصفحة
     },
     {
-      "image": AssetsManager.service2,
+      "image": AssetsManager.jobsPhoto,
       "title": "ابحث عن عمل",
       "route": RoutesManager.jobSeekers, // صفحة الباحثين عن عمل
     },
     {
-      "image": AssetsManager.service3,
+      "image": AssetsManager.opportunitiesPhoto,
       "title": "فرص عمل",
       "route": RoutesManager.jobOpportunities,
     },

@@ -20,56 +20,11 @@ class PrayerTimesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BlocBuilder<GetAllAppLinksViewModel, GetAllAppLinksViewModelStates>(
-          builder: (context, state) {
-            if (state is GetAllAppLinksViewModelStatesLoading) {
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              );
-            }
-            if (state is GetAllAppLinksViewModelStatesError) {
-              return Center(
-                child: Text(
-                  "فشل الحصول على روابط التطبيق: ${state.message}",
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              );
-            }
-            if (state is GetAllAppLinksViewModelStatesSuccess) {
-              final bg = state.appLinks.firstWhere(
-                (link) => link.type == "prayer_background",
-                  orElse: () => AppLinkModel(
-                    id: "",
-                    type: "",
-                    title: "",
-                    url: "",
-                  )
-
-              );
-
-              if (bg.url.isNotEmpty) {
-                return Image.network(
-                  bg.url,
-                  fit: BoxFit.cover,
-                  height: double.infinity,
-                  width: double.infinity,
-                );
-              }
-
-              return Image.asset(
-                AssetsManager.mosque,
-                fit: BoxFit.cover,
-                height: double.infinity,
-                width: double.infinity,
-              );
-            }
-            return Image.asset(
-              AssetsManager.mosque,
-              fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-            );
-          },
+        Image.asset(
+          AssetsManager.mosque,
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,
         ),
         Container(color: ColorsManager.grey.withOpacity(0.2)),
         FutureBuilder(

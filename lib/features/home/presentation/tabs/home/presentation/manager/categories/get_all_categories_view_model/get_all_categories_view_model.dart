@@ -33,6 +33,10 @@ class GetAllCategoriesViewModel extends Cubit<GetAllCategoriesViewModelStates> {
         ifLeft: (failure) =>
             emit(GetAllCategoriesViewModelError(failure.message)),
         ifRight: (categories) {
+
+          /// ⭐ ترتيب حسب order قبل التخزين
+          categories.sort((a, b) => a.order.compareTo(b.order));
+
           // ⭐ 3) خزّن في الكاش
           _cachedCategories = categories;
 

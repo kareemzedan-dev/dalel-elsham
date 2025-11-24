@@ -1,98 +1,99 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../config/routes/routes_manager.dart';
-import '../../../../../../../core/utils/assets_manager.dart';
 import '../../domain/entities/category_entity.dart';
 import 'category_item.dart';
 
 class CategoryItemList extends StatelessWidget {
-  CategoryItemList({super.key, required this.categoriesList});
+  const CategoryItemList({
+    super.key,
+    required this.categoriesList,
+  });
 
   final List<CategoryEntity> categoriesList;
 
-  List<List<CategoryEntity>> chunk(
-    List<CategoryEntity> list,
-    int maxItemsPerRow,
-  ) {
-    List<List<CategoryEntity>> out = [];
-    for (int i = 0; i < list.length; i += maxItemsPerRow) {
-      out.add(
-        list.sublist(
-          i,
-          (i + maxItemsPerRow > list.length) ? list.length : i + maxItemsPerRow,
-        ),
-      );
-    }
-    return out;
-  }
-
   @override
   Widget build(BuildContext context) {
-    const int maxItemsPerRow = 17;
-    final rows = chunk(
-      categoriesList,
-      maxItemsPerRow,
-    ); // صفوف كل واحدة تشمل حتى 17 عنصر
-    final int columnsCount = rows.fold<int>(
-      0,
-      (prev, row) => row.length > prev ? row.length : prev,
-    ); // أطول صف
+    final sortedList = [...categoriesList]
+      ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
-    final double columnWidth = 90.w;
-    final double itemHeight = 90.h;
-    final double columnSpacing = 1.w;
-    final double itemSpacing = 1.h;
+    final double itemWidth = 100.w;
+    final double itemHeight = 100.h;
 
     return SizedBox(
-      height: (itemHeight * rows.length) + (itemSpacing * (rows.length - 1)),
-      // ارتفاع كافٍ لعدد الصفوف
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(columnsCount, (colIndex) {
-            return Padding(
-              padding: EdgeInsets.only(right: columnSpacing),
-              child: SizedBox(
-                width: columnWidth,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(rows.length, (rowIndex) {
-                    final row = rows[rowIndex];
+      height: itemHeight * 3 + 20.h, // 3 صفوف
+      child: Stack(
+        children: [
+          GridView.count(
+            crossAxisCount: 3, // ⭐ نفس طريقة العرض فوق
+            scrollDirection: Axis.horizontal,
+            childAspectRatio: itemWidth / itemHeight,
+            mainAxisSpacing: 12.h,
+            crossAxisSpacing: 12.w,
+            children: sortedList.map((category) {
+              return CategoryItem(
+                image: category.imageUrl,
+                title: category.name,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    RoutesManager.categoriesDetails,
+                    arguments: {
+                      "categoryId": category.id,
+                      "categoryName": category.name,
+                    },
+                  );
+                },
+              );
+            }).toList(),
+          ),
 
-                    final isLast = rowIndex == rows.length - 1;
-
-                    if (colIndex < row.length) {
-                      final category = row[colIndex];
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: isLast ? 0 : itemSpacing,
-                        ),
-                        child: SizedBox(
-                          height: itemHeight,
-                          child: CategoryItem(
-                            onTap: () {
-                              print(category.id);
-                              Navigator.pushNamed(
-                                context,
-                                RoutesManager.categoriesDetails,
-                                arguments: {'categoryId': category.id , 'categoryName': category.name },
-                              );
-                            },
-                            image: category.imageUrl,
-                            title: category.name,
-                          ),
-                        ),
-                      );
-                    }
-
-                    return SizedBox(height: itemHeight);
-                  }),
+          /// ⭐ Fade يمين
+          Positioned(
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 35.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withOpacity(0),
+                    Colors.white.withOpacity(0.2),
+                    Colors.white,
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
                 ),
               ),
-            );
-          }),
-        ),
+              child: Icon(Icons.keyboard_arrow_right,
+                  color: Colors.black45, size: 24.sp),
+            ),
+          ),
+
+          /// ⭐ Fade شمال
+          Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 35.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white,
+                    Colors.white.withOpacity(0.2),
+                    Colors.white.withOpacity(0),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+              ),
+              child: Icon(Icons.keyboard_arrow_left,
+                  color: Colors.black45, size: 24.sp),
+            ),
+          ),
+        ],
       ),
     );
   }

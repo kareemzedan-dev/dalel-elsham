@@ -44,7 +44,7 @@ class ContactUsViewBody extends StatelessWidget {
             whatsapp: getLink("whatsapp"),
             facebook: getLink("facebook"),
             instagram: getLink("instagram"),
-            twitter: getLink("twitter"),
+            tiktok: getLink("tiktok"),
             linkedin: getLink("linkedin"),
             youtube: getLink("youtube"),
             email: getLink("email"),
@@ -62,7 +62,7 @@ class ContactUsViewBody extends StatelessWidget {
         String? whatsapp,
         String? facebook,
         String? instagram,
-        String? twitter,
+        String? tiktok,
         String? linkedin,
         String? youtube,
         String? email,
@@ -73,12 +73,12 @@ class ContactUsViewBody extends StatelessWidget {
         children: [
           if (callNumber != null)
             _buildContactCard(
-              icon: AssetsManager.phoneCall,
-              title: "مكالمة",
+              icon: AssetsManager.whatsapp,
+              title: "واتس اب",
               subtitle: callNumber,
               color: Colors.blue,
               onTap: () {
-                PhoneCallService.callNumber(callNumber);
+                ContactLauncherService.openWhatsApp(callNumber);
 
               },
             ),
@@ -121,13 +121,13 @@ class ContactUsViewBody extends StatelessWidget {
                   username: "@Instagram",
                   onTap: () => openUrl(instagram),
                 ),
-              if (twitter != null)
+              if (tiktok != null)
                 _buildSocialCard(
-                  platform: "Twitter",
-                  icon: AssetsManager.twitter,
+                  platform: "Tiktok",
+                  icon: AssetsManager.tiktok,
                   color: Color(0xFF1DA1F2),
                   username: "@Twitter",
-                  onTap: () => openUrl(twitter),
+                  onTap: () => openUrl(tiktok),
                 ),
               if (youtube != null)
                 _buildSocialCard(

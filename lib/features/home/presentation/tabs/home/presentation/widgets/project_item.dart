@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../../config/routes/routes_manager.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
 import '../manager/projects/update_project_views_view_model/update_project_views_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProjectItem extends StatelessWidget {
   const ProjectItem({super.key, required this.projectEntity});
@@ -18,7 +19,9 @@ class ProjectItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.read<UpdateProjectViewsViewModel>().updateProjectViews(projectEntity.id);
+        context.read<UpdateProjectViewsViewModel>().updateProjectViews(
+          projectEntity.id,
+        );
         Navigator.pushNamed(
           context,
           RoutesManager.projectDetails,
@@ -49,7 +52,28 @@ class ProjectItem extends StatelessWidget {
               child: SizedBox(
                 height: 120.h,
                 width: double.infinity,
-                child:projectEntity.logo.isNotEmpty ? Image.network(projectEntity.logo, fit: BoxFit.cover):Container(color: Colors.grey.withOpacity(0.2)),
+                child: projectEntity.logo.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: projectEntity.logo,
+                        fit: BoxFit.cover,
+
+                        placeholder: (_, __) => Container(
+                          color: Colors.black12,
+                          child: Center(
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+
+                        errorWidget: (_, __, ___) => Container(
+                          color: Colors.black12,
+                          child: Icon(
+                            Icons.broken_image,
+                            color: Colors.red,
+                            size: 30.sp,
+                          ),
+                        ),
+                      )
+                    : Container(color: Colors.grey.withOpacity(0.2)),
               ),
             ),
             SizedBox(height: 10.h),

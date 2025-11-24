@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -77,10 +78,19 @@ class _BannerSectionState extends State<BannerSection> {
                   );
                 }
               },
-              child: Image.network(
-                banner.imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: banner.imageUrl,
                 fit: BoxFit.fill,
                 width: double.infinity,
+
+                placeholder: (_, __) => Container(
+                  color: Colors.black12,
+                ),
+
+                errorWidget: (_, __, ___) => Container(
+                  color: Colors.black12,
+                  child: Icon(Icons.error, color: Colors.red),
+                ),
               ),
             ),
           ),
