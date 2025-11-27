@@ -5,10 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../utils/colors_manager.dart';
 
 class ContactButtonCard extends StatelessWidget {
-  const ContactButtonCard({super.key, required this.image,   this.onTap});
+  const ContactButtonCard({super.key, required this.image,   this.onTap, this.color});
 
   final String image;
   final VoidCallback? onTap;
+  final Color? color;
 
 
   @override
@@ -17,7 +18,7 @@ class ContactButtonCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: ColorsManager.primaryColor,
+          color: color ?? ColorsManager.primaryColor,
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Padding(

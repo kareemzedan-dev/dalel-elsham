@@ -44,6 +44,8 @@ class ProjectDetailsViewBody extends StatelessWidget {
                       children: [
                         SizedBox(height: 16.h),
                         BannerSection(
+                          useContain: true,
+                          imageHeight: 200.h,
                           images: state.project.images.map((img) {
                             return BannerEntity(
                               id: UniqueKey().toString(),

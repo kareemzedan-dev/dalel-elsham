@@ -24,9 +24,13 @@ class PrayerTimesRemoteDataSourceImpl implements PrayerTimesRemoteDataSource {
         return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
       }
 
+      /// استخدم إحداثيات دمشق دائمًا
+      const double damascusLat = 33.5138;
+      const double damascusLng = 36.2765;
+
       /// 2. Build URL
       final String url =
-          "https://api.aladhan.com/v1/timings?latitude=$lat&longitude=$lng&method=2";
+          "https://api.aladhan.com/v1/timings?latitude=$damascusLat&longitude=$damascusLng&method=2";
 
       /// 3. Make GET request
       final response = await dio.get(url);
@@ -48,4 +52,5 @@ class PrayerTimesRemoteDataSourceImpl implements PrayerTimesRemoteDataSource {
       return Left(ServerFailure("خطأ غير متوقع: $e"));
     }
   }
+
 }

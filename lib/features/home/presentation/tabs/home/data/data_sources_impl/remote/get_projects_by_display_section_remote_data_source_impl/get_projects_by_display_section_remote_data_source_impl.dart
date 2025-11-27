@@ -7,6 +7,7 @@ import '../../../../../../../../../core/helper/network_validation.dart';
 import '../../../../../../../../../core/services/firebase_service.dart';
 import '../../../data_sources/remote/projects/get_projects_by_display_section_remote_data_source/get_projects_by_display_section_remote_data_source.dart';
 import '../../../models/project_model.dart';
+
 @Injectable(as: GetProjectsByDisplaySectionRemoteDataSource)
 class GetProjectsByDisplaySectionRemoteDataSourceImpl
     implements GetProjectsByDisplaySectionRemoteDataSource {
@@ -35,28 +36,35 @@ class GetProjectsByDisplaySectionRemoteDataSourceImpl
 
       /// 🔵 فلترة المشاريع (approved + غير منتهية)
       final filtered = rawData.where((item) {
-        final status = (item["status"] ?? "").toString().trim().toLowerCase();
-        final isApproved = status == "approved";
+        final status =
+        (item["status"] ?? "").toString().trim().toLowerCase();
 
-        if (!isApproved) return false;
+        if (status != "approved") return false;
 
-        /// مدة المشروع
-        final createdAt = DateTime.tryParse(item["createdAt"] ?? "") ??
-            DateTime(2000);
+        /// ⬅ createdAt
+        final createdAt =
+            DateTime.tryParse(item["createdAt"] ?? "") ?? DateTime(2000);
 
-        int durationDays = 7;
+        /// ⬅ استخراج durationDays (nullable)
+        int? durationDays;
+        final rawDuration = item["duration"];
 
-        if (item["duration"] != null) {
-          // يتعامل مع أي قيمة محفوظة (int أو string فيه أرقام)
+        if (rawDuration != null) {
           final match =
-          RegExp(r'\d+').firstMatch(item["duration"].toString());
+          RegExp(r'\d+').firstMatch(rawDuration.toString());
           if (match != null) {
             durationDays = int.parse(match.group(0)!);
           }
         }
 
-        final isExpired =
-            DateTime.now().difference(createdAt).inDays >= durationDays;
+        /// ⬅ هل المشروع منتهي؟
+        bool isExpired = false;
+
+        // فقط لو فيها رقم نحسب الانتهاء
+        if (durationDays != null) {
+          isExpired =
+              DateTime.now().difference(createdAt).inDays >= durationDays!;
+        }
 
         return !isExpired;
       }).toList();

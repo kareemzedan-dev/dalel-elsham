@@ -1,4 +1,5 @@
 import 'package:dalel_elsham/core/cache/shared_preferences.dart';
+import 'package:dalel_elsham/core/utils/assets_manager.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/categories/get_all_categories_view_model/get_all_categories_view_model.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/categories/get_all_categories_view_model/get_all_categories_view_model_states.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../../../../core/components/category_dropdown_widget.dart';
+import '../../../../../../../core/components/contact_button_card.dart';
 import '../../../../../../../core/components/custom_button.dart';
 import '../../../../../../../core/components/custom_text_field.dart';
 import '../../../../../../../core/components/mobile_number_field.dart';
 import '../../../../../../../core/services/image_upload_service.dart';
 import '../../../../../../../core/utils/colors_manager.dart';
-import '../../../../../../../core/validators/project_validators.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/project_entity.dart';
 import '../manager/projects/add_project_view_model/add_project_view_model.dart';
@@ -31,18 +32,29 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
   final descController = TextEditingController();
   final phoneController = TextEditingController();
   final locationController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   String? logoPath;
   String? selectedCategory;
   List<String> imagesUrls = [];
 
+  bool callSelected = true;
+  bool whatsappSelected = false;
+
+  String getHint() {
+    if (!callSelected && !whatsappSelected) return "يرجى اختيار طريقة تواصل";
+    if (callSelected && whatsappSelected) return "اتصال + واتس اب";
+    if (callSelected) return "اتصال";
+    if (whatsappSelected) return "واتس اب";
+    return "يرجى اختيار طريقة تواصل";
+  }
+
   final ImageUploadService uploader = ImageUploadService();
 
   void _showError(String msg) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
   }
 
   @override
@@ -63,7 +75,6 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
           _showError(state.message);
         }
       },
-
       builder: (context, state) {
         final isLoading = state is AddProjectViewModelLoading;
 
@@ -73,25 +84,51 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Form(
-                  key: _formKey, // ← مهم جداً
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // ================= LOGO + PROJECT NAME =================
                       Row(
                         children: [
-                          LogoPickerBox(
-                            onPicked: (result) async {
-                              if (result.bytes == null) return;
-
-                              final url = await uploader.uploadImage(
-                                bytes: result.bytes!,
-                                bucket: "projects",
-                                folder: "logos",
-                              );
-
-                              if (url != null) {
-                                setState(() => logoPath = url);
+                          // LOGO VALIDATOR
+                          FormField<String>(
+                            validator: (value) {
+                              if (logoPath == null || logoPath!.isEmpty) {
+                                return 'الرجاء اختيار لوجو';
                               }
+                              return null;
+                            },
+                            builder: (fieldState) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  LogoPickerBox(
+                                    onPicked: (result) async {
+                                      final url = await uploader.uploadImage(
+                                        bytes: result.bytes!,
+                                        bucket: "projects",
+                                        folder: "logos",
+                                      );
+                                      if (url != null) {
+                                        setState(() => logoPath = url);
+                                        fieldState.didChange(url);
+                                      }
+                                    },
+                                  ),
+                                  if (fieldState.hasError)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        fieldState.errorText!,
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
                             },
                           ),
 
@@ -116,58 +153,83 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                   hintText: "وصف المشروع",
                                   keyboardType: TextInputType.multiline,
                                   textEditingController: descController,
-                                  minLines: 1,   // يبدأ صغير
-                                  maxLines: null, // يكبر تلقائيًا
-                                )
-
+                                  minLines: 1,
+                                  maxLines: null,
+                                ),
                               ],
                             ),
-                          ),
+                          )
                         ],
                       ),
 
                       SizedBox(height: 20.h),
 
-                      BlocBuilder<
-                        GetAllCategoriesViewModel,
-                        GetAllCategoriesViewModelStates
-                      >(
-                        builder: (context, state) {
-                          if (state is GetAllCategoriesViewModelLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                      // ================= CATEGORY DROPDOWN + VALIDATOR =================
+                      FormField<String>(
+                        validator: (value) {
+                          if (selectedCategory == null ||
+                              selectedCategory!.isEmpty) {
+                            return "الرجاء اختيار فئة";
                           }
+                          return null;
+                        },
+                        builder: (fieldState) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BlocBuilder<GetAllCategoriesViewModel,
+                                  GetAllCategoriesViewModelStates>(
+                                builder: (context, state) {
+                                  if (state
+                                  is GetAllCategoriesViewModelLoading) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
 
-                          // نحصل على الفئات بشكل صحيح
-                          final List<CategoryEntity> categories =
-                              state is GetAllCategoriesViewModelSuccess
-                              ? state.categories
-                              : [];
+                                  final List<CategoryEntity> categories =
+                                  state is GetAllCategoriesViewModelSuccess
+                                      ? state.categories
+                                      : [];
 
-                          // selectedEntity لو عايز تخليها CategoryEntity بدل String
-                          CategoryEntity? selectedEntity;
-                          if (selectedCategory != null) {
-                            for (var cat in categories) {
-                              if (cat.id == selectedCategory) {
-                                selectedEntity = cat;
-                                break;
-                              }
-                            }
-                          }
+                                  CategoryEntity? selectedEntity;
 
-                          return CategoryDropdownWidget(
-                            categories: categories,
-                            selectedValue: selectedEntity,
-                            onChanged: (value) {
-                              setState(() => selectedCategory = value?.id);
-                            },
+                                  if (selectedCategory != null) {
+                                    selectedEntity = categories
+                                        .where((cat) => cat.id == selectedCategory)
+                                        .firstOrNull; // يرجع null لو مش لاقي
+                                  }
+
+
+                                  return CategoryDropdownWidget(
+                                    categories: categories,
+                                    selectedValue: selectedEntity,
+                                    onChanged: (value) {
+                                      setState(() =>
+                                      selectedCategory = value?.id);
+                                      fieldState.didChange(value?.id);
+                                    },
+                                  );
+                                },
+                              ),
+
+                              if (fieldState.hasError)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    fieldState.errorText!,
+                                    style: const TextStyle(
+                                        color: Colors.red, fontSize: 12),
+                                  ),
+                                ),
+                            ],
                           );
                         },
                       ),
 
                       SizedBox(height: 20.h),
 
+                      // ================= LOCATION =================
                       CustomTextFormField(
                         hintText: "الموقع",
                         keyboardType: TextInputType.text,
@@ -176,9 +238,45 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
 
                       SizedBox(height: 20.h),
 
+                      // ================= CONTACT BUTTONS =================
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() => callSelected = !callSelected);
+                            },
+                            child: ContactButtonCard(
+                              image: AssetsManager.phoneCall,
+                              color: callSelected
+                                  ? ColorsManager.primaryColor
+                                  : Colors.grey,
+                            ),
+                          ),
+                          SizedBox(width: 5.w),
+                          Icon(Icons.add,
+                              color: ColorsManager.primaryColor, size: 24.sp),
+                          SizedBox(width: 5.w),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() =>
+                              whatsappSelected = !whatsappSelected);
+                            },
+                            child: ContactButtonCard(
+                              image: AssetsManager.whatsapp,
+                              color: whatsappSelected
+                                  ? ColorsManager.primaryColor
+                                  : Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 12.h),
+
+                      // ================= PHONE FIELD =================
                       MobileNumberField(
                         controller: phoneController,
-                        hintText: "اتصال + واتس اب",
+                        hintText: getHint(),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return "رقم الهاتف مطلوب";
@@ -189,13 +287,13 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
 
                       SizedBox(height: 20.h),
 
+                      // ================= IMAGES GROUP =================
                       Text(
                         "اختياري (اضف صور خاصه بمشروعك)",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12.sp,
-                          color: ColorsManager.black.withOpacity(0.5),
-                        ),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12.sp,
+                            color: ColorsManager.black.withOpacity(0.5)),
                       ),
 
                       SizedBox(height: 8.h),
@@ -203,7 +301,6 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                       ImagesGroupBox(
                         onImagesSelected: (pickedBytes) async {
                           List<String> urls = [];
-
                           for (var img in pickedBytes) {
                             final url = await uploader.uploadImage(
                               bytes: img,
@@ -212,66 +309,80 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                             );
                             if (url != null) urls.add(url);
                           }
-
                           setState(() => imagesUrls = urls);
                         },
                       ),
 
                       SizedBox(height: 60.h),
 
+                      // ================= SUBMIT BUTTON =================
                       CustomButton(
                         text: "أضف اعلانك",
                         onPressed: isLoading
                             ? null
                             : () {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
+                          if (!_formKey.currentState!
+                              .validate()) return;
 
-                                if (selectedCategory == null) {
-                                  return _showError("اختر الفئة");
-                                }
+                          if (selectedCategory == null) {
+                            return _showError("اختر الفئة");
+                          }
 
-                                final id = const Uuid().v4();
-                                final savedUserId = SharedPrefHelper.getString("user_id");
+                          final id = const Uuid().v4();
+                          final savedUserId =
+                          SharedPrefHelper.getString("user_id");
 
-                                print("USER ID FROM PREF = $savedUserId");
+                          if (savedUserId == null ||
+                              savedUserId.isEmpty) {
+                            return _showError(
+                                "لا يوجد مستخدم مسجل الدخول.");
+                          }
 
-                                if (savedUserId == null || savedUserId.isEmpty) {
-                                  return _showError("لا يوجد مستخدم مسجل الدخول.");
-                                }
+                          final String finalPhone = callSelected
+                              ? phoneController.text.trim()
+                              : "";
 
-                                context.read<AddNewServiceViewModel>().addProject(
-                                  ProjectEntity(
-                                    id: id,
-                                    title: titleController.text.trim(),
-                                    description: descController.text.trim(),
-                                    categoryTitle: selectedCategory ?? "",
-                                    logo: logoPath ?? "",
-                                    images: imagesUrls,
-                                    additionalImages: [],
-                                    phone: phoneController.text.trim(),
-                                    location: locationController.text.trim(),
-                                    isActive: true,
-                                    duration: "7",
-                                    tier: "normal",
-                                    status: "pending",
-                                    createdAt: DateTime.now().toIso8601String(),
-                                    mapLink: "",
-                                    whatsapp: phoneController.text.trim(),
-                                    facebook: "",
-                                    instagram: "",
-                                    website: "",
-                                    views: 0,
-                                    workTimeFrom: "",
-                                    workTimeTo: "",
-                                    displaySections: [],
-                                    viewCountOn: false,
-                                    userId: savedUserId,   // ← هنا اتحلّت
-                                  ),
-                                );
+                          final String finalWhatsapp = whatsappSelected
+                              ? phoneController.text.trim()
+                              : "";
 
-                              },
+                          context
+                              .read<
+                              AddNewServiceViewModel>()
+                              .addProject(
+                            ProjectEntity(
+                              id: id,
+                              title: titleController.text.trim(),
+                              description:
+                              descController.text.trim(),
+                              categoryTitle:
+                              selectedCategory ?? "",
+                              logo: logoPath!,
+                              images: imagesUrls,
+                              additionalImages: [],
+                              phone: finalPhone,
+                              whatsapp: finalWhatsapp,
+                              location:
+                              locationController.text.trim(),
+                              isActive: true,
+                              duration: "غير محدد",
+                              tier: "normal",
+                              status: "pending",
+                              createdAt: DateTime.now()
+                                  .toIso8601String(),
+                              mapLink: "",
+                              facebook: "",
+                              instagram: "",
+                              website: "",
+                              views: 0,
+                              workTimeFrom: "",
+                              workTimeTo: "",
+                              displaySections: [],
+                              viewCountOn: false,
+                              userId: savedUserId,
+                            ),
+                          );
+                        },
                       ),
 
                       SizedBox(height: 20.h),
@@ -287,7 +398,8 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                 width: double.infinity,
                 color: Colors.black.withOpacity(0.25),
                 child: const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
+                  child:
+                  CircularProgressIndicator(color: Colors.white),
                 ),
               ),
           ],

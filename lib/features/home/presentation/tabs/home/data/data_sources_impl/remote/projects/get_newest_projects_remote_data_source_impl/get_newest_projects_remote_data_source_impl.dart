@@ -8,11 +8,10 @@ import '../../../../../domain/entities/project_entity.dart';
 import '../../../../data_sources/remote/projects/get_newest_projects_remote_data_source/get_newest_projects_remote_data_source.dart';
 import '../../../../models/project_model.dart';
 
-
-
 @Injectable(as: GetNewestProjectsRemoteDataSource)
 class GetNewestProjectsRemoteDataSourceImpl
     implements GetNewestProjectsRemoteDataSource {
+
   final FirebaseService firebaseService;
 
   GetNewestProjectsRemoteDataSourceImpl(this.firebaseService);
@@ -20,28 +19,28 @@ class GetNewestProjectsRemoteDataSourceImpl
   @override
   Future<Either<Failures, List<ProjectEntity>>> getNewestProjects() async {
     try {
+      // 🔹 فحص الإنترنت
       if (!await NetworkValidation.hasInternet()) {
         return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
       }
 
-      /// 🟦 1. جلب جميع المشاريع
+      // 🔹 جلب كل المشاريع
       final data = await firebaseService.getCollection(collection: "projects");
 
-      /// 🟦 2. تحويلها إلى Models
+      // 🔹 تحويلها إلى Models
       final List<ProjectModel> models = data.map((map) {
         return ProjectModel.fromMap(map, map["id"]);
       }).toList();
 
-      /// 🟦 3. فلترة الـ approved + غير المنتهية
+      // 🔹 فلترة approved + غير منتهية
       final filtered = models.where((p) {
-        // ✔ لازم Approved
         if (p.status != "approved") return false;
 
-        // ✔ نحول createdAt
-        final createdAt = DateTime.tryParse(p.createdAt ?? "") ?? DateTime(2000);
+        final createdAt =
+            DateTime.tryParse(p.createdAt ?? "") ?? DateTime(2000);
 
-        // ✔ استخراج عدد الأيام من duration
-        int durationDays = 7; // fallback
+        // ⬅ durationDays nullable — بدون fallback 7
+        int? durationDays;
 
         if (p.duration != null) {
           final match = RegExp(r'\d+').firstMatch(p.duration.toString());
@@ -50,21 +49,27 @@ class GetNewestProjectsRemoteDataSourceImpl
           }
         }
 
-        // ✔ حساب هل انتهى أم لا
-        final isExpired =
-            DateTime.now().difference(createdAt).inDays >= durationDays;
+        // ⬅ تحديد هل منتهي
+        bool isExpired = false;
 
+        // لو فيها رقم → احسب
+        if (durationDays != null) {
+          isExpired =
+              DateTime.now().difference(createdAt).inDays >= durationDays!;
+        }
+
+        // لو مفيش رقم → المشروع مش منتهي
         return !isExpired;
       }).toList();
 
-      /// 🟦 4. ترتيبهم حسب الجديد → القديم
+      // 🔹 ترتيب من الأحدث للأقدم
       filtered.sort((a, b) {
         final dateA = DateTime.tryParse(a.createdAt ?? "") ?? DateTime(2000);
         final dateB = DateTime.tryParse(b.createdAt ?? "") ?? DateTime(2000);
         return dateB.compareTo(dateA);
       });
 
-      /// 🟦 5. أخذ آخر 10 فقط
+      // 🔹 أخذ أحدث 10
       final newest = filtered.take(10).toList();
 
       return Right(newest);

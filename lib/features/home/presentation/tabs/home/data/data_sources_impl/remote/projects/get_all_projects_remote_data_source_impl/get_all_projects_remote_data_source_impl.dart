@@ -8,8 +8,6 @@ import '../../../../../domain/entities/project_entity.dart';
 import '../../../../data_sources/remote/projects/get_all_projects_remote_data_source/get_all_projects_remote_data_source.dart';
 import '../../../../models/project_model.dart';
 
-
-
 @Injectable(as: GetAllProjectsRemoteDataSource)
 class GetAllProjectsRemoteDataSourceImpl
     implements GetAllProjectsRemoteDataSource {
@@ -40,7 +38,7 @@ class GetAllProjectsRemoteDataSourceImpl
             DateTime(2000);
 
         // duration
-        int durationDays = 7; // fallback
+        int? durationDays; // ❗ مش هنستخدم fallback 7
 
         if (item["duration"] != null) {
           final match = RegExp(r'\d+').firstMatch(item["duration"].toString());
@@ -50,8 +48,12 @@ class GetAllProjectsRemoteDataSourceImpl
         }
 
         // هل المشروع منتهي؟
-        final isExpired =
-            DateTime.now().difference(createdAt).inDays >= durationDays;
+        bool isExpired = false;
+
+        // ❗ لو المدة رقم — نحسبها، لو مش رقم — المشروع غير منتهي
+        if (durationDays != null) {
+          isExpired = DateTime.now().difference(createdAt).inDays >= durationDays!;
+        }
 
         return !isExpired;
       }).toList();
@@ -65,10 +67,8 @@ class GetAllProjectsRemoteDataSourceImpl
       }).toList();
 
       return Right(projects);
-
     } catch (e) {
       return Left(ServerFailure("حدث خطأ أثناء جلب المشاريع: $e"));
     }
   }
 }
-

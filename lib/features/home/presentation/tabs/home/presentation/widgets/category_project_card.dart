@@ -31,9 +31,11 @@ class CategoryProjectCard extends StatelessWidget {
     }
   }
 
-
-  // ⭐ شكل البادج (الميدالية)
   Widget _buildTypeBadge() {
+    if (project.tier == "normal") {
+      return const SizedBox.shrink(); // 👈 لا نعرض أي شيء
+    }
+
     return Positioned(
       top: 0,
       left: 0,
@@ -49,8 +51,8 @@ class CategoryProjectCard extends StatelessWidget {
         child: Icon(Icons.workspace_premium, size: 16.sp, color: Colors.white),
       ),
     );
-
   }
+
 
   @override
   Widget build(BuildContext context) {

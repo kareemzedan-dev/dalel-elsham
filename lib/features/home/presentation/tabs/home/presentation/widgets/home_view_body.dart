@@ -167,7 +167,7 @@ class HomeViewBody extends StatelessWidget {
           return const BannerSectionSkeleton();
         }
         if (state is GetBannersByPositionViewModelStatesSuccess) {
-          return BannerSection(images: state.banners);
+          return BannerSection(images: state.banners,imageHeight: 200.h  , useFill: true,);
         }
         return const BannerSectionSkeleton();
       },

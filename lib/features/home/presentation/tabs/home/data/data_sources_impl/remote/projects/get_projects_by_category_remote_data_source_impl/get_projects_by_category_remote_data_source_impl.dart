@@ -20,45 +20,54 @@ class GetProjectsByCategoryRemoteDataSourceImpl
   Future<Either<Failures, List<ProjectEntity>>> getProjectsByCategory(
       String category) async {
     try {
+      // 🔹 التحقق من الانترنت
       if (!await NetworkValidation.hasInternet()) {
         return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
       }
 
+      // 🔹 جلب المشاريع حسب الفئة
       final result = await fireStoreService.getWhere(
         collection: "projects",
         field: "categoryTitle",
         value: category,
       );
 
-      // 🔥 فلترة المشاريع المعتمدة + اللي مدتها لسه ما خلصتش
+      // 🔥 فلترة المشاريع (approved + غير منتهية)
       final filtered = result.where((item) {
         final data = item["data"];
 
-        final isApproved = data["status"] == "approved";
+        if (data["status"] != "approved") return false;
 
-        // 🔹 createdAt
-        final createdAt = DateTime.tryParse(data["createdAt"] ?? "") ?? DateTime(2000);
+        // 📌 createdAt
+        final createdAt =
+            DateTime.tryParse(data["createdAt"] ?? "") ?? DateTime(2000);
 
-        // 🔹 duration من Firebase
+        // 📌 raw duration
         final rawDuration = data["duration"];
 
-        // 🟦 تحويل الـ duration لأي فورمات متوقعة
-        int durationDays = 7; // default fallback
+        // 📌 تحويل duration إلى رقم (لو رقم فقط)
+        int? durationDays;
 
         if (rawDuration != null) {
-          // لو duration مكتوبة "7 days"
-          final extracted = RegExp(r'\d+').firstMatch(rawDuration.toString());
+          final extracted =
+          RegExp(r'\d+').firstMatch(rawDuration.toString());
           if (extracted != null) {
             durationDays = int.parse(extracted.group(0)!);
           }
         }
 
-        // 🔥 هل انتهت مدة المشروع؟
-        final isExpired = DateTime.now().difference(createdAt).inDays >= durationDays;
+        // 📌 هل المشروع منتهي؟
+        bool isExpired = false;
 
-        return isApproved && !isExpired;
+        if (durationDays != null) {
+          isExpired =
+              DateTime.now().difference(createdAt).inDays >= durationDays!;
+        }
+
+        return !isExpired;
       }).toList();
 
+      // 🔹 تحويل البيانات
       final List<ProjectEntity> projects = filtered.map((item) {
         return ProjectModel.fromMap(item["data"], item["id"]);
       }).toList();

@@ -41,6 +41,8 @@ class FeaturedPlaceCard extends StatelessWidget {
                 child: BannerSection(
                   showDotsOnTop: true,
                   disableAutoPlay: true,
+                  useFill: true,
+                  imageHeight: 200.h,
                   images: place.images.map((img) {
                     return BannerEntity(
                       id: UniqueKey().toString(),
@@ -115,23 +117,28 @@ class FeaturedPlaceCard extends StatelessWidget {
 
                     Row(
                       children: [
-                        ContactButtonCard(
-                          image: AssetsManager.phoneCall,
-                          onTap: () {
-                            PhoneCallService.callNumber(place.phone);
-                          },
-                        ),
+                        if ((place.phone ?? "").isNotEmpty)
+                          ContactButtonCard(
+                            image: AssetsManager.phoneCall,
+                            onTap: () {
+                              PhoneCallService.callNumber(place.phone!);
+                            },
+                          ),
+
                         SizedBox(width: 8.w),
-                        ContactButtonCard(
-                          image: AssetsManager.location,
-                          onTap: () {
-                            ContactLauncherService.openMapByLink(
-                              place.mapLink ?? "",
-                            );
-                          },
-                        ),
+
+                        if ((place.mapLink ?? "").isNotEmpty)
+                          ContactButtonCard(
+                            image: AssetsManager.location,
+                            onTap: () {
+                              ContactLauncherService.openMapByLink(
+                                place.mapLink!,
+                              );
+                            },
+                          ),
                       ],
                     ),
+
                   ],
                 ),
               ),

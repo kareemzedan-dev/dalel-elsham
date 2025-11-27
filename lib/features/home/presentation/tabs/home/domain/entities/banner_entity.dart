@@ -8,6 +8,8 @@ class BannerEntity {
   final bool isActive;
   final int order;
   final DateTime createdAt;
+  final double? width;
+  final double? height;
 
   const BannerEntity({
     required this.id,
@@ -19,5 +21,7 @@ class BannerEntity {
     required this.isActive,
     required this.order,
     required this.createdAt,
+    this.width,
+    this.height,
   });
 }

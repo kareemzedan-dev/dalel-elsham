@@ -31,7 +31,7 @@ class CategoryProjectCardList extends StatelessWidget {
         if (state is GetProjectsByCategoryViewModelSuccess) {
           if (state.projects.isEmpty) {
             return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6.sp,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -42,15 +42,32 @@ class CategoryProjectCardList extends StatelessWidget {
                       width: 200.w,
                     ),
                     SizedBox(height: 16.h),
+
                     Text(
                       "لا توجد مشاريع ضمن هذه الفئة حتى الآن",
-                      style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    SizedBox(height: 8.h),
+
+                    Text(
+                      "سيتم تعبئة هذا القسم خلال يومين كحد أقصى",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
                   ],
                 ),
               ),
             );
           }
+
 
           return ListView.separated(
             shrinkWrap: true,
