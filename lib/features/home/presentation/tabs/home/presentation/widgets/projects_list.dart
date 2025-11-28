@@ -22,7 +22,7 @@ class ProjectsList extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.only(left: 16.w),
-            child: ProjectItem(projectEntity: projects[index]),
+            child: ProjectItem(projectEntity: projects[index],width:   150.w,),
           );
         },
       ),

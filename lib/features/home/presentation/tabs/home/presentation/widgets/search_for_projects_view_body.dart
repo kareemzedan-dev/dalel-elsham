@@ -85,7 +85,7 @@ class _SearchForProjectsViewBodyState extends State<SearchForProjectsViewBody> {
                     final project = projects[index];
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: ProjectItem( projectEntity: project ,),
+                      child: ProjectItem( projectEntity: project , width: double.infinity,),
                     ); // UI Card
                   },
                 );
