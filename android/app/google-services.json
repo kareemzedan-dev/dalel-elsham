@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "717466346064",
+    "project_id": "dlylalsham-437e6",
+    "storage_bucket": "dlylalsham-437e6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717466346064:android:0bf4372f158b431b17a755",
+        "android_client_info": {
+          "package_name": "com.dalel.elsham"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvGeCJx1PJaIKU3YcglLRARA_CiQSkaO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717466346064:android:09c3242e04d5a62b17a755",
+        "android_client_info": {
+          "package_name": "com.example.dalel_elsham"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvGeCJx1PJaIKU3YcglLRARA_CiQSkaO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717466346064:android:163da692de79803417a755",
+        "android_client_info": {
+          "package_name": "com.example.dlyl_alsham_dashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvGeCJx1PJaIKU3YcglLRARA_CiQSkaO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

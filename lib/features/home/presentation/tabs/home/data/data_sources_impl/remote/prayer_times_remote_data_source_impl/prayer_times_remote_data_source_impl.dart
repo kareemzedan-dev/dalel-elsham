@@ -7,6 +7,8 @@ import '../../../../../../../../../core/helper/network_validation.dart';
 import '../../../../domain/entities/prayer_times_entity.dart';
 import '../../../data_sources/remote/prayer_times_remote_data_source/prayer_times_remote_data_source.dart';
 import '../../../models/prayer_times_model.dart';
+
+
  @Injectable(as: PrayerTimesRemoteDataSource)
 class PrayerTimesRemoteDataSourceImpl implements PrayerTimesRemoteDataSource {
   final Dio dio;

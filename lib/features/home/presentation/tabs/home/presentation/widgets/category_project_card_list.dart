@@ -1,10 +1,12 @@
 import 'package:dalel_elsham/config/routes/routes_manager.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/projects/get_projects_by_category_view_model/get_projects_by_category_view_model.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/widgets/skeletons/category_project_card_skeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../core/utils/colors_manager.dart';
 import '../manager/projects/get_projects_by_category_view_model/get_projects_by_category_view_model_states.dart';
 import '../manager/projects/update_project_views_view_model/update_project_views_view_model.dart';
 import 'category_project_card.dart';
@@ -21,11 +23,23 @@ class CategoryProjectCardList extends StatelessWidget {
     >(
       builder: (context, state) {
         if (state is GetProjectsByCategoryViewModelLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return  ListView.builder(
+            itemCount:10,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (_, __) => const CategoryProjectCardSkeleton(),
+          );
+
         }
 
         if (state is GetProjectsByCategoryViewModelError) {
-          return const Center(child: Text("حدث خطأ ما أثناء جلب المشاريع"));
+          return  ListView.builder(
+            itemCount: 6,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (_, __) => const CategoryProjectCardSkeleton(),
+          );
+
         }
 
         if (state is GetProjectsByCategoryViewModelSuccess) {
