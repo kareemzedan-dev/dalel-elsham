@@ -49,6 +49,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
   Future<void> _onRefresh() async {
     context.read<GetBannersByPositionViewModel>().getBannersByPosition("home");
+    context.read<GetAllCategoriesViewModel>().getAllCategories();
 
     context.read<GetAllProjectDisplaySectionsViewModel>().getAllProjectDisplaySections();
     context.read<GetNewestProjectsViewModel>().getNewestProjects();

@@ -7,6 +7,7 @@ import '../../../../../../../core/di/di.dart';
 import '../manager/projects/get_project_details_view_model/get_project_details_view_model.dart';
 import '../manager/projects/get_project_details_view_model/get_project_details_view_model_states.dart';
 import '../widgets/project_details_view_body.dart';
+import '../widgets/skeletons/project_details_skeleton_view_body.dart';
 
 class ProjectDetailsView extends StatelessWidget {
   final String projectId;
@@ -25,13 +26,11 @@ class ProjectDetailsView extends StatelessWidget {
           >(
             builder: (context, state) {
               if (state is GetProjectDetailsViewModelLoading) {
-                return const Scaffold(
-                  body: Center(child: CircularProgressIndicator()),
-                );
+                return  ProjectDetailsSkeletonViewBody();
               }
 
               if (state is GetProjectDetailsViewModelError) {
-                return Scaffold(body: Center(child: Text(state.message)));
+                return  ProjectDetailsSkeletonViewBody();
               }
 
               if (state is GetProjectDetailsViewModelSuccess) {
@@ -49,7 +48,7 @@ class ProjectDetailsView extends StatelessWidget {
                 );
               }
 
-              return const SizedBox.shrink();
+              return  ProjectDetailsSkeletonViewBody();
             },
           ),
     );
