@@ -15,7 +15,7 @@ class AssetsManager {
   static const String youtube = '$baseUrl/youtube.png';
   static const String world = '$baseUrl/world.png';
   static const String location = '$baseUrl/location.png';
-  static const String syria = '$baseUrl/country.jpg';
+  static const String country = '$baseUrl/country.jpg';
   static const String person = '$baseUrl/user.png';
   static const String mosque = '$baseUrl/mosque.jpg';
   static const String onboarding1 = '$baseUrl/onboarding1.png';

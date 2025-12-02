@@ -377,13 +377,7 @@ class ContactUsViewBody extends StatelessWidget {
               color: Colors.grey.shade700,
             ),
           ),
-          SizedBox(height: 16.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildInfoItem("دمشق - سوريا", Icons.location_on_rounded),
-            ],
-          ),
+         
         ],
       ),
     );

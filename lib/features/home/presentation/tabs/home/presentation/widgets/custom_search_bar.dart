@@ -68,7 +68,7 @@ class CustomSearchBar extends StatelessWidget {
                     width: 40.w,
                     child: Center(
                       child: Image.asset(
-                        AssetsManager.syria,
+                        AssetsManager.country,
                         height: 18.h,
                         width: 22.w,
                       ),

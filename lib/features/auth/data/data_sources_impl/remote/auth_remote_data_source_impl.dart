@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dart_either/dart_either.dart';
@@ -12,6 +14,11 @@ import '../../../domain/entities/auth_entity.dart';
 import '../../data_sources/remote/auth_remote_data_source.dart';
 import '../../model/auth_model.dart';
 
+bool get isIOSSimulator {
+  return Platform.isIOS &&
+      Platform.environment.containsKey('SIMULATOR_DEVICE_NAME');
+}
+
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,7 +28,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.firebaseService);
 
   // ------------------------------------------------------
-  // 🔵 REGISTER
+  // REGISTER
   // ------------------------------------------------------
   @override
   Future<Either<Failures, AuthEntity>> register({
@@ -31,7 +38,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      // 1) Firebase Auth
+      print("➡ REGISTER…");
+
       final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -40,7 +48,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final user = userCredential.user!;
       final uid = user.uid;
 
-      // 2) Save profile in Firestore
       final userData = AuthModel(
         id: uid,
         name: name,
@@ -51,20 +58,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       await _firestore.collection("users").doc(uid).set(userData.toMap());
 
-      // 3) Get Firebase token
       final token = await user.getIdToken(true);
 
-      // 🔥 Get FCM Token
-      final fcmToken = await FirebaseMessaging.instance.getToken();
+      // -------- FCM TOKEN SAFE MODE --------
+      String? fcmToken;
 
-      // 4) Save in SharedPreferences
+      if (isIOSSimulator) {
+        fcmToken = "ios_simulator_token";
+      } else {
+        try {
+          fcmToken = await FirebaseMessaging.instance.getToken();
+        } catch (_) {
+          // لو الـ FCM وقع لأي سبب → ما نكسرش الـ register
+          fcmToken = null;
+        }
+      }
+      // -------------------------------------
+
       await SharedPrefHelper.setString("auth_token", token!);
       await SharedPrefHelper.setString("user_name", name);
       await SharedPrefHelper.setString("user_email", email);
       await SharedPrefHelper.setString("user_phone", phone);
       await SharedPrefHelper.setString("user_id", uid);
 
-      // 🔥 Save FCM Token in Firestore
       await _firestore.collection("users").doc(uid).update({
         "fcmToken": fcmToken,
         "userId": uid,
@@ -72,13 +88,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return Right(userData);
     } catch (e) {
-      final msg = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
-      return Left(ServerFailure(msg));
+      print("🔥 REGISTER ERROR: $e");
+      return Left(ServerFailure(
+          FirebaseAuthErrorMapper.fromExceptionMessage(e.toString())));
     }
   }
 
   // ------------------------------------------------------
-  // 🔵 LOGIN
+  // LOGIN
   // ------------------------------------------------------
   @override
   Future<Either<Failures, AuthEntity>> login({
@@ -86,7 +103,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      // 1) Auth Login
+      print("➡ LOGIN…");
+
       final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -95,7 +113,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final user = userCredential.user!;
       final uid = user.uid;
 
-      // 2) Get user profile
       final doc = await _firestore.collection("users").doc(uid).get();
 
       if (!doc.exists) {
@@ -104,34 +121,42 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final authUser = AuthModel.fromMap(doc.data()!, doc.id);
 
-      // 3) Get token from Firebase
       final token = await user.getIdToken(true);
 
-      // 🔥 Get new FCM Token
-      final fcmToken = await FirebaseMessaging.instance.getToken();
+      // -------- FCM TOKEN SAFE MODE --------
+      String? fcmToken;
 
-      // 4) Save it
+      if (isIOSSimulator) {
+        fcmToken = "ios_simulator_token";
+      } else {
+        try {
+          fcmToken = await FirebaseMessaging.instance.getToken();
+        } catch (_) {
+          fcmToken = null;
+        }
+      }
+      // -------------------------------------
+
       await SharedPrefHelper.setString("auth_token", token!);
       await SharedPrefHelper.setString("user_name", authUser.name);
       await SharedPrefHelper.setString("user_email", email);
       await SharedPrefHelper.setString("user_id", uid);
 
-      // 🔥 Update FCM Token in Firestore
       await _firestore.collection("users").doc(uid).update({
         "fcmToken": fcmToken,
         "userId": uid,
-
       });
 
       return Right(authUser);
     } catch (e) {
-      final msg = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
-      return Left(ServerFailure(msg));
+      print("🔥 LOGIN ERROR: $e");
+      return Left(ServerFailure(
+          FirebaseAuthErrorMapper.fromExceptionMessage(e.toString())));
     }
   }
 
   // ------------------------------------------------------
-  // 🔵 GET CURRENT USER
+  // CURRENT USER
   // ------------------------------------------------------
   @override
   Future<Either<Failures, AuthEntity>> getCurrentUser() async {
@@ -150,13 +175,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return Right(AuthModel.fromMap(doc.data()!, doc.id));
     } catch (e) {
-      final msg = FirebaseAuthErrorMapper.fromExceptionMessage(e.toString());
-      return Left(ServerFailure(msg));
+      return Left(ServerFailure(
+          FirebaseAuthErrorMapper.fromExceptionMessage(e.toString())));
     }
   }
 
   // ------------------------------------------------------
-  // 🔵 LOGOUT
+  // LOGOUT
   // ------------------------------------------------------
   @override
   Future<void> logout() async {
@@ -164,10 +189,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await _auth.signOut();
       await SharedPrefHelper.remove("auth_token");
     } catch (e) {
-      final readable = FirebaseAuthErrorMapper.fromExceptionMessage(
-        e.toString(),
-      );
-      throw ServerFailure(readable);
+      throw ServerFailure(
+          FirebaseAuthErrorMapper.fromExceptionMessage(e.toString()));
     }
   }
 }

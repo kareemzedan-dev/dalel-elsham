@@ -29,11 +29,11 @@ class MobileNumberField extends StatelessWidget {
       ),
       child: Row(
         children: [
-          /// علم الدولة
+
           ClipRRect(
             borderRadius: BorderRadius.circular(4.r),
             child: Image.asset(
-              AssetsManager.syria,
+              AssetsManager.country,
               width: 32.w,
               height: 22.h,
               fit: BoxFit.cover,
@@ -42,7 +42,6 @@ class MobileNumberField extends StatelessWidget {
 
           SizedBox(width: 8.w),
 
-          /// كود الدولة
           Text(
             "+963",
             style: TextStyle(
@@ -54,7 +53,7 @@ class MobileNumberField extends StatelessWidget {
 
           SizedBox(width: 12.w),
 
-          /// خط فاصل
+
           Container(
             width: 1,
             height: 25.h,
@@ -62,7 +61,6 @@ class MobileNumberField extends StatelessWidget {
           ),
 
 
-          /// TextField للرقم
           Expanded(
             child: TextFormField(
               controller: controller,
