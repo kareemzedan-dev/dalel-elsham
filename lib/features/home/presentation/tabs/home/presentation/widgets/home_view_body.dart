@@ -35,7 +35,6 @@ class HomeViewBody extends StatefulWidget {
 }
 
 class _HomeViewBodyState extends State<HomeViewBody> {
-
   @override
   void initState() {
     super.initState();
@@ -43,7 +42,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     /// تحميل الداتا مرة واحدة فقط
     context.read<GetBannersByPositionViewModel>().getBannersByPosition("home");
     context.read<GetAllCategoriesViewModel>().getAllCategories();
-    context.read<GetAllProjectDisplaySectionsViewModel>().getAllProjectDisplaySections();
+    context
+        .read<GetAllProjectDisplaySectionsViewModel>()
+        .getAllProjectDisplaySections();
     context.read<GetNewestProjectsViewModel>().getNewestProjects();
   }
 
@@ -51,7 +52,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     context.read<GetBannersByPositionViewModel>().getBannersByPosition("home");
     context.read<GetAllCategoriesViewModel>().getAllCategories();
 
-    context.read<GetAllProjectDisplaySectionsViewModel>().getAllProjectDisplaySections();
+    context
+        .read<GetAllProjectDisplaySectionsViewModel>()
+        .getAllProjectDisplaySections();
     context.read<GetNewestProjectsViewModel>().getNewestProjects();
 
     await Future.delayed(const Duration(milliseconds: 300));
@@ -60,12 +63,13 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<
-        GetAllProjectDisplaySectionsViewModel,
-        GetAllProjectDisplaySectionsViewModelStates
+      GetAllProjectDisplaySectionsViewModel,
+      GetAllProjectDisplaySectionsViewModelStates
     >(
       listener: (context, state) {
         if (state is GetAllProjectDisplaySectionsViewModelSuccess) {
-          final projectBloc = context.read<GetProjectsByDisplaySectionViewModel>();
+          final projectBloc = context
+              .read<GetProjectsByDisplaySectionViewModel>();
 
           /// تحميل مشاريع كل سكشن مرة واحدة
           for (var sec in state.projectDisplaySections) {
@@ -112,15 +116,17 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
                   /// DISPLAY SECTIONS
                   BlocBuilder<
-                      GetAllProjectDisplaySectionsViewModel,
-                      GetAllProjectDisplaySectionsViewModelStates
+                    GetAllProjectDisplaySectionsViewModel,
+                    GetAllProjectDisplaySectionsViewModelStates
                   >(
                     builder: (context, state) {
-                      if (state is GetAllProjectDisplaySectionsViewModelLoading) {
+                      if (state
+                          is GetAllProjectDisplaySectionsViewModelLoading) {
                         return const DisplaySectionsSkeleton();
                       }
 
-                      if (state is GetAllProjectDisplaySectionsViewModelSuccess) {
+                      if (state
+                          is GetAllProjectDisplaySectionsViewModelSuccess) {
                         final sections = state.projectDisplaySections;
 
                         if (sections.isEmpty) {
@@ -135,12 +141,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
                               _buildNewestProjects(),
                               SizedBox(height: 30.h),
-
-
                             ],
                           );
                         }
-
 
                         final first = sections.first;
                         final others = sections.skip(1).toList();
@@ -161,7 +164,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                             SizedBox(height: 30.h),
 
                             ...others.map(
-                                  (sec) => Padding(
+                              (sec) => Padding(
                                 padding: EdgeInsets.only(bottom: 30.h),
                                 child: _buildProjectSection(sec.id, sec.title),
                               ),
@@ -190,8 +193,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
   Widget _buildHomeBanners() {
     return BlocBuilder<
-        GetBannersByPositionViewModel,
-        GetBannersByPositionViewModelStates
+      GetBannersByPositionViewModel,
+      GetBannersByPositionViewModelStates
     >(
       builder: (context, state) {
         if (state is GetBannersByPositionViewModelStatesLoading) {
@@ -215,8 +218,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
   Widget _buildCategories() {
     return BlocBuilder<
-        GetAllCategoriesViewModel,
-        GetAllCategoriesViewModelStates
+      GetAllCategoriesViewModel,
+      GetAllCategoriesViewModelStates
     >(
       builder: (context, state) {
         if (state is GetAllCategoriesViewModelLoading) {
@@ -237,20 +240,21 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   Widget _buildNewestProjects() {
     return SectionWidget(
       title: "نورونا جديد",
-      child: BlocBuilder<
-          GetNewestProjectsViewModel,
-          GetNewestProjectsViewModelStates
-      >(
-        builder: (context, state) {
-          if (state is GetNewestProjectsViewModelLoading) {
-            return const ProjectListSkeleton();
-          }
-          if (state is GetNewestProjectsViewModelSuccess) {
-            return ProjectsList(projects: state.projects);
-          }
-          return const ProjectListSkeleton();
-        },
-      ),
+      child:
+          BlocBuilder<
+            GetNewestProjectsViewModel,
+            GetNewestProjectsViewModelStates
+          >(
+            builder: (context, state) {
+              if (state is GetNewestProjectsViewModelLoading) {
+                return const ProjectListSkeleton();
+              }
+              if (state is GetNewestProjectsViewModelSuccess) {
+                return ProjectsList(projects: state.projects);
+              }
+              return const ProjectListSkeleton();
+            },
+          ),
     );
   }
 
@@ -260,38 +264,42 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
   Widget _buildProjectSection(String id, String title) {
     return BlocProvider(
-      create: (_) => getIt<GetProjectsByDisplaySectionViewModel>()
-        ..getProjectsByDisplaySection(id),
+      create: (_) =>
+          getIt<GetProjectsByDisplaySectionViewModel>()
+            ..getProjectsByDisplaySection(id),
 
       child: SectionWidget(
         title: title,
-        child: BlocBuilder<
-            GetProjectsByDisplaySectionViewModel,
-            GetProjectsByDisplaySectionViewModelStates
-        >(
-          builder: (context, state) {
-            if (state is GetProjectsByDisplaySectionViewModelStatesLoading) {
-              return const ProjectListSkeleton();
-            }
+        child:
+            BlocBuilder<
+              GetProjectsByDisplaySectionViewModel,
+              GetProjectsByDisplaySectionViewModelStates
+            >(
+              builder: (context, state) {
+                if (state
+                    is GetProjectsByDisplaySectionViewModelStatesLoading) {
+                  return const ProjectListSkeleton();
+                }
 
-            if (state is GetProjectsByDisplaySectionViewModelStatesSuccess) {
-              if (state.projects.isEmpty) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.h),
-                  child: Center(
-                    child: Text(
-                      "لا يوجد مشاريع متاحة في هذا القسم حالياً",
-                      style: TextStyle(color: Colors.grey, fontSize: 13.sp),
-                    ),
-                  ),
-                );
-              }
-              return ProjectsList(projects: state.projects);
-            }
+                if (state
+                    is GetProjectsByDisplaySectionViewModelStatesSuccess) {
+                  if (state.projects.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Center(
+                        child: Text(
+                          "لا يوجد مشاريع متاحة في هذا القسم حالياً",
+                          style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+                        ),
+                      ),
+                    );
+                  }
+                  return ProjectsList(projects: state.projects);
+                }
 
-            return const ProjectListSkeleton();
-          },
-        ),
+                return const ProjectListSkeleton();
+              },
+            ),
       ),
     );
   }

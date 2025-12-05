@@ -5,7 +5,6 @@ class PhoneCallService {
     // حذف أي شيء ليس رقم
     String cleaned = phoneNumber.replaceAll(RegExp(r'[^0-9]'), "");
 
-    // مفتاح سوريا
     const syCode = "+963";
 
     // لو الرقم يبدأ بـ 0 نشيله
@@ -13,7 +12,6 @@ class PhoneCallService {
       cleaned = cleaned.substring(1);
     }
 
-    // إضافة مفتاح سوريا لو مش موجود
     String finalNumber = "$syCode$cleaned";
 
     final Uri uri = Uri(scheme: 'tel', path: finalNumber);

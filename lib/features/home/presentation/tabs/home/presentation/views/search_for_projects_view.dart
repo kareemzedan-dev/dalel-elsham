@@ -15,8 +15,13 @@ class SearchForProjectsView extends StatelessWidget {
     return Scaffold(
       body: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => getIt<GetAllProjectsViewModel>()..getAllProjects()),
-          BlocProvider(create: (context) => getIt<UpdateProjectViewsViewModel>()),
+          BlocProvider(
+            create: (context) =>
+                getIt<GetAllProjectsViewModel>()..getAllProjects(),
+          ),
+          BlocProvider(
+            create: (context) => getIt<UpdateProjectViewsViewModel>(),
+          ),
         ],
 
         child: SafeArea(child: const SearchForProjectsViewBody()),
