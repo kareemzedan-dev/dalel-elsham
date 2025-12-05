@@ -1,6 +1,7 @@
 import 'package:dalel_elsham/config/theme/app_theme.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uuid/uuid.dart';
@@ -21,7 +22,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await Supabase.initialize(
     url: 'https://rfxticljudaqokliiugx.supabase.co',
     anonKey:
@@ -51,10 +55,13 @@ void main() async {
           create: (_) => getIt<GetAllCategoriesViewModel>()..getAllCategories(),
         ),
         BlocProvider(
-          create: (_) => getIt<GetAllProjectDisplaySectionsViewModel>()..getAllProjectDisplaySections(),
+          create: (_) =>
+              getIt<GetAllProjectDisplaySectionsViewModel>()
+                ..getAllProjectDisplaySections(),
         ),
         BlocProvider(
-          create: (_) => getIt<GetNewestProjectsViewModel>()..getNewestProjects(),
+          create: (_) =>
+              getIt<GetNewestProjectsViewModel>()..getNewestProjects(),
         ),
         BlocProvider(
           create: (_) => getIt<GetAllAppLinksViewModel>()..getAllAppLinks(),

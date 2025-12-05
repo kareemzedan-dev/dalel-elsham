@@ -10,7 +10,8 @@ class SearchForProjectsViewBody extends StatefulWidget {
   const SearchForProjectsViewBody({super.key});
 
   @override
-  State<SearchForProjectsViewBody> createState() => _SearchForProjectsViewBodyState();
+  State<SearchForProjectsViewBody> createState() =>
+      _SearchForProjectsViewBodyState();
 }
 
 class _SearchForProjectsViewBodyState extends State<SearchForProjectsViewBody> {
@@ -33,21 +34,35 @@ class _SearchForProjectsViewBodyState extends State<SearchForProjectsViewBody> {
         /// ========================== SEARCH FIELD ==========================
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: TextField(
-            controller: searchController,
-            onChanged: (value) {
-              context.read<GetAllProjectsViewModel>().searchProjects(value);
-            },
-            decoration: InputDecoration(
-              hintText: "ابحث عن مشروع...",
-              prefixIcon: Icon(Icons.search),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(color: Colors.grey.shade300),
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back, size: 22.sp),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-            ),
+              Expanded(
+                child: TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    context.read<GetAllProjectsViewModel>().searchProjects(
+                      value,
+                    );
+                  },
+                  decoration: InputDecoration(
+                    hintText: "ابحث عن مشروع...",
+                    prefixIcon: Icon(Icons.search),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
 
@@ -55,45 +70,52 @@ class _SearchForProjectsViewBodyState extends State<SearchForProjectsViewBody> {
 
         /// ========================== RESULTS LIST ==========================
         Expanded(
-          child: BlocBuilder<GetAllProjectsViewModel, GetAllProjectsViewModelStates>(
-            builder: (context, state) {
-              if (state is GetAllProjectsViewModelLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
+          child:
+              BlocBuilder<
+                GetAllProjectsViewModel,
+                GetAllProjectsViewModelStates
+              >(
+                builder: (context, state) {
+                  if (state is GetAllProjectsViewModelLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
 
-              if (state is GetAllProjectsViewModelError) {
-                return Center(child: Text(state.message));
-              }
+                  if (state is GetAllProjectsViewModelError) {
+                    return Center(child: Text(state.message));
+                  }
 
-              if (state is GetAllProjectsViewModelSuccess) {
-                final projects = state.projects;
+                  if (state is GetAllProjectsViewModelSuccess) {
+                    final projects = state.projects;
 
-                if (projects.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "لا توجد نتائج للبحث",
-                      style: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                    ),
-                  );
-                }
+                    if (projects.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "لا توجد نتائج للبحث",
+                          style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                        ),
+                      );
+                    }
 
-                return ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  itemCount: projects.length,
-                  separatorBuilder: (_, __) => SizedBox(height: 12.h),
-                  itemBuilder: (context, index) {
-                    final project = projects[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ProjectItem( projectEntity: project , width: double.infinity,),
-                    ); // UI Card
-                  },
-                );
-              }
+                    return ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      itemCount: projects.length,
+                      separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                      itemBuilder: (context, index) {
+                        final project = projects[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ProjectItem(
+                            projectEntity: project,
+                            width: double.infinity,
+                          ),
+                        ); // UI Card
+                      },
+                    );
+                  }
 
-              return SizedBox();
-            },
-          ),
+                  return SizedBox();
+                },
+              ),
         ),
       ],
     );

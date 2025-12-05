@@ -59,7 +59,7 @@ class PrayerTimesViewBody extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        "دمشق, سوريا",
+                        "دمشق",
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.sp,
