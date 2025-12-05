@@ -19,4 +19,5 @@ abstract class AuthRemoteDataSource {
   Future<Either<Failures, AuthEntity>> getCurrentUser();
 
   Future<void> logout();
+  Future<Either<Failures, void>> deleteAccount();
 }

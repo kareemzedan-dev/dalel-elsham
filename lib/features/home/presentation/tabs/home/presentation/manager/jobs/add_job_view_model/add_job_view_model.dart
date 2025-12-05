@@ -19,7 +19,7 @@ class AddJobViewModel extends Cubit<AddJobViewModelStates> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController imageUrlController = TextEditingController();
-  final TextEditingController durationController = TextEditingController();
+  final TextEditingController durationController = TextEditingController(text: "7");
 
   Future<void> addJob({required JobEntity job}) async {
     try {

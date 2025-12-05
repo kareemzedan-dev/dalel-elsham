@@ -8,6 +8,7 @@ import '../../../../../core/components/dismissible_error_card.dart';
 import '../../../../../core/components/custom_button.dart';
 import '../../../../../core/validators/register_validators.dart';
 import '../../manager/register_view_model/register_view_model_states.dart';
+import 'build_privacy_policy.dart';
 class RegisterFormFields extends StatefulWidget {
   const RegisterFormFields({super.key});
 
@@ -66,7 +67,11 @@ class _RegisterFormFieldsState extends State<RegisterFormFields> {
             validator: RegisterValidators.validatePassword,
           ),
           SizedBox(height: 20.h),
+          PrivacyPolicyWithCheck(
+            context: context,
 
+          ),
+          SizedBox(height: 20.h),
           CustomButton(
             text: "إنشاء حساب",
             onPressed: () {

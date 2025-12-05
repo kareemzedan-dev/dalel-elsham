@@ -21,6 +21,8 @@ import '../../features/auth/data/repos_impl/auth_repo_impl.dart' as _i704;
 import '../../features/auth/domain/repos/auth_repos/auth_repos.dart' as _i194;
 import '../../features/auth/domain/use_cases/auth_usecase/auth_usecase.dart'
     as _i1028;
+import '../../features/auth/presentation/manager/delete_account_view_model/delete_account_view_model.dart'
+    as _i710;
 import '../../features/auth/presentation/manager/login_view_model/login_view_model.dart'
     as _i573;
 import '../../features/auth/presentation/manager/register_view_model/register_view_model.dart'
@@ -541,6 +543,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i76.GetBannersByPositionViewModel(
         bannerUseCase: gh<_i369.BannerUseCase>(),
       ),
+    );
+    gh.factory<_i710.DeleteAccountViewModel>(
+      () => _i710.DeleteAccountViewModel(gh<_i1028.AuthUseCase>()),
     );
     gh.factory<_i573.LoginViewModel>(
       () => _i573.LoginViewModel(gh<_i1028.AuthUseCase>()),

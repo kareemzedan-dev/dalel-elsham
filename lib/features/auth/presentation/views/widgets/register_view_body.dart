@@ -83,6 +83,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                   SizedBox(height: 24),
                   RegisterFormFields(),
                   SizedBox(height: 24),
+
                   RegisterFooter(),
                 ],
               ),

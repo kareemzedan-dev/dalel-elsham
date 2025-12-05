@@ -53,8 +53,9 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
   final ImageUploadService uploader = ImageUploadService();
 
   void _showError(String msg) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
   }
 
   @override
@@ -62,13 +63,93 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
     return BlocConsumer<AddNewServiceViewModel, AddNewServiceViewModelStates>(
       listener: (context, state) {
         if (state is AddProjectViewModelSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("تم إضافة الإعلان بنجاح ✔"),
-              backgroundColor: Colors.green,
-            ),
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Icon ✔
+                      Container(
+                        width: 70.w,
+                        height: 70.h,
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.check_rounded,
+                          color: Colors.green,
+                          size: 40.sp,
+                        ),
+                      ),
+
+                      SizedBox(height: 16),
+
+                      // Title
+                      Text(
+                        "تم إرسال إعلانك بنجاح",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      SizedBox(height: 10.h),
+
+                      // Description
+                      Text(
+                        "إعلانك الآن قيد المراجعة من قبل فريق دليل الشام.\n"
+                        "سيتم إشعارك عند الموافقة عليه ونشره.",
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.black54,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      SizedBox(height: 20),
+
+                      // Button
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          minimumSize: Size(double.infinity, 45),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context); // Close Dialog
+                          Navigator.pop(context); // Back to previous page
+                        },
+                        child: Text(
+                          "حسنًا",
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           );
-          Navigator.pop(context);
         }
 
         if (state is AddProjectViewModelError) {
@@ -158,7 +239,7 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
 
@@ -177,18 +258,20 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              BlocBuilder<GetAllCategoriesViewModel,
-                                  GetAllCategoriesViewModelStates>(
+                              BlocBuilder<
+                                GetAllCategoriesViewModel,
+                                GetAllCategoriesViewModelStates
+                              >(
                                 builder: (context, state) {
                                   if (state
-                                  is GetAllCategoriesViewModelLoading) {
+                                      is GetAllCategoriesViewModelLoading) {
                                     return const Center(
                                       child: CircularProgressIndicator(),
                                     );
                                   }
 
                                   final List<CategoryEntity> categories =
-                                  state is GetAllCategoriesViewModelSuccess
+                                      state is GetAllCategoriesViewModelSuccess
                                       ? state.categories
                                       : [];
 
@@ -196,17 +279,19 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
 
                                   if (selectedCategory != null) {
                                     selectedEntity = categories
-                                        .where((cat) => cat.id == selectedCategory)
+                                        .where(
+                                          (cat) => cat.id == selectedCategory,
+                                        )
                                         .firstOrNull; // يرجع null لو مش لاقي
                                   }
-
 
                                   return CategoryDropdownWidget(
                                     categories: categories,
                                     selectedValue: selectedEntity,
                                     onChanged: (value) {
-                                      setState(() =>
-                                      selectedCategory = value?.id);
+                                      setState(
+                                        () => selectedCategory = value?.id,
+                                      );
                                       fieldState.didChange(value?.id);
                                     },
                                   );
@@ -219,7 +304,9 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                   child: Text(
                                     fieldState.errorText!,
                                     style: const TextStyle(
-                                        color: Colors.red, fontSize: 12),
+                                      color: Colors.red,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                             ],
@@ -253,13 +340,17 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                             ),
                           ),
                           SizedBox(width: 5.w),
-                          Icon(Icons.add,
-                              color: ColorsManager.primaryColor, size: 24.sp),
+                          Icon(
+                            Icons.add,
+                            color: ColorsManager.primaryColor,
+                            size: 24.sp,
+                          ),
                           SizedBox(width: 5.w),
                           GestureDetector(
                             onTap: () {
-                              setState(() =>
-                              whatsappSelected = !whatsappSelected);
+                              setState(
+                                () => whatsappSelected = !whatsappSelected,
+                              );
                             },
                             child: ContactButtonCard(
                               image: AssetsManager.whatsapp,
@@ -291,9 +382,10 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                       Text(
                         "اختياري (اضف صور خاصه بمشروعك)",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12.sp,
-                            color: ColorsManager.black.withOpacity(0.5)),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
+                          color: ColorsManager.black.withOpacity(0.5),
+                        ),
                       ),
 
                       SizedBox(height: 8.h),
@@ -321,68 +413,66 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                         onPressed: isLoading
                             ? null
                             : () {
-                          if (!_formKey.currentState!
-                              .validate()) return;
+                                if (!_formKey.currentState!.validate()) return;
 
-                          if (selectedCategory == null) {
-                            return _showError("اختر الفئة");
-                          }
+                                if (selectedCategory == null) {
+                                  return _showError("اختر الفئة");
+                                }
 
-                          final id = const Uuid().v4();
-                          final savedUserId =
-                          SharedPrefHelper.getString("user_id");
+                                final id = const Uuid().v4();
+                                final savedUserId = SharedPrefHelper.getString(
+                                  "user_id",
+                                );
 
-                          if (savedUserId == null ||
-                              savedUserId.isEmpty) {
-                            return _showError(
-                                "لا يوجد مستخدم مسجل الدخول.");
-                          }
+                                if (savedUserId == null ||
+                                    savedUserId.isEmpty) {
+                                  return _showError(
+                                    "لا يوجد مستخدم مسجل الدخول.",
+                                  );
+                                }
 
-                          final String finalPhone = callSelected
-                              ? phoneController.text.trim()
-                              : "";
+                                final String finalPhone = callSelected
+                                    ? phoneController.text.trim()
+                                    : "";
 
-                          final String finalWhatsapp = whatsappSelected
-                              ? phoneController.text.trim()
-                              : "";
+                                final String finalWhatsapp = whatsappSelected
+                                    ? phoneController.text.trim()
+                                    : "";
 
-                          context
-                              .read<
-                              AddNewServiceViewModel>()
-                              .addProject(
-                            ProjectEntity(
-                              id: id,
-                              title: titleController.text.trim(),
-                              description:
-                              descController.text.trim(),
-                              categoryTitle:
-                              selectedCategory ?? "",
-                              logo: logoPath!,
-                              images: imagesUrls,
-                              additionalImages: [],
-                              phone: finalPhone,
-                              whatsapp: finalWhatsapp,
-                              location:
-                              locationController.text.trim(),
-                              isActive: true,
-                              duration: "غير محدد",
-                              tier: "normal",
-                              status: "pending",
-                              createdAt: DateTime.now()
-                                  .toIso8601String(),
-                              mapLink: "",
-                              facebook: "",
-                              instagram: "",
-                              website: "",
-                              views: 0,
-                              workTimeFrom: "",
-                              workTimeTo: "",
-                              displaySections: [],
-                              viewCountOn: false,
-                              userId: savedUserId,
-                            ),
-                          );
-                        },
+                                context
+                                    .read<AddNewServiceViewModel>()
+                                    .addProject(
+                                      ProjectEntity(
+                                        id: id,
+                                        title: titleController.text.trim(),
+                                        description: descController.text.trim(),
+                                        categoryTitle: selectedCategory ?? "",
+                                        logo: logoPath!,
+                                        images: imagesUrls,
+                                        additionalImages: [],
+                                        phone: finalPhone,
+                                        whatsapp: finalWhatsapp,
+                                        location: locationController.text
+                                            .trim(),
+                                        isActive: true,
+                                        duration: "غير محدد",
+                                        tier: "normal",
+                                        status: "pending",
+                                        createdAt: DateTime.now()
+                                            .toIso8601String(),
+                                        mapLink: "",
+                                        facebook: "",
+                                        instagram: "",
+                                        website: "",
+                                        views: 0,
+                                        workTimeFrom: "",
+                                        workTimeTo: "",
+                                        displaySections: [],
+                                        viewCountOn: false,
+                                        userId: savedUserId,
+                                      ),
+                                    );
+                              },
                       ),
 
                       SizedBox(height: 20.h),
@@ -398,8 +488,7 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                 width: double.infinity,
                 color: Colors.black.withOpacity(0.25),
                 child: const Center(
-                  child:
-                  CircularProgressIndicator(color: Colors.white),
+                  child: CircularProgressIndicator(color: Colors.white),
                 ),
               ),
           ],

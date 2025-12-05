@@ -38,4 +38,7 @@ class AuthUseCase {
   Future<void> logout() async {
     await authRepository.logout();
   }
+  Future<Either<Failures, void>> deleteAccount() async {
+  return  await authRepository.deleteAccount();
+  }
 }

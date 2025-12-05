@@ -79,7 +79,7 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => const SettingsView());
         case privacyPolicy:
           final args = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) =>   InfoPageView(title: args['title']));
+        return MaterialPageRoute(builder: (_) =>   InfoPageView(pageType: args['title']));
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());

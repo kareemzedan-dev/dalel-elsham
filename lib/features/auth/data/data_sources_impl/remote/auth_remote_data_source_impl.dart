@@ -193,4 +193,63 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           FirebaseAuthErrorMapper.fromExceptionMessage(e.toString()));
     }
   }
+  @override
+  Future<Either<Failures, void>> deleteAccount() async {
+    try {
+      final user = _auth.currentUser;
+
+      if (user == null) {
+        return Left(ServerFailure("لا يوجد مستخدم مسجل الدخول."));
+      }
+
+      final uid = user.uid;
+
+      // -----------------------------
+      // 1) حذف بيانات المستخدم من Firestore
+      // -----------------------------
+      await _firestore.collection("users").doc(uid).delete();
+
+      // -----------------------------
+      // 2) حذف كل المشاريع (الإعلانات) الخاصة به
+      // -----------------------------
+      final userProjects = await _firestore
+          .collection("projects")
+          .where("userId", isEqualTo: uid)
+          .get();
+
+      for (var doc in userProjects.docs) {
+        await doc.reference.delete();
+      }
+
+      // -----------------------------
+      // 3) حذف الوظائف / طلبات العمل الخاصة به
+      // -----------------------------
+      final userJobs = await _firestore
+          .collection("jobs")
+          .where("userId", isEqualTo: uid)
+          .get();
+
+      for (var doc in userJobs.docs) {
+        await doc.reference.delete();
+      }
+
+      // -----------------------------
+      // 4) حذف المستخدم من Firebase Auth
+      // -----------------------------
+      await user.delete();
+
+      // -----------------------------
+      // 5) حذف بيانات SharedPreferences
+      // -----------------------------
+      await SharedPrefHelper.clear();
+
+      return const Right(null);
+    } catch (e) {
+      print("🔥 DELETE ACCOUNT ERROR: $e");
+      return Left(ServerFailure(
+        FirebaseAuthErrorMapper.fromExceptionMessage(e.toString()),
+      ));
+    }
+  }
+
 }

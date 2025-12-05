@@ -70,10 +70,96 @@ class JobOfferFormViewBody extends StatelessWidget {
     return BlocConsumer<AddOpportunityViewModel, AddOpportunityViewModelStates>(
       listener: (context, state) {
         if (state is AddOpportunityViewModelSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("تم إضافة الوظيفة بنجاح")),
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(20.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Icon ✔ inside circle
+                      Container(
+                        width: 70.w,
+                        height: 70.w,
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.check_rounded,
+                          color: Colors.green,
+                          size: 40.sp,
+                        ),
+                      ),
+
+                      SizedBox(height: 16.h),
+
+                      // Title
+                      Text(
+                        "تم إرسال الوظيفة بنجاح",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      SizedBox(height: 10.h),
+
+                      // Description
+                      Text(
+                        "وظيفتك الآن قيد المراجعة من قبل فريق دليل الشام.\n"
+                            "سيتم إعلامك عند الموافقة عليها ونشرها.",
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.black54,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                      SizedBox(height: 20.h),
+
+                      // Button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 45.h,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context); // close dialog
+                            Navigator.pop(context); // return back
+                          },
+                          child: Text(
+                            "حسنًا",
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           );
-          Navigator.pop(context);
         }
 
         if (state is AddOpportunityViewModelError) {

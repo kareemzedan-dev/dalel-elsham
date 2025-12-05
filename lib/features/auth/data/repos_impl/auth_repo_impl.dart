@@ -43,4 +43,8 @@ class AuthRepoImpl implements AuthRepository {
   Future<void> logout() {
     return authRemoteDataSource.logout();
   }
+  @override
+  Future<Either<Failures, void>> deleteAccount() {
+    return authRemoteDataSource.deleteAccount();
+  }
 }
