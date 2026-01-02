@@ -70,64 +70,75 @@ class _JobSeekerCardState extends State<JobSeekerCard> {
       canExpand = tp.didExceedMaxLines;
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Card(
-          elevation: _getCardElevation(),
-          color: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          child: Container(
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(vertical: 12.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              color: ColorsManager.grey.withValues(alpha: 0.2),
-              border: Border.all(
-                color: _getTypeColor(),
-                width: widget.job.type == "normal" ? 1.w : 3.w,
-              ),
-            ),
-            padding: EdgeInsets.all(12.w),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child: _buildUserInfo(context)),
-                    _buildAvatarAndContact(),
-                  ],
-                ),
-                SizedBox(height: 8.h),
-                _buildLocationAndDate(context),
-              ],
-            ),
-          ),
-        ),
-
-        if (widget.job.type != "normal")
-          Positioned(
-            top: 8.h,
-            left: 8.w,
+@override
+Widget build(BuildContext context) {
+  return Theme(
+    data: Theme.of(context).copyWith(
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: ColorsManager.primaryColor.withOpacity(0.3), // لون التحديد
+        selectionHandleColor: ColorsManager.primaryColor, // لون الدواير
+        cursorColor: ColorsManager.primaryColor,
+      ),
+    ),
+    child: SelectionArea(
+      child: Stack(
+        children: [
+          Card(
+            elevation: _getCardElevation(),
+            color: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             child: Container(
-              padding: EdgeInsets.all(6.w),
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(vertical: 12.h),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _getTypeColor(),
+                borderRadius: BorderRadius.circular(12.r),
+                color: ColorsManager.grey.withValues(alpha: 0.2),
+                border: Border.all(
+                  color: _getTypeColor(),
+                  width: widget.job.type == "normal" ? 1.w : 3.w,
+                ),
               ),
-              child: Icon(
-                Icons.workspace_premium,
-                size: 18.sp,
-                color: Colors.white,
+              padding: EdgeInsets.all(12.w),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: _buildUserInfo(context)),
+                      _buildAvatarAndContact(),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  _buildLocationAndDate(context),
+                ],
               ),
             ),
           ),
-      ],
-    );
-  }
+
+          if (widget.job.type != "normal")
+            Positioned(
+              top: 8.h,
+              left: 8.w,
+              child: Container(
+                padding: EdgeInsets.all(6.w),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _getTypeColor(),
+                ),
+                child: Icon(
+                  Icons.workspace_premium,
+                  size: 18.sp,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+        ],
+      ),
+    ),
+  );
+}
+
 
   // ---------------------------------------------------
   Widget _buildUserInfo(BuildContext context) {

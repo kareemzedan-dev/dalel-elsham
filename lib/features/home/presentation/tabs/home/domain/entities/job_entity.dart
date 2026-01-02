@@ -4,12 +4,14 @@ class JobEntity {
   final String description;
   final String type;
   final String phone;
+  final String? applyLink ; 
   final String location;
   final String imageUrl;
   final bool isActive;
   final String status;
-  final int duration; // عدد الأيام التي يظل فيها الإعلان فعال
+  final int duration;  
   final DateTime createdAt;
+
 
   const JobEntity({
     required this.id,
@@ -17,6 +19,7 @@ class JobEntity {
     required this.description,
     required this.type,
     required this.phone,
+      this.applyLink,
     required this.location,
     required this.imageUrl,
     required this.isActive,

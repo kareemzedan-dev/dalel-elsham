@@ -1,4 +1,6 @@
+import 'package:dalel_elsham/features/currency/presentation/views/exchange_rate_view.dart';
 import 'package:dalel_elsham/features/home/presentation/views/home_view.dart';
+import 'package:dalel_elsham/features/weather/presentation/views/weather_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/views/login_view.dart';
@@ -36,6 +38,8 @@ class RoutesManager {
   static const String contactUs = "contactUs";
   static const String settingsView = "settings";
   static const String privacyPolicy = "privacyPolicy";
+  static const String weather = "weather";
+  static const String exchangeRate = "exchangeRate";
 
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -47,12 +51,16 @@ class RoutesManager {
         final args = settings.arguments as Map<String, dynamic>;
 
         return MaterialPageRoute(
-          builder: (_) => CategoriesDetailsView(categoryId: args['categoryId'] ,categoryName: args['categoryName']),
+          builder: (_) => CategoriesDetailsView(
+            categoryId: args['categoryId'],
+            categoryName: args['categoryName'],
+          ),
         );
       case projectDetails:
         final args = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) =>   ProjectDetailsView(projectId: args['projectId'],
-            ));
+        return MaterialPageRoute(
+          builder: (_) => ProjectDetailsView(projectId: args['projectId']),
+        );
       case dalelElsham:
         return MaterialPageRoute(builder: (_) => const DalelElshamTabView());
       case jobOpportunities:
@@ -73,13 +81,19 @@ class RoutesManager {
         return MaterialPageRoute(builder: (_) => const JobOfferFormView());
       case jobRequestForm:
         return MaterialPageRoute(builder: (_) => const JobRequestFormView());
-        case contactUs:
+      case contactUs:
         return MaterialPageRoute(builder: (_) => const ContactUsView());
-        case settingsView:
+      case settingsView:
         return MaterialPageRoute(builder: (_) => const SettingsView());
-        case privacyPolicy:
-          final args = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) =>   InfoPageView(pageType: args['title']));
+      case privacyPolicy:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => InfoPageView(pageType: args['title']),
+        );
+      case weather:
+        return MaterialPageRoute(builder: (_) => WeatherView());
+        case exchangeRate:
+        return MaterialPageRoute(builder: (_) => const ExchangeRateView());
 
       default:
         return MaterialPageRoute(builder: (_) => const Placeholder());

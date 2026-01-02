@@ -34,6 +34,7 @@ class AddJobRemoteDataSourceImpl implements AddJobRemoteDataSource {
         duration: job.duration,
         createdAt: job.createdAt,
         status: job.status,
+       
       );
 
 

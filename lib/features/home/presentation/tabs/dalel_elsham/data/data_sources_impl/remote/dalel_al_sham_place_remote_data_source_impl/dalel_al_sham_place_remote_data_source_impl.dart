@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
 import 'package:injectable/injectable.dart';
 
@@ -122,6 +123,49 @@ class DalelAlShamPlaceRemoteDataSourceImpl
       return Right(isActive);
     } catch (e) {
       return Left(ServerFailure("خطأ أثناء جلب حالة القسم: $e"));
+    }
+  }
+  @override
+  Future<Either<Failures, List<Map<String, dynamic>>>> getAllCategories() async {
+    try {
+      if (!await NetworkValidation.hasInternet()) {
+        return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
+      }
+
+      final snap = await FirebaseFirestore.instance
+          .collection("dalel_al_sham_categories")
+          .orderBy("created_at", descending: true)
+          .get();
+
+      final categories = snap.docs.map((doc) => doc.data()).toList();
+
+      return Right(categories);
+
+    } catch (e) {
+      return Left(ServerFailure("خطأ أثناء جلب الفئات: $e"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<DalelAlShamPlaceEntity>>> getAllPlacesByCategory(String categoryId) async {
+    try {
+      if (!await NetworkValidation.hasInternet()) {
+        return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
+      }
+
+      final snap = await FirebaseFirestore.instance
+          .collection("dalel_al_sham_places")
+          .where("category", isEqualTo: categoryId)
+          .get();
+
+      final places = snap.docs.map((doc) {
+        return DalelAlShamPlaceModel.fromMap(doc.data(), doc.id);
+      }).toList();
+
+      return Right(places);
+
+    } catch (e) {
+      return Left(ServerFailure("خطأ أثناء جلب الأماكن حسب الفئة: $e"));
     }
   }
 

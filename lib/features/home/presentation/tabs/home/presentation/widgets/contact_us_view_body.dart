@@ -126,7 +126,7 @@ class ContactUsViewBody extends StatelessWidget {
                   platform: "Tiktok",
                   icon: AssetsManager.tiktok,
                   color: Color(0xFF1DA1F2),
-                  username: "@Twitter",
+                  username: "@Tiktok",
                   onTap: () => openUrl(tiktok),
                 ),
               if (youtube != null)

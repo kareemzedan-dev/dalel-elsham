@@ -14,7 +14,7 @@ class AddNewServiceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "أضف اعلانك"),
+      appBar: CustomAppBar(title: "أضف مشروعك"),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => getIt<GetAllCategoriesViewModel>()..getAllCategories()),

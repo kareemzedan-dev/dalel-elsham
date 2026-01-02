@@ -49,7 +49,7 @@ class ModalBottomSheetContent extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             Text(
-              'أضف إعلانك الآن معنا، وخلي أهل الشام\n يوصلوا لعندك بسهولة.',
+              'أضف مشروعك الآن معنا، وخلي أهل الشام\n يوصلوا لعندك بسهولة.',
               textAlign: TextAlign.center,
 
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(

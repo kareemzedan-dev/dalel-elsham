@@ -33,6 +33,8 @@ class AddOpportunityRemoteDataSourceImpl implements AddOpportunityRemoteDataSour
         duration: job.duration,
         createdAt: job.createdAt,
         status: job.status,
+      
+        applyLink: job.applyLink,
       );
 
       /// 3) ارسل البيانات إلى Firebase

@@ -40,6 +40,14 @@ class DalelAlShamPlaceRepoImpl implements DalelAlShamPlaceRepo {
   Future<Either<Failures, bool>> getSectionStatus(String sectionId) {
     return dalelAlShamPlaceRemoteDataSource.getSectionStatus(sectionId);
   }
+  @override
+  Future<Either<Failures, List<DalelAlShamPlaceEntity>>> getAllPlacesByCategory(String categoryId) {
+    return dalelAlShamPlaceRemoteDataSource.getAllPlacesByCategory(categoryId);
+  }
+  @override
+  Future<Either<Failures, List<Map<String, dynamic>>>> getAllCategories() {
+    return dalelAlShamPlaceRemoteDataSource.getAllCategories();
+  }
 
 
 }

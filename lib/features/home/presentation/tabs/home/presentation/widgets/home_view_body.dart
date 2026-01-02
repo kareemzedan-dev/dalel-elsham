@@ -71,7 +71,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           final projectBloc = context
               .read<GetProjectsByDisplaySectionViewModel>();
 
-          /// تحميل مشاريع كل سكشن مرة واحدة
           for (var sec in state.projectDisplaySections) {
             projectBloc.getProjectsByDisplaySection(sec.id);
           }
@@ -90,7 +89,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// TOP BAR
                   TopBarSection(
                     onTap: () {
                       Navigator.push(
@@ -110,11 +108,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
                   SizedBox(height: 30.h),
 
-                  /// BANNERS
                   _buildHomeBanners(),
                   SizedBox(height: 30.h),
 
-                  /// DISPLAY SECTIONS
                   BlocBuilder<
                     GetAllProjectDisplaySectionsViewModel,
                     GetAllProjectDisplaySectionsViewModelStates
@@ -136,8 +132,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                               _buildCategories(),
                               SizedBox(height: 30.h),
 
-                              const ServicesSection(),
-                              SizedBox(height: 30.h),
+                              // const ServicesSection(),
+                              // SizedBox(height: 30.h),
 
                               _buildNewestProjects(),
                               SizedBox(height: 30.h),
@@ -157,8 +153,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                             _buildProjectSection(first.id, first.title),
                             SizedBox(height: 30.h),
 
-                            const ServicesSection(),
-                            SizedBox(height: 30.h),
+                            // const ServicesSection(),
+                            // SizedBox(height: 30.h),
 
                             _buildNewestProjects(),
                             SizedBox(height: 30.h),
@@ -239,7 +235,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
   Widget _buildNewestProjects() {
     return SectionWidget(
-      title: "نورونا جديد",
+      title: "المضاف حديثا",
       child:
           BlocBuilder<
             GetNewestProjectsViewModel,

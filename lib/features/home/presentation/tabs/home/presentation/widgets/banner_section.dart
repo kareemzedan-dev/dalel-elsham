@@ -17,10 +17,8 @@ class BannerSection extends StatefulWidget {
     this.disableAutoPlay = false,
     this.imageHeight = 125,
 
-    /// اختيار contain + blur
     this.useContain = false,
-
-    /// اختيار fill
+    this.compactMode = false,
     this.useFill = false,
   });
 
@@ -30,11 +28,10 @@ class BannerSection extends StatefulWidget {
 
   final double imageHeight;
 
-  /// contain + blur
   final bool useContain;
 
-  /// fill
   final bool useFill;
+  final bool compactMode;
 
   @override
   State<BannerSection> createState() => _BannerSectionState();
@@ -42,9 +39,19 @@ class BannerSection extends StatefulWidget {
 
 class _BannerSectionState extends State<BannerSection> {
   int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    if (widget.compactMode) {
+      return Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          _buildCarousel(),
+          if (widget.images.length > 1)
+            Positioned(bottom: 6.h, child: _buildDotsIndicator(mini: true)),
+        ],
+      );
+    }
+
     return widget.showDotsOnTop
         ? _buildStackedCarousel()
         : _buildColumnCarousel();
@@ -72,9 +79,9 @@ class _BannerSectionState extends State<BannerSection> {
 
   // ===================== تحديد وضع الصورة =====================
   BoxFit _resolveFit() {
-    if (widget.useContain) return BoxFit.contain;   // contain + blur
-    if (widget.useFill) return BoxFit.fill;         // fill
-    return BoxFit.cover;                            // default = cover
+    if (widget.useContain) return BoxFit.contain; // contain + blur
+    if (widget.useFill) return BoxFit.fill; // fill
+    return BoxFit.cover; // default = cover
   }
 
   Widget _buildCarousel() {
@@ -87,12 +94,14 @@ class _BannerSectionState extends State<BannerSection> {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w),
           child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: widget.imageHeight.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: Colors.grey.withOpacity(0.3)),
-            ),
+  width: double.infinity, // 👈 مهم
+  height: widget.imageHeight.h,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(12.r),
+    border: Border.all(color: Colors.grey.withOpacity(0.3)),
+  ),
+ 
+
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
               child: GestureDetector(
@@ -119,9 +128,7 @@ class _BannerSectionState extends State<BannerSection> {
                       ),
                       BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-                        child: Container(
-                          color: Colors.black.withOpacity(0.20),
-                        ),
+                        child: Container(color: Colors.black.withOpacity(0.20)),
                       ),
                     ],
 
@@ -132,9 +139,8 @@ class _BannerSectionState extends State<BannerSection> {
                         width: MediaQuery.of(context).size.width,
                         height: widget.imageHeight.h,
                         fit: fit,
-                        placeholder: (_, __) => Container(
-                          color: Colors.black12,
-                        ),
+                        placeholder: (_, __) =>
+                            Container(color: Colors.black12),
                         errorWidget: (_, __, ___) => Container(
                           color: Colors.black12,
                           child: const Icon(Icons.error, color: Colors.red),
@@ -163,15 +169,16 @@ class _BannerSectionState extends State<BannerSection> {
     );
   }
 
-  Widget _buildDotsIndicator() {
+  Widget _buildDotsIndicator({bool mini = false}) {
     return DotsIndicator(
       dotsCount: widget.images.isNotEmpty ? widget.images.length : 1,
       position: _currentIndex.toDouble(),
       decorator: DotsDecorator(
         activeColor: ColorsManager.primaryColor,
-        color: Colors.grey.shade400,
-        size: const Size(8, 8),
-        activeSize: const Size(12, 12),
+        color: Colors.grey,
+        size: mini ? const Size(4, 4) : const Size(8, 8),
+        activeSize: mini ? const Size(6, 6) : const Size(12, 12),
+        spacing: const EdgeInsets.symmetric(horizontal: 2),
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),

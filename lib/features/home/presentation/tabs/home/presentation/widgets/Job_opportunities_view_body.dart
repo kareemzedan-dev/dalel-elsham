@@ -26,7 +26,7 @@ class JobOpportunitiesViewBody extends StatelessWidget {
     return Column(
       children: [
         JobsHeader(
-          searchHint: "فرص عمل بالشام",
+          searchHint: " ابحث عن فرص عمل",
           onChanged: (value) {
             context.read<GetAllOpportunitiesViewModel>().searchOpportunities(value);
           },

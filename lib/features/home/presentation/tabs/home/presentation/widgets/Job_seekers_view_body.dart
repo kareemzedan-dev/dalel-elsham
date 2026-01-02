@@ -22,7 +22,7 @@ class JobSeekersViewBody extends StatelessWidget {
     return Column(
       children: [
         JobsHeader(
-          searchHint: "أضف طلب عمل",
+          searchHint: " بحث عن طلبات عمل",
           onChanged: (value) {
             context.read<GetAllJobsViewModel>().searchJobs(value);
           },

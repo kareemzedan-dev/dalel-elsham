@@ -1,0 +1,4 @@
+enum ContactMethod {
+  phone,
+  link,
+}

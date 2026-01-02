@@ -1,6 +1,8 @@
 class AssetsManager {
   static const String baseUrl = 'assets/images';
+    static const String lottie = 'assets/lottie';
   static const String logo = '$baseUrl/app_icon.png';
+ 
 
 
 
@@ -28,4 +30,28 @@ class AssetsManager {
   static const String opportunitiesPhoto = '$baseUrl/opport.jpg';
   static const String mawaqet = '$baseUrl/mawaqet.jpg';
   static const String tiktok = '$baseUrl/tiktok.png';
+  static const String wait = '$baseUrl/wait.jpg';
+  static const String category = '$baseUrl/category.svg';
+  static const String home = '$baseUrl/home.svg';
+  static const String prayerTimes = '$baseUrl/prayer_times.png';
+  static const String weather = '$baseUrl/weather.png';
+  static const String placesGuide = '$baseUrl/places_guide.png';
+  static const String jobsSearch = '$baseUrl/jobs_search.png';
+  static const String jobOpportunities = '$baseUrl/job_opportunities.png';
+  static const String emergencyNumbers = '$baseUrl/emergency.png';
+  static const String exchangeRate = '$baseUrl/exchange_rate.png';
+
+ 
+
+   static const String sunny = '$lottie/Sunny.json';
+  static const String partlyCloudy = '$lottie/Weather-partly cloudy.json';
+  static const String cloudy = '$lottie/weather icon cloudy.json';
+  static const String rain = '$lottie/Rain icon.json';
+  static const String snow = '$lottie/Weather-snow.json';
+  static const String thunder = '$lottie/Weather-thunder.json';
+  static const String fog = '$lottie/fog.json';
 }
+
+  
+ 
+ 

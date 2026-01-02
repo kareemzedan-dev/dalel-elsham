@@ -1,9 +1,12 @@
 import 'dart:ui';
+import 'package:dalel_elsham/core/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dalel_elsham/core/utils/colors_manager.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'custom_fab_notched_shape.dart';
+
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -27,8 +30,8 @@ class CustomBottomNavBar extends StatelessWidget {
           notchMargin: 8,
           elevation: 8,
 
-          surfaceTintColor: Colors.transparent,
-          shadowColor: Colors.transparent,
+          surfaceTintColor: Colors.white,
+          shadowColor: Colors.white,
 
 
 
@@ -37,16 +40,16 @@ class CustomBottomNavBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(
-                icon: FontAwesomeIcons.house,
+                icon:AssetsManager.home  ,
                 label: 'الرئيسيه',
                 isActive: currentIndex == 0,
                 onTap: () => onItemTapped(0),
                 context: context,
               ),
-              const SizedBox(width: 40),
+                SizedBox(width: 40),
               _buildNavItem(
-                icon: FontAwesomeIcons.mapLocation,
-                label: 'دليل الشام',
+                icon:  AssetsManager.category    ,
+                label: 'الخدمات',
                 isActive: currentIndex == 1,
                 onTap: () => onItemTapped(1),
                 context: context,
@@ -57,8 +60,9 @@ class CustomBottomNavBar extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildNavItem({
-    required IconData icon,
+    required String icon,
     required String label,
     required bool isActive,
     required VoidCallback onTap,
@@ -73,10 +77,11 @@ class CustomBottomNavBar extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            SvgPicture.asset(
               icon,
-              size: 24.sp,
-              color: isActive ? ColorsManager.primaryColor : Colors.grey,
+              height: 24.sp,
+              width: 24.sp,
+              color: isActive ? ColorsManager.primaryColor : Colors.black,
             ),
             SizedBox(height: 4.h),
             Text(
@@ -86,7 +91,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 fontSize: 14.sp,
                 color: isActive
                     ? ColorsManager.primaryColor
-                    : Colors.grey,
+                    : Colors.black,
               ),
             ),
           ],

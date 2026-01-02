@@ -1,4 +1,5 @@
 import 'package:dalel_elsham/config/theme/app_theme.dart';
+import 'package:dalel_elsham/features/currency/presentation/manager/get_usd_to_syp_view_model/get_usd_to_syp_view_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +39,10 @@ void main() async {
   await NotificationService.loadAdminTokens();
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  await FirebaseMessaging.instance.subscribeToTopic("all");
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    debugPrint("🔔 Notification received: ${message.notification?.title}");
+  });
 
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
@@ -70,6 +75,10 @@ void main() async {
         BlocProvider(
           create: (_) => getIt<GetProjectsByDisplaySectionViewModel>(),
         ),
+             BlocProvider(
+        create: (context) => getIt<GetUsdToSypViewModel>()..getUsdToSyp(),
+        ),
+        
       ],
       child: const DalelElsham(),
     ),

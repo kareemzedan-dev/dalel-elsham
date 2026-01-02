@@ -1,4 +1,5 @@
 import 'package:dalel_elsham/core/cache/shared_preferences.dart';
+import 'package:dalel_elsham/features/home/presentation/tabs/services/views/services_tab_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
       child: const HomeViewBody(),
     ),
 
-    const DalelElshamTabView(),
+    const ServicesTabView(),
   ];
 
   @override
@@ -71,8 +72,8 @@ class _HomeViewState extends State<HomeView> {
       body: IndexedStack(index: currentIndex, children: _pages),
 
       floatingActionButton: SizedBox(
-        height: 70.w,
-        width: 70.w,
+        height: 80.w,
+        width: 80.w,
         child: FloatingActionButton(
           backgroundColor: ColorsManager.primaryColor,
           elevation: 8,
@@ -85,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
               return;
             }
 
-            // لو مش مسجل دخول → افتح bottom sheet
+
             showModalBottomSheet(
               context: context,
               isScrollControlled: true,
@@ -103,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
                 Icon(Icons.add, color: Colors.white, size: 22.sp),
                 SizedBox(height: 2.h),
                 Text(
-                  'أضف إعلانك',
+                  'أضف مشروعك',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w700,

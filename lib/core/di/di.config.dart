@@ -27,6 +27,18 @@ import '../../features/auth/presentation/manager/login_view_model/login_view_mod
     as _i573;
 import '../../features/auth/presentation/manager/register_view_model/register_view_model.dart'
     as _i19;
+import '../../features/currency/data/data_sources/remote/get_usd_to_syp_remote_data_source/get_usd_to_syp_remote_data_source.dart'
+    as _i679;
+import '../../features/currency/data/data_sources_impl/remote/get_usd_to_syp_remote_data_source_impl/get_usd_to_syp_remote_data_source_impl.dart'
+    as _i166;
+import '../../features/currency/data/repos_impl/get_usd_to_syp_repo_impl/get_usd_to_syp_repo_impl.dart'
+    as _i859;
+import '../../features/currency/domain/repos/get_usd_to_syp_repo/get_usd_to_syp_repo.dart'
+    as _i532;
+import '../../features/currency/domain/use_cases/get_usd_to_syp_use_case/get_usd_to_syp_use_case.dart'
+    as _i62;
+import '../../features/currency/presentation/manager/get_usd_to_syp_view_model/get_usd_to_syp_view_model.dart'
+    as _i345;
 import '../../features/home/presentation/tabs/dalel_elsham/data/data_sources/remote/dalel_al_sham_place_remote_data_source/dalel_al_sham_place_remote_data_source.dart'
     as _i636;
 import '../../features/home/presentation/tabs/dalel_elsham/data/data_sources_impl/remote/dalel_al_sham_place_remote_data_source_impl/dalel_al_sham_place_remote_data_source_impl.dart'
@@ -41,8 +53,12 @@ import '../../features/home/presentation/tabs/dalel_elsham/presentation/manager/
     as _i963;
 import '../../features/home/presentation/tabs/dalel_elsham/presentation/manager/delete_place_view_model/delete_place_view_model.dart'
     as _i313;
+import '../../features/home/presentation/tabs/dalel_elsham/presentation/manager/get_all_place_categories_view_model/get_all_place_categories_view_model.dart'
+    as _i729;
 import '../../features/home/presentation/tabs/dalel_elsham/presentation/manager/get_all_place_view_model/get_all_place_view_model.dart'
     as _i544;
+import '../../features/home/presentation/tabs/dalel_elsham/presentation/manager/get_all_places_by_category_view_model/get_all_places_by_category_view_model.dart'
+    as _i216;
 import '../../features/home/presentation/tabs/dalel_elsham/presentation/manager/get_section_status_view_model/get_section_status_view_model.dart'
     as _i1059;
 import '../../features/home/presentation/tabs/dalel_elsham/presentation/manager/update_place_view_model/update_place_view_model.dart'
@@ -281,6 +297,18 @@ import '../../features/home/presentation/tabs/home/presentation/manager/projects
     as _i439;
 import '../../features/home/presentation/tabs/home/presentation/manager/projects/update_project_views_view_model/update_project_views_view_model.dart'
     as _i1032;
+import '../../features/weather/data/data_sources/remote/get_weather_remote_data_source/get_weather_remote_data_source.dart'
+    as _i329;
+import '../../features/weather/data/data_sources_impl/remote/get_weather_remote_data_source_impl/get_weather_remote_data_source_impl.dart'
+    as _i962;
+import '../../features/weather/data/repos_impl/get_weather_repo_impl/get_weather_repo_impl.dart'
+    as _i686;
+import '../../features/weather/domain/repos/get_weather_repo/get_weather_repo.dart'
+    as _i48;
+import '../../features/weather/domain/use_cases/get_weather_use_case/get_weather_use_case.dart'
+    as _i327;
+import '../../features/weather/presentation/manager/get_weather_view_model/get_weather_view_model.dart'
+    as _i46;
 import '../network/dio_module.dart' as _i614;
 import '../services/firebase_service.dart' as _i758;
 import '../services/firebase_service_impl.dart' as _i704;
@@ -300,6 +328,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i758.FirebaseService>(),
       ),
     );
+    gh.factory<_i329.GetWeatherRemoteDataSource>(
+      () => _i962.GetWeatherRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.factory<_i694.DeleteProjectRemoteDataSource>(
       () =>
           _i487.DeleteProjectRemoteDataSourceImpl(gh<_i758.FirebaseService>()),
@@ -311,6 +342,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i564.PrayerTimesRemoteDataSource>(
       () => _i298.PrayerTimesRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.factory<_i679.GetUsdToSypRemoteDataSource>(
+      () => _i166.GetUsdToSypRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i190.AddProjectRemoteDataSource>(
       () => _i1047.AddProjectRemoteDataSourceImpl(gh<_i758.FirebaseService>()),
@@ -348,6 +382,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i168.GetProjectsByCategoryRemoteDataSource>(),
       ),
     );
+    gh.factory<_i48.GetWeatherRepo>(
+      () => _i686.GetWeatherRepoImpl(gh<_i329.GetWeatherRemoteDataSource>()),
+    );
     gh.factory<_i804.GetAllProjectsRemoteDataSource>(
       () =>
           _i113.GetAllProjectsRemoteDataSourceImpl(gh<_i758.FirebaseService>()),
@@ -357,6 +394,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i455.AppLinksRemoteDataSource>(
       () => _i635.AppLinksRemoteDataSourceImpl(gh<_i758.FirebaseService>()),
+    );
+    gh.factory<_i327.GetWeatherUseCase>(
+      () => _i327.GetWeatherUseCase(gh<_i48.GetWeatherRepo>()),
     );
     gh.factory<_i180.AddProjectUseCase>(
       () => _i180.AddProjectUseCase(gh<_i45.AddProjectRepository>()),
@@ -380,6 +420,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1046.BannersRemoteDataSource>(
       () => _i576.BannersRemoteDataSourceImpl(gh<_i758.FirebaseService>()),
+    );
+    gh.factory<_i46.GetWeatherViewModel>(
+      () => _i46.GetWeatherViewModel(gh<_i327.GetWeatherUseCase>()),
     );
     gh.factory<_i847.GetAllJobsRemoteDataSource>(
       () => _i969.GetAllJobsRemoteDataSourceImpl(gh<_i758.FirebaseService>()),
@@ -457,6 +500,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i131.GetProjectDetailsRemoteDataSource>(),
       ),
     );
+    gh.factory<_i532.GetUsdToSypRepo>(
+      () => _i859.GetUsdToSypRepoImpl(gh<_i679.GetUsdToSypRemoteDataSource>()),
+    );
     gh.factory<_i943.UpdateProjectRepository>(
       () => _i1018.UpdateProjectRepositoryImpl(
         gh<_i440.UpdateProjectRemoteDataSource>(),
@@ -503,6 +549,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i569.AddJobRepo>(
       () => _i971.AddJobRepoImpl(gh<_i425.AddJobRemoteDataSource>()),
+    );
+    gh.factory<_i62.GetUsdToSypUseCase>(
+      () => _i62.GetUsdToSypUseCase(gh<_i532.GetUsdToSypRepo>()),
     );
     gh.factory<_i409.PrayerTimesViewModel>(
       () => _i409.PrayerTimesViewModel(gh<_i308.PrayerTimesUseCase>()),
@@ -553,6 +602,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i19.RegisterViewModel>(
       () => _i19.RegisterViewModel(gh<_i1028.AuthUseCase>()),
     );
+    gh.factory<_i216.GetAllPlacesByCategoryViewModel>(
+      () => _i216.GetAllPlacesByCategoryViewModel(
+        gh<_i340.DalelAlShamPlaceUseCase>(),
+      ),
+    );
     gh.factory<_i29.GetAllJobsViewModel>(
       () => _i29.GetAllJobsViewModel(gh<_i772.GetAllJobsUsecase>()),
     );
@@ -575,6 +629,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i313.DeletePlaceViewModel>(
       () => _i313.DeletePlaceViewModel(
+        dalelAlShamPlaceUseCase: gh<_i340.DalelAlShamPlaceUseCase>(),
+      ),
+    );
+    gh.factory<_i729.GetAllPlaceCategoriesViewModel>(
+      () => _i729.GetAllPlaceCategoriesViewModel(
         dalelAlShamPlaceUseCase: gh<_i340.DalelAlShamPlaceUseCase>(),
       ),
     );
@@ -621,6 +680,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1047.AddJobUsecase>(
       () => _i1047.AddJobUsecase(gh<_i569.AddJobRepo>()),
+    );
+    gh.factory<_i345.GetUsdToSypViewModel>(
+      () => _i345.GetUsdToSypViewModel(gh<_i62.GetUsdToSypUseCase>()),
     );
     gh.factory<_i667.GetNewestProjectsUseCase>(
       () => _i667.GetNewestProjectsUseCase(

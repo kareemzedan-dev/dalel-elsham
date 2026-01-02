@@ -32,6 +32,7 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
   final descController = TextEditingController();
   final phoneController = TextEditingController();
   final locationController = TextEditingController();
+  final mapUrlController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -315,10 +316,18 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                       ),
 
                       SizedBox(height: 20.h),
-
+                      Text(
+                        "موقع مشروعك",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
+                          color: ColorsManager.black.withOpacity(0.5),
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
                       // ================= LOCATION =================
                       CustomTextFormField(
-                        hintText: "الموقع",
+                        hintText: "دمشق - حي ال……",
                         keyboardType: TextInputType.text,
                         textEditingController: locationController,
                       ),
@@ -375,7 +384,21 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                           return null;
                         },
                       ),
-
+                      SizedBox(height: 20.h),
+                      Text(
+                        "رابط موقعك على الخريطة ( اختياري )",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
+                          color: ColorsManager.black.withOpacity(0.5),
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      CustomTextFormField(
+                        hintText: "https://goo.gl/maps/xxxx",
+                        keyboardType: TextInputType.text,
+                        textEditingController: mapUrlController,
+                      ),
                       SizedBox(height: 20.h),
 
                       // ================= IMAGES GROUP =================
@@ -460,7 +483,11 @@ class _AddNewServiceViewBodyState extends State<AddNewServiceViewBody> {
                                         status: "pending",
                                         createdAt: DateTime.now()
                                             .toIso8601String(),
-                                        mapLink: "",
+                                        mapLink:
+                                            mapUrlController.text.trim().isEmpty
+                                            ? ""
+                                            : mapUrlController.text.trim(),
+
                                         facebook: "",
                                         instagram: "",
                                         website: "",

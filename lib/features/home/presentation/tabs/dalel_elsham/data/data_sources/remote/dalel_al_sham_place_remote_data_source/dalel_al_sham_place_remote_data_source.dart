@@ -12,5 +12,7 @@ abstract class DalelAlShamPlaceRemoteDataSource {
   Future<Either<Failures, void>> updatePlace(DalelAlShamPlaceModel place);
   Future<Either<Failures, void>> deletePlace(String id);
   Future<Either<Failures, bool>> getSectionStatus(String sectionId);
+  Future<Either<Failures, List<DalelAlShamPlaceEntity>>> getAllPlacesByCategory(String categoryId);
+  Future<Either<Failures, List<Map<String, dynamic>>>> getAllCategories();
 
 }

@@ -1,3 +1,4 @@
+import 'package:dalel_elsham/core/enums/contact_method.dart';
 import 'package:dalel_elsham/core/services/notification_service.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/domain/use_cases/jobs_use_case/add_opportunity_usecase/add_opportunity_usecase.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +20,9 @@ class AddOpportunityViewModel extends Cubit<AddOpportunityViewModelStates> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController durationController = TextEditingController();
+final TextEditingController applyLinkController = TextEditingController();
 
+ContactMethod contactMethod = ContactMethod.phone;
   Future<void> addOpportunity({required JobEntity job}) async {
     try {
       emit(AddOpportunityViewModelLoading());

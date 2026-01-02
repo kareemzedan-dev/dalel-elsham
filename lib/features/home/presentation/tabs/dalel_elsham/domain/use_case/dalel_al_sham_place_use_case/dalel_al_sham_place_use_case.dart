@@ -27,5 +27,10 @@ import '../../repos/dalel_al_sham_place_repo/dalel_al_sham_place_repo.dart';
    Future<Either<Failures, bool>> getSectionStatus(String sectionId) async {
     return await dalelAlShamPlaceRepo.getSectionStatus(sectionId);
    }
-
+   Future<Either<Failures, List<DalelAlShamPlaceEntity>>> getAllPlacesByCategory(String categoryId) async {
+     return await dalelAlShamPlaceRepo.getAllPlacesByCategory(categoryId);
+   }
+   Future<Either<Failures, List<Map<String, dynamic>>>> getAllCategories() async {
+     return await dalelAlShamPlaceRepo.getAllCategories();
+   }
  }

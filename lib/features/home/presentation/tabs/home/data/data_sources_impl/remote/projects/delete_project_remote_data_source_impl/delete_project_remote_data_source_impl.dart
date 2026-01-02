@@ -15,7 +15,7 @@ class DeleteProjectRemoteDataSourceImpl implements DeleteProjectRemoteDataSource
   @override
   Future<Either<Failures, void>> deleteProject(String projectId) async {
     try {
-      // 🔍 التحقق من الاتصال بالإنترنت
+
       if (!await NetworkValidation.hasInternet()) {
         return Left(NetworkFailure("لا يوجد اتصال بالإنترنت"));
       }

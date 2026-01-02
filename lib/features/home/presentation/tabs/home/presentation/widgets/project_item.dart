@@ -47,11 +47,8 @@ class ProjectItem extends StatelessWidget {
       child: Center(
         child: Stack(
           children: [
-            /// ---------- OUTER BORDER (Gold/Silver Only) ----------
             Container(
               width: width,
-              height: 250.h,
-
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
                 border: _showBadge()
@@ -66,7 +63,6 @@ class ProjectItem extends StatelessWidget {
                       : ColorsManager.grey.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(8.r),
 
-                  /// الكارد الأساسية يكون لها border واحد بس
                   border: Border.all(
                     color: Colors.grey.withOpacity(0.2),
                     width: 1.w,
@@ -75,7 +71,6 @@ class ProjectItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// IMAGE
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10.r),
                       child: SizedBox(
@@ -107,8 +102,6 @@ class ProjectItem extends StatelessWidget {
                     ),
 
                     SizedBox(height: 10.h),
-
-                    /// TITLE
                     Text(
                       projectEntity.title,
                       maxLines: 2,
@@ -122,7 +115,6 @@ class ProjectItem extends StatelessWidget {
 
                     SizedBox(height: 4.h),
 
-                    /// DESCRIPTION
                     Text(
                       projectEntity.description,
                       maxLines: 2,
@@ -135,10 +127,8 @@ class ProjectItem extends StatelessWidget {
                       ),
                     ),
 
-                    /// هذا هو السر 🔥
                     Spacer(),
 
-                    /// LOCATION — دايماً تحت
                     Row(
                       children: [
                         Icon(
@@ -167,7 +157,6 @@ class ProjectItem extends StatelessWidget {
               ),
             ),
 
-            /// BADGE
             if (_showBadge())
               Positioned(
                 top: 14.h,

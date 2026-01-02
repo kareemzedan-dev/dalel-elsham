@@ -1,3 +1,5 @@
+import 'package:dalel_elsham/core/enums/contact_method.dart';
+import 'package:dalel_elsham/core/utils/colors_manager.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/domain/entities/job_entity.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/jobs/add_opportunity_view_model/add_opportunity_view_model.dart';
 import 'package:dalel_elsham/features/home/presentation/tabs/home/presentation/manager/jobs/add_opportunity_view_model/add_opportunity_view_model_states.dart';
@@ -35,9 +37,9 @@ class JobOfferFormViewBody extends StatelessWidget {
 
       final days = mapDurationToDays(text);
       if (days <= 0) {
-        ScaffoldMessenger.of(c).showSnackBar(
-          const SnackBar(content: Text("مدة غير صالحة")),
-        );
+        ScaffoldMessenger.of(
+          c,
+        ).showSnackBar(const SnackBar(content: Text("مدة غير صالحة")));
         return false;
       }
       return true;
@@ -46,6 +48,21 @@ class JobOfferFormViewBody extends StatelessWidget {
     // -------------------------------
     Future<void> _onSubmit(BuildContext c) async {
       if (!formKey.currentState!.validate()) return;
+      if (vm.contactMethod == ContactMethod.phone &&
+          vm.phoneController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("من فضلك أدخل رقم الهاتف")),
+        );
+        return;
+      }
+
+      if (vm.contactMethod == ContactMethod.link &&
+          vm.applyLinkController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("من فضلك أدخل رابط التقديم")),
+        );
+        return;
+      }
 
       if (!validateDuration(c)) return;
 
@@ -55,7 +72,14 @@ class JobOfferFormViewBody extends StatelessWidget {
           title: vm.titleController.text.trim(),
           description: vm.descriptionController.text.trim(),
           type: "normal",
-          phone: vm.phoneController.text.trim(),
+          phone: vm.contactMethod == ContactMethod.phone
+              ? vm.phoneController.text.trim()
+              : "",
+
+          applyLink: vm.contactMethod == ContactMethod.link
+              ? vm.applyLinkController.text.trim()
+              : "",
+
           location: vm.locationController.text.trim(),
           imageUrl: "",
           isActive: true,
@@ -119,7 +143,7 @@ class JobOfferFormViewBody extends StatelessWidget {
                       // Description
                       Text(
                         "وظيفتك الآن قيد المراجعة من قبل فريق دليل الشام.\n"
-                            "سيتم إعلامك عند الموافقة عليها ونشرها.",
+                        "سيتم إعلامك عند الموافقة عليها ونشرها.",
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: Colors.black54,
@@ -163,9 +187,9 @@ class JobOfferFormViewBody extends StatelessWidget {
         }
 
         if (state is AddOpportunityViewModelError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
 
@@ -206,14 +230,85 @@ class JobOfferFormViewBody extends StatelessWidget {
                           validator: JobValidators.validateDescription,
                         ),
                       ),
-
                       FormSectionField(
-                        label: "رقم الهاتف",
-                        child: MobileNumberField(
-                          controller: vm.phoneController,
-                          validator: JobValidators.validatePhone,
+                        label: "طريقة التقديم",
+                        child: Column(
+                          children: [
+                            RadioListTile<ContactMethod>(
+                              value: ContactMethod.phone,
+                              groupValue: vm.contactMethod,
+                              title: const Text("رقم هاتف"),
+                              activeColor: ColorsManager.primaryColor,
+                              fillColor:
+                                  MaterialStateProperty.resolveWith<Color>((
+                                    states,
+                                  ) {
+                                    if (states.contains(
+                                      MaterialState.selected,
+                                    )) {
+                                      return ColorsManager.primaryColor;
+                                    }
+                                    return Colors.grey;
+                                  }),
+                              onChanged: (value) {
+                                vm.contactMethod = value!;
+                                vm.applyLinkController.clear();
+                                (context as Element).markNeedsBuild();
+                              },
+                            ),
+
+                            RadioListTile<ContactMethod>(
+                              value: ContactMethod.link,
+                              groupValue: vm.contactMethod,
+                              title: const Text("رابط تقديم"),
+                              activeColor: ColorsManager.primaryColor,
+                              fillColor:
+                                  MaterialStateProperty.resolveWith<Color>((
+                                    states,
+                                  ) {
+                                    if (states.contains(
+                                      MaterialState.selected,
+                                    )) {
+                                      return ColorsManager.primaryColor;
+                                    }
+                                    return Colors.grey;
+                                  }),
+                              onChanged: (value) {
+                                vm.contactMethod = value!;
+                                vm.phoneController.clear();
+                                (context as Element).markNeedsBuild();
+                              },
+                            ),
+                          ],
                         ),
                       ),
+
+                      if (vm.contactMethod == ContactMethod.phone)
+                        FormSectionField(
+                          label: "رقم الهاتف",
+                          child: MobileNumberField(
+                            controller: vm.phoneController,
+                            validator: JobValidators.validatePhone,
+                          ),
+                        ),
+                      if (vm.contactMethod == ContactMethod.link)
+                        FormSectionField(
+                          label: "رابط التقديم",
+                          child: CustomTextFormField(
+                            hintText: "https://example.com/apply",
+                            keyboardType: TextInputType.url,
+                            textEditingController: vm.applyLinkController,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "من فضلك أدخل رابط التقديم";
+                              }
+                              if (!Uri.tryParse(value)!.hasAbsolutePath) {
+                                return "رابط غير صالح";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
 
                       FormSectionField(
                         label: "الموقع",
@@ -238,8 +333,7 @@ class JobOfferFormViewBody extends StatelessWidget {
 
                       CustomButton(
                         text: isLoading ? "جاري الإرسال..." : "أضف وظيفة",
-                        onPressed:
-                        isLoading ? () {} : () => _onSubmit(context),
+                        onPressed: isLoading ? () {} : () => _onSubmit(context),
                       ),
                     ],
                   ),
@@ -253,9 +347,7 @@ class JobOfferFormViewBody extends StatelessWidget {
                 height: double.infinity,
                 width: double.infinity,
                 color: Colors.black.withOpacity(0.3),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                child: const Center(child: CircularProgressIndicator()),
               ),
           ],
         );
